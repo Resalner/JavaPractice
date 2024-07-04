@@ -1,13 +1,14 @@
 package com.github.resalner.javapractice.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Date;
 
 @Entity
 @Table(name = "users_info")
 @Data
+@ToString(includeFieldNames=true)
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
