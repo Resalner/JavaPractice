@@ -1,9 +1,11 @@
 package com.github.resalner.javapractice.model;
 
 import jakarta.persistence.*;
-
+import lombok.*;
 @Entity
 @Table(name = "OrderItems")
+@Data
+@ToString(includeFieldNames=true)
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
