@@ -1,11 +1,16 @@
 package com.github.resalner.javapractice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 @Entity
 @Table(name = "OrderItems")
 @Data
-@ToString(includeFieldNames=true)
+@ToString(includeFieldNames = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +19,10 @@ public class OrderItem {
 
     @Column(name = "order_id")
     private Long orderId;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product productId;
+    private Product product;
 
     @Column(name = "count")
     private Integer count;

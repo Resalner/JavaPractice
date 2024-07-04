@@ -1,14 +1,19 @@
 package com.github.resalner.javapractice.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.sql.Date;
 
 @Entity
 @Table(name = "users_info")
 @Data
-@ToString(includeFieldNames=true)
+@ToString(includeFieldNames = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

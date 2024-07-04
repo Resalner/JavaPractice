@@ -1,12 +1,17 @@
 package com.github.resalner.javapractice.model;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 @Entity
 @Table(name = "products")
 @Data
-@ToString(includeFieldNames=true)
+@ToString(includeFieldNames = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +27,7 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category categoryId;
+    private Category category;
 }
