@@ -1,5 +1,7 @@
 package com.github.resalner.javapractice.model;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +26,7 @@ public class Address {
 
     @Column(name = "apartment_number")
     private String apartment_number;
+    
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    private Set<Order> orders;
 }

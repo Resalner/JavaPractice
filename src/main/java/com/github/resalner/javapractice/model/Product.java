@@ -1,5 +1,7 @@
 package com.github.resalner.javapractice.model;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,4 +32,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<OrderItem> orderItems;
 }

@@ -30,11 +30,16 @@ public class UserInfo {
     private String phone_number;
 
     @Column(name = "birth_date")
-    private Date birth_date;
+    private Date birthDate;
 
     @Column(name = "gender")
     private boolean gender;
     
     @Column(name = "email")
     private String email;
+    
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 }
