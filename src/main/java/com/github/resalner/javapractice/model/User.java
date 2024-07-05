@@ -18,16 +18,16 @@ public class User {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
     private UserInfo info;
 
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private Role role;
 }

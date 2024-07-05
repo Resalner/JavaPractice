@@ -13,6 +13,6 @@ public class Category {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 }

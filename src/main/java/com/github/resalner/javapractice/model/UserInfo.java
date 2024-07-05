@@ -19,17 +19,14 @@ public class UserInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "name")
+ 
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = false)
     private String phone_number;
 
     @Column(name = "birth_date")
@@ -37,4 +34,7 @@ public class UserInfo {
 
     @Column(name = "gender")
     private boolean gender;
+    
+    @Column(name = "email")
+    private String email;
 }

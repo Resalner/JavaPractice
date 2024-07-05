@@ -3,7 +3,7 @@ CREATE TABLE products (
     name VARCHAR(50) NOT NULL,
     description VARCHAR(100),
     price DECIMAL(10, 2) NOT NULL,
-    category_id BIGINT
+    category_id BIGINT NOT NULL
 );
 
 ALTER TABLE products
