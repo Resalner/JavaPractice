@@ -2,6 +2,7 @@ package com.github.resalner.javapractice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 @Entity
 @Table(name = "category")
 @Data
