@@ -39,7 +39,7 @@ public class AddressService{
   }
   
   public Address updateAddress(long id, AddressRequest addressRequest){
-    Address ad = addressRepository.findById(id).get();
+    Address ad = addressRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Address not found"));
     if(Objects.nonNull(addressRequest.city()) && !"".equals(addressRequest.city())){
       ad.setCity(addressRequest.city());
     }

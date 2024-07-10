@@ -38,7 +38,7 @@ public class ProductService{
     productRepository.deleteById(id);
   }
   public Product updateProduct(long id, ProductRequest productRequest){
-    Product pr = productRepository.findById(id).get();
+    Product pr = productRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Product not found"));
     if(Objects.nonNull(productRequest.name()) && !"".equals(productRequest.name())){
       pr.setName(productRequest.name());
     }

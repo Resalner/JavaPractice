@@ -40,7 +40,7 @@ public class UserInfoService{
     userInfoRepository.deleteById(id);
   }
   public UserInfo updateUserInfo(long id, UserInfoRequest userInfoRequest){
-    UserInfo ui = userInfoRepository.findById(id).get();
+    UserInfo ui = userInfoRepository.findById(id).get().orElseThrow(() -> new RuntimeException("User not found"));
     if(Objects.nonNull(userInfoRequest.name()) && !"".equals(userInfoRequest.name())){
       ui.setname(userInfoRequest.name());
     }

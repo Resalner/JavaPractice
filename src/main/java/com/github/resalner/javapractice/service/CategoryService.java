@@ -37,7 +37,8 @@ public class CategoryService{
     categoryRepository.deleteById(id);
   }
   public Category updateCategory(long id, CategoryRequest categoryRequest){
-    Category category = categoryRepository.findById(id).get();
+    Category category = categoryRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Category not found"));
+    
     if(Objects.nonNull(categoryRequest.name()) && !"".equals(categoryRequest.name())){
       category.setName(categoryRequest.name());
     }

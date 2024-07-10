@@ -41,7 +41,7 @@ public class OrderService{
     orderRepository.deleteById(id);
   }
   public Order updateOrder(long id, OrderRequest orderRequest){
-    Order or = orderRepository.findById(id).get();
+    Order or = orderRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Order not found"));
     if(Objects.nonNull(orderRequest.user_ID()) && !"".equals(orderRequest.user_ID())){
       or.setUser_ID(orderRequest.user_ID());
     }

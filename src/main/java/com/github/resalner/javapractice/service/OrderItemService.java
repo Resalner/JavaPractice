@@ -38,7 +38,7 @@ public class OrderItemService{
     orderItemRepository.deleteById(id);
   }
   public OrderItem updateOrderItem(long id, OrderItemRequest orderItemRequest){
-    OrderItem or = orderItemRepository.findById(id).get();
+    OrderItem or = orderItemRepository.findById(id).get().orElseThrow(() -> new RuntimeException("OrderItem not found"));
     if(Objects.nonNull(orderItemRequest.order_ID()) && !"".equals(orderItemRequest.order_ID())){
       or.setOrder_ID(orderItemRequest.order_ID());
     }
