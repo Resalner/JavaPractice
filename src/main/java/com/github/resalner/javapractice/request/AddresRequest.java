@@ -21,6 +21,5 @@ public class AddressRequest{
   @NotBlank(message = "Необходимо указать номер дома")
   private String house_number;
 
-  @NotBlank(message = "Необходимо указать номер квартиры")
   private String apartament_number;
 }

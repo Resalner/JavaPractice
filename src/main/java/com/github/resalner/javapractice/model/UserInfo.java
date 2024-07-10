@@ -1,12 +1,8 @@
 package com.github.resalner.javapractice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 import java.sql.Date;
+
 
 @Entity
 @Table(name = "users_info")
