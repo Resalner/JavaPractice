@@ -5,8 +5,8 @@ public class NoSuchUserExistsException extends RuntimeException {
 
     public NoSuchUserExistsException() {}
 
-    public NoSuchUserExistsException(String msg) {
-        super(msg);
-        this.message = msg;
+    public NoSuchUserExistsException(String message) {
+        super(message);
+        this.message = message;
     }
 }
