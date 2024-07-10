@@ -19,7 +19,7 @@ public class UserInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
- 
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -34,10 +34,10 @@ public class UserInfo {
 
     @Column(name = "gender")
     private boolean gender;
-    
+
     @Column(name = "email")
     private String email;
-    
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
