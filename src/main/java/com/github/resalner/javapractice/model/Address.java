@@ -26,7 +26,7 @@ public class Address {
 
     @Column(name = "apartment_number")
     private String apartment_number;
-    
+
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private Set<Order> orders;
 }

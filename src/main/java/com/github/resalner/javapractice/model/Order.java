@@ -40,7 +40,7 @@ public class Order {
 
     @Column(name = "comments")
     private String comments;
-    
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 }

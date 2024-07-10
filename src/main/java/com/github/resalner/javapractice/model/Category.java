@@ -17,7 +17,7 @@ public class Category {
 
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<Product> products;
 }

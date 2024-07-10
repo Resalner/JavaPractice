@@ -28,11 +28,11 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private Role role;
-    
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserInfo info;
-    
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Order> orders;
 }
