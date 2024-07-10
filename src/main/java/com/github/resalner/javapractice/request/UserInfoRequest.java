@@ -3,8 +3,10 @@ package com.github.resalner.javapractice.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.valiadation.constraints.Past;
 import javax.valiadation.constraints.NotBlank;
 import javax.valiadation.constraints.Email;
+import javax.valiadation.constraints.Pattern;
 
 
 
@@ -12,22 +14,26 @@ import javax.valiadation.constraints.Email;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoRequest{
-  @NotBlank(massage = "Необходимо указать имя")
+  @NotBlank(message = "Необходимо указать имя")
+  @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message ="Имя может содержать только буквы")
   private String name;
 
-  @NotBlank(massage = "Необходимо указать фамилию")
+  @NotBlank(message = "Необходимо указать фамилию")
+  @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message ="Имя может содержать только буквы")
   private String surname; 
   
-  @NotBlank(massage = "Необходимо указать номер телефона")
+  @NotBlank(message = "Необходимо указать номер телефона")
+  @Pattern(regexp = "^\\d{10}$")
   private String phonenumber;
 
-  @NotBlank(massage = "Необходимо указать дату рождения")
+  @NotBlank(message = "Необходимо указать дату рождения")
+  @Past
   private Date birthDate;
 
-  @NotBlank(massage = "Необходимо указать пол")
+  @NotBlank(message = "Необходимо указать пол")
   private boolean gender;
   
-  @NotBlank(massage = "Необходимо указать email")
+  @NotBlank(message = "Необходимо указать email")
   @Email(message = "Необходимо указать корректный email")
   private String email;
 }

@@ -12,16 +12,16 @@ import javax.valiadation.constraints.NotBlank;
 @NoArgsConstructor
 public class OrderItemRequest{
 
-  @NotBlank(massage = "Необходимо указать номер заказа")
+  @NotBlank(message = "Необходимо указать номер заказа")
   private long order_ID;
 
-  @NotBlank(massage = "Необходимо указать номер товара")
+  @NotBlank(message = "Необходимо указать номер товара")
   private long product_ID;
   
-  @NotBlank(massage = "Необходимо указать количество")
+  @NotBlank(message = "Необходимо указать количество")
   private Integer count;
   
-  @NotBlank(massage = "Необходимо указать цену")
+  @NotBlank(message = "Необходимо указать цену")
   private Double price;  
 
 }

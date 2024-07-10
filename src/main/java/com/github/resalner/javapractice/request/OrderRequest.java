@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.request;
 
 import com.github.resalner.javapractice.model.Status;
+import com.github.resalner.javapractice.model.User;
+import com.github.resalner.javapractice.annotation.StatusAnnotation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,19 +14,20 @@ import javax.valiadation.constraints.NotBlank;
 @NoArgsConstructor
 public class OrderRequest{
   
-  @NotBlank(massage = "Необходимо указать пользователя")
+  @NotBlank(message = "Необходимо указать пользователя")
   private long user_ID;
   
-  @NotBlank(massage = "Необходимо указать дату")
+  @NotBlank(message = "Необходимо указать дату")
   private Date orderDate;
 
-  @NotBlank(massage = "Необходимо указать цену")
+  @NotBlank(message = "Необходимо указать цену")
   private double totalPrice;  
   
-  @NotBlank(massage = "Необходимо указать статус")
+  @NotBlank(message = "Необходимо указать статус")
+  @StatusAnnotation
   private Status status;
 
-  @NotBlank(massage = "Необходимо указать адрес")
+  @NotBlank(message = "Необходимо указать адрес")
   private long address_ID;  
   
   private String comments;

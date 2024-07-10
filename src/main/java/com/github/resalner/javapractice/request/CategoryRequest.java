@@ -11,6 +11,6 @@ import javax.valiadation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequest{
-  @NotBlank(massage = "Необходимо указать название")
+  @NotBlank(message = "Необходимо указать название")
   private String name;
 }

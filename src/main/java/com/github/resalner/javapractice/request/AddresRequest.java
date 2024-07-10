@@ -12,15 +12,15 @@ import javax.valiadation.constraints.NotBlank;
 @NoArgsConstructor
 public class AddressRequest{
   
-  @NotBlank(massage = "Необходимо указать город")
+  @NotBlank(message = "Необходимо указать город")
   private String city;
 
-  @NotBlank(massage = "Необходимо указать улицу")
+  @NotBlank(message = "Необходимо указать улицу")
   private String street;
 
-  @NotBlank(massage = "Необходимо указать номер дома")
+  @NotBlank(message = "Необходимо указать номер дома")
   private String house_number;
 
-  @NotBlank(massage = "Необходимо указать номер квартиры")
+  @NotBlank(message = "Необходимо указать номер квартиры")
   private String apartament_number;
 }
