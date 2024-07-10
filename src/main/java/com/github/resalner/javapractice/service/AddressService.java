@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.resalner.javapractice.model.Address;
 import com.github.resalner.javapractice.repository.AddressRepository;
 import com.github.resalner.javapractice.request.AddressRequest;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Service
 public class AddressService{
+  @Autowired
   private final AddressRepository addressRepository;
 
   public AddressService(AddressRepository addressRepository){

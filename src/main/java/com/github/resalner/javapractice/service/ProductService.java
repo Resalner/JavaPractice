@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.resalner.javapractice.model.Product;
 import com.github.resalner.javapractice.repository.ProductRepository;
 import com.github.resalner.javapractice.request.ProductRequest;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Service
 public class ProductService{
+  @Autowired
   private final ProductRepository productRepository;
 
   public ProductService(ProductRepository productRepository){

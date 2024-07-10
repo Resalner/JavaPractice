@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.resalner.javapractice.model.UserInfo;
 import com.github.resalner.javapractice.repository.UserInfoRepository;
 import com.github.resalner.javapractice.request.UserInfoRequest;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Service
 public class UserInfoService{
+  @Autowired
   private final UserInfoRepository userInfoRepository;
 
   public UserInfoService(UserInfoRepository userInfoRepository){

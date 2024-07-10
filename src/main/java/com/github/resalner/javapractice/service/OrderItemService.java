@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.resalner.javapractice.model.OrderItem;
 import com.github.resalner.javapractice.repository.OrderItemRepository;
 import com.github.resalner.javapractice.request.OrderItemRequest;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Service
 public class OrderItemService{
+  @Autowired
   private final OrderItemRepository orderItemRepository;
 
   public OrderItemService(OrderItemRepository orderItemRepository){

@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.UserRepository;
 import com.github.resalner.javapractice.request.UserRequest;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Service
 public class UserService{
+  @Autowired
   private final UserRepository userRepository;
 
   public UserService(UserRepository userRepository){
