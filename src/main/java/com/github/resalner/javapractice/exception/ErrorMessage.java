@@ -1,19 +1,19 @@
 package com.github.resalner.javapractice.exception;
 
-public class ErrorMessage {
+public class ErrorResponse {
 	
-	private String message;
+	private String response;
 
-	public ErrorMessage(String message) {
-		this.message = message;
+	public ErrorResponse(String message) {
+		this.response = response;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getResponse() {
+		return response;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setResponse(String response) {
+		this.response = response;
 	}
 	
 }
