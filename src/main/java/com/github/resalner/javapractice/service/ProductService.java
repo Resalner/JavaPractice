@@ -2,7 +2,7 @@ package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.github.resalner.javapractice.exception.NotFoundException;
 import com.github.resalner.javapractice.model.Product;
 import com.github.resalner.javapractice.repository.ProductRepository;
 import com.github.resalner.javapractice.request.ProductRequest;
@@ -31,14 +31,14 @@ public class ProductService{
   }
 
   public Product getProduct(long id){
-    return productRepository.findById(id).get();
+    return productRepository.findById(id).orElseThrow(()->NotFoundException("не найден продукт с id = "+id));
   }
 
   public void deleteProduct(long id){
-    productRepository.deleteById(id);
+    productRepository.deleteById(id).orElseThrow(()->NotFoundException("не найден продукт с id = "+id));
   }
   public Product updateProduct(long id, ProductRequest productRequest){
-    Product pr = productRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Product not found"));
+    Product pr = productRepository.findById(id).orElseThrow(()->NotFoundException("не найден продукт с id = "+id));
     if(Objects.nonNull(productRequest.name()) && !"".equals(productRequest.name())){
       pr.setName(productRequest.name());
     }

@@ -2,7 +2,7 @@ package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.github.resalner.javapractice.exception.NotFoundException;
 import com.github.resalner.javapractice.model.UserInfo;
 import com.github.resalner.javapractice.repository.UserInfoRepository;
 import com.github.resalner.javapractice.request.UserInfoRequest;
@@ -33,14 +33,14 @@ public class UserInfoService{
   }
 
   public UserInfo getUserInfo(long id){
-    return userInfoRepository.findById(id).get();
+    return userInfoRepository.findById(id).orElseThrow(()->NotFoundException("не найден пользователь с id = "+id));
   }
 
   public void deleteUserInfo(long id){
-    userInfoRepository.deleteById(id);
+    userInfoRepository.deleteById(id).orElseThrow(()->NotFoundException("не найден пользователь с id = "+id));
   }
   public UserInfo updateUserInfo(long id, UserInfoRequest userInfoRequest){
-    UserInfo ui = userInfoRepository.findById(id).get().orElseThrow(() -> new RuntimeException("User not found"));
+    UserInfo ui = userInfoRepository.findById(id).orElseThrow(()->NotFoundException("не найден пользователь с id = "+id));
     if(Objects.nonNull(userInfoRequest.name()) && !"".equals(userInfoRequest.name())){
       ui.setname(userInfoRequest.name());
     }

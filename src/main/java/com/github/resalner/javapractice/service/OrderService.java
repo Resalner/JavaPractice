@@ -2,7 +2,7 @@ package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.github.resalner.javapractice.exception.NotFoundException;
 import com.github.resalner.javapractice.model.Order;
 import com.github.resalner.javapractice.repository.OrderRepository;
 import com.github.resalner.javapractice.request.OrderRequest;
@@ -34,14 +34,14 @@ public class OrderService{
   }
 
   public Order getOrder(long id){
-    return orderRepository.findById(id).get();
+    return orderRepository.findById(id).orElseThrow(()->NotFoundException("не найден заказ с id = "+id));
   }
   
   public void deleteOrder(long id){
-    orderRepository.deleteById(id);
+    orderRepository.deleteById(id).orElseThrow(()->NotFoundException("не найден заказ с id = "+id));
   }
   public Order updateOrder(long id, OrderRequest orderRequest){
-    Order or = orderRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Order not found"));
+    Order or = orderRepository.findById(id).orElseThrow(()->NotFoundException("не найден заказ с id = "+id));
     if(Objects.nonNull(orderRequest.user_ID()) && !"".equals(orderRequest.user_ID())){
       or.setUser_ID(orderRequest.user_ID());
     }

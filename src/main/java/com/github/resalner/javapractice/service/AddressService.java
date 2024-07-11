@@ -2,7 +2,7 @@ package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.github.resalner.javapractice.exception.NotFoundException;
 import com.github.resalner.javapractice.model.Address;
 import com.github.resalner.javapractice.repository.AddressRepository;
 import com.github.resalner.javapractice.request.AddressRequest;
@@ -31,15 +31,15 @@ public class AddressService{
   }
 
   public Address getAddress(long id){
-    return addressRepository.findById(id).get();
+    return addressRepository.findById(id).orElseThrow(()->NotFoundException("не найден адрес с id = "+id));
   }
   
   public void deleteAddress(long id){
-    addressRepository.deleteById(id);
+    addressRepository.deleteById(id).orElseThrow(()->NotFoundException("не найден адрес с id = "+id));
   }
   
   public Address updateAddress(long id, AddressRequest addressRequest){
-    Address ad = addressRepository.findById(id).get().orElseThrow(() -> new RuntimeException("Address not found"));
+    Address ad = addressRepository.findById(id).orElseThrow(()->NotFoundException("не найден адрес с id = "+id));
     if(Objects.nonNull(addressRequest.city()) && !"".equals(addressRequest.city())){
       ad.setCity(addressRequest.city());
     }

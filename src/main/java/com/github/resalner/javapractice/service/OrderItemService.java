@@ -2,7 +2,7 @@ package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.github.resalner.javapractice.exception.NotFoundException;
 import com.github.resalner.javapractice.model.OrderItem;
 import com.github.resalner.javapractice.repository.OrderItemRepository;
 import com.github.resalner.javapractice.request.OrderItemRequest;
@@ -31,14 +31,14 @@ public class OrderItemService{
   }
 
   public OrderItem getOrderItem(long id){
-    return orderItemRepository.findById(id).get();
+    return orderItemRepository.findById(id).orElseThrow(()->NotFoundException("не найден элемент заказа с id = "+id));
   }
 
   public void deleteOrderItem(long id){
-    orderItemRepository.deleteById(id);
+    orderItemRepository.deleteById(id).orElseThrow(()->NotFoundException("не найден элемент заказа с id = "+id));
   }
   public OrderItem updateOrderItem(long id, OrderItemRequest orderItemRequest){
-    OrderItem or = orderItemRepository.findById(id).get().orElseThrow(() -> new RuntimeException("OrderItem not found"));
+    OrderItem or = orderItemRepository.findById(id).orElseThrow(()->NotFoundException("не найден элемент заказа с id = "+id));
     if(Objects.nonNull(orderItemRequest.order_ID()) && !"".equals(orderItemRequest.order_ID())){
       or.setOrder_ID(orderItemRequest.order_ID());
     }
