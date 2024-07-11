@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class UserIExceptionHandler {
+public class UserExceptionHandler {
 
     @ExceptionHandler(NoSuchUserExistsException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
