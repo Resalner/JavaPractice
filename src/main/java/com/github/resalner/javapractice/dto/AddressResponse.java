@@ -7,10 +7,10 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressResponse{
-  private long id;
-  private String city;
-  private String street;
-  private String house_number;
-  private String apartment_number;
+public class AddressResponse {
+    private long id;
+    private String city;
+    private String street;
+    private String houseNumber;
+    private String apartmentNumber;
 }

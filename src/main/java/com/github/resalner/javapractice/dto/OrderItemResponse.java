@@ -9,10 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItemResponse{
-  private long id;
-  private long product_ID;
-  private long order_ID;
-  private Integer count;
-  private double price;
+public class OrderItemResponse {
+    private long id;
+    private long productId;
+    private long orderId;
+    private Integer count;
+    private double price;
 }

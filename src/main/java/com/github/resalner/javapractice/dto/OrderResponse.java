@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponse {
-  private long id;
-  private long user_ID;
-  private Date order_date;
-  private double total_price;
-  private String status;
-  private long adress_ID;
-  private String comments;
+    private long id;
+    private long userId;
+    private Date orderDate;
+    private double totalPrice;
+    private String status;
+    private long adressId;
+    private String comments;
 }
