@@ -1,67 +1,99 @@
+№1
+
+public interface OrderService {
+    boolean createOrder(orderDto, UserDto userDto);
+    boolean processOrder(Long orderId, OrderStatus status, UserDto userDto);
+    boolean saveOrder(OrderDto orderDto);
+    OrderDto getOrderStatus(Long orderId, UserDto userDto);
+    boolean cancelOrder(Long orderId, UserDto userDto);
+}
+
+№2
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.myapp.entity.Order;
 import com.example.myapp.entity.Product;
 import com.example.myapp.repository.OrderRepository;
+import java.util.Date;
 
-@Service
+
+public class OrderServiceImpl implements OrderService {
+
 public class OrderService {
-    private final OrderRepository orderRepository;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    @Override
+    public boolean createOrder(OrderDto orderDto, UserDto userDto) {
 
-    public Order createOrder(List<Product> products) {
         Order order = new Order();
-        order.setProducts(products);
-        order.setTotalPrice(calculateTotalPrice(products));
-        order.setCreatedAt(LocalDateTime.now());
-        return orderRepository.save(order);
+        order.setOrderId(generateOrderId());
+        order.setOrderDate(new Date());
+        order.setCustomerId(userDto.getUserId());
+        order.setProductId(orderDto.getProductId());
+        order.setQuantity(orderDto.getQuantity());
+        order.setTotalAmount(calculateTotalAmount(orderDto.getProductId(), orderDto.getQuantity()));
+        order.setOrderStatus(OrderStatus.PENDING);
+
+        return saveOrder(order);
     }
 
-    public Order updateOrder(Long id, List<Product> products) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
-        order.setProducts(products);
-        order.setTotalPrice(calculateTotalPrice(products));
-        return orderRepository.save(order);
-    }
-
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
-    }
-
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
-    }
-
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
-
-    public List<Order> getOrdersByUser(User user) {
-        return orderRepository.findByUser(user);
-    }
-
-    private double calculateTotalPrice(List<Product> products) {
-        return products.stream()
-                .mapToDouble(Product::getPrice)
-                .sum();
-    }
-
-    public class ProductDetails {
-        private Product product;
-        private int quantity;
-        private Category category;
-    
-        public ProductDetails(Product product, int quantity, Category category) {
-            this.product = product;
-            this.quantity = quantity;
-            this.category = category;
+    @Override
+    public boolean processOrder(Long orderId, OrderStatus status, UserDto userDto) {
+        if (!isUserAuthorized(userDto)) {
+            return false;
         }
-    
+
+        Order order = getOrder(orderId);
+
+        order.setOrderStatus(status);
+
+        return saveOrder(order);
     }
+
+    private boolean saveOrder(Order order) {
+        return true;
+    }
+
+    @Override
+    public OrderDto getOrderStatus(Long orderId, UserDto userDto) {
+      
+
+        Order order = getOrder(orderId);
+
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrderId(order.getOrderId());
+        orderDto.setOrderDate(order.getOrderDate());
+        orderDto.setCustomerId(order.getCustomerId());
+        orderDto.setProductId(order.getProductId());
+        orderDto.setQuantity(order.getQuantity());
+        orderDto.setTotalAmount(order.getTotalAmount());
+        orderDto.setOrderStatus(order.getOrderStatus());
+
+        return orderDto;
+    }
+
+    @Override
+    public boolean cancelOrder(Long orderId, UserDto userDto) {
+
+
+        Order order = getOrder(orderId);
+
+        order.setOrderStatus(OrderStatus.CANCELLED);
+
+        return saveOrder(order);
+    }
+
+    private Long generateOrderId() {
+        return System.currentTimeMillis();
+    }
+
+    private double calculateTotalAmount(Long productId, int quantity) {
+        return 100.0; // Replace with the actual calculation
+    }
+
+    private Order getOrder(Long orderId) {
+        return new Order();
+    }
+}
 }
