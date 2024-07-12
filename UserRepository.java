@@ -1,8 +1,17 @@
-package com.example.demo;
+public interface UserService {
+   
+    boolean createUser(UserDto userDto);
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+    
+    boolean updateUser(Long userId, UserDto userDto, UserDto userDto);
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+    UserDto getUserDetails(Long userId, UserDto userDto);
+
+   
+    List<UserDto> getAllUsers(UserDto userDto);
+
+    boolean deactivateUser(Long userId, UserDto userDto);
+
+
+    boolean reactivateUser(Long userId, UserDto userDto);
 }
