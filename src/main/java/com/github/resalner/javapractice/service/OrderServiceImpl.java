@@ -6,60 +6,74 @@ import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Order;
 import com.github.resalner.javapractice.repository.OrderRepository;
 import com.github.resalner.javapractice.request.OrderRequest;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
-
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl {
-  @Autowired
-  private final OrderRepository orderRepository;
 
-  public OrderService(OrderRepository orderRepository){
-    this.orderRepository = orderRepository;
-  }
+    private final OrderRepository orderRepository;
 
-  public List<Order> getOrders(){
-    return orderRepository.findAll();
-  }
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
+    }
 
-  public void addOrder(OrderRequest orderRequest){
-    Order order = new Order();
-    order.setUser_ID(orderRequest.user_ID());
-    order.setOrder_date(orderRequest.orderDate());
-    order.setTotal_price(orderRequest.totalPrice());
-    order.setStatus(orderRequest.status());
-    order.setAdress_ID(orderRequest.adress_ID());
-    order.setComments(orderRequest.comments());
-    orderRepository.save(order);
-  }
+    public void addOrder(OrderRequest orderRequest) {
+        Order order = new Order();
+        order.setUserId(orderRequest.userId());
+        order.setOrderDate(orderRequest.orderDate());
+        order.setTotaPprice(orderRequest.totalPrice());
+        order.setStatus(orderRequest.status());
+        order.setAdressId(orderRequest.adressId());
+        order.setComments(orderRequest.comments());
+        orderRepository.save(order);
+    }
 
-  public Order getOrder(long id){
-    return orderRepository.findById(id).orElseThrow(()->EntityNotFoundException("не найден заказ с id = "+id));
-  }
-  
-  public void deleteOrder(long id){
-    orderRepository.deleteById(id).orElseThrow(()->EntityNotFoundException("не найден заказ с id = "+id));
-  }
-  public Order updateOrder(long id, OrderRequest orderRequest){
-    Order or = orderRepository.findById(id).orElseThrow(()->EntityNotFoundException("не найден заказ с id = "+id));
-    if(Objects.nonNull(orderRequest.user_ID()) && !"".equals(orderRequest.user_ID())){
-      or.setUser_ID(orderRequest.user_ID());
+    public Order getOrder(long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
     }
-    if(Objects.nonNull(orderRequest.orderDate()) && !"".equals(orderRequest.orderDate())){
-      or.setOrder_date(orderRequest.orderDate());
+
+    public void deleteOrder(long id) {
+        orderRepository.deleteById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
     }
-    if(Objects.nonNull(orderRequest.totalPrice()) && !"".equals(orderRequest.totalPrice())){
-      or.setTotal_price(orderRequest.totalPrice());
+
+    public Order updateOrder(long id, OrderRequest orderRequest) {
+        Order or = orderRepository.findById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
+        if (Objects.nonNull(orderRequest.userId())
+                && !"".equals(orderRequest.userId())) {
+
+            or.setUserId(orderRequest.userId());
+        }
+        if (Objects.nonNull(orderRequest.orderDate())
+                && !"".equals(orderRequest.orderDate())) {
+
+            or.setOrderDate(orderRequest.orderDate());
+        }
+        if (Objects.nonNull(orderRequest.totalPrice())
+                && !"".equals(orderRequest.totalPrice())) {
+
+            or.setTotaPprice(orderRequest.totalPrice());
+        }
+        if (Objects.nonNull(orderRequest.status())
+                && !"".equals(orderRequest.status())) {
+
+            or.setStatus(orderRequest.status());
+        }
+        if (Objects.nonNull(orderRequest.adressId())
+                && !"".equals(orderRequest.adressId())) {
+
+            or.setAdressId(orderRequest.adressId());
+        }
+        if (Objects.nonNull(orderRequest.comments())
+                && !"".equals(orderRequest.comments())) {
+
+            or.setComments(orderRequest.comments());
+        }
+        orderRepository.save(or);
     }
-    if(Objects.nonNull(orderRequest.status()) && !"".equals(orderRequest.status())){
-      or.setStatus(orderRequest.status());
-    }
-    if(Objects.nonNull(orderRequest.adress_ID()) && !"".equals(orderRequest.adress_ID())){
-      or.setAdress_ID(orderRequest.adress_ID());
-    }
-    if(Objects.nonNull(orderRequest.comments()) && !"".equals(orderRequest.comments())){
-      or.setComments(orderRequest.comments());
-    }
-    orderRepository.save(or);
-  }
 }

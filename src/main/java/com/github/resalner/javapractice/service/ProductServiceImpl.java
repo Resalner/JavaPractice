@@ -6,51 +6,62 @@ import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Product;
 import com.github.resalner.javapractice.repository.ProductRepository;
 import com.github.resalner.javapractice.request.ProductRequest;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl {
-  @Autowired
-  private final ProductRepository productRepository;
 
-  public ProductService(ProductRepository productRepository){
-    this.productRepository = productRepository;
-  }
+    private final ProductRepository productRepository;
 
-  public List<Product> getProducts(){
-    return productRepository.findAll();
-  }
-
-  public void addProduct(ProductRequest productRequest){
-    Product product = new Product();
-    product.setName(productRequest.name());
-    product.setDescription(productRequest.description());
-    product.setPrice(productRequest.price());
-    product.setCategory_ID(productRequest.category_ID());
-    productRepository.save(product);
-  }
-
-  public Product getProduct(long id){
-    return productRepository.findById(id).orElseThrow(()->EntityNotFoundException("не найден продукт с id = "+id));
-  }
-
-  public void deleteProduct(long id){
-    productRepository.deleteById(id).orElseThrow(()->EntityNotFoundException("не найден продукт с id = "+id));
-  }
-  public Product updateProduct(long id, ProductRequest productRequest){
-    Product pr = productRepository.findById(id).orElseThrow(()->EntityNotFoundException("не найден продукт с id = "+id));
-    if(Objects.nonNull(productRequest.name()) && !"".equals(productRequest.name())){
-      pr.setName(productRequest.name());
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
-    if(Objects.nonNull(productRequest.description()) && !"".equals(productRequest.description())){
-      pr.setDescription(productRequest.description());
+
+    public void addProduct(ProductRequest productRequest) {
+        Product product = new Product();
+        product.setName(productRequest.name());
+        product.setDescription(productRequest.description());
+        product.setPrice(productRequest.price());
+        product.setCategoryId(productRequest.categoryId());
+        productRepository.save(product);
     }
-    if(Objects.nonNull(productRequest.price()) && !"".equals(productRequest.price())){
-      pr.setPrice(productRequest.price());
+
+    public Product getProduct(long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
     }
-    if(Objects.nonNull(productRequest.category_ID()) && !"".equals(productRequest.category_ID())){
-      pr.setCategory_ID(productRequest.category_ID());
+
+    public void deleteProduct(long id) {
+        productRepository.deleteById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
     }
-    productRepository.save(pr);
-  }
+
+    public Product updateProduct(long id, ProductRequest productRequest) {
+        Product pr = productRepository.findById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
+        if (Objects.nonNull(productRequest.name())
+                && !"".equals(productRequest.name())) {
+
+            pr.setName(productRequest.name());
+        }
+        if (Objects.nonNull(productRequest.description())
+                && !"".equals(productRequest.description())) {
+
+            pr.setDescription(productRequest.description());
+        }
+        if (Objects.nonNull(productRequest.price())
+                && !"".equals(productRequest.price())) {
+
+            pr.setPrice(productRequest.price());
+        }
+        if (Objects.nonNull(productRequest.categoryId())
+                && !"".equals(productRequest.categoryId())) {
+
+            pr.setcategoryId(productRequest.categoryId());
+        }
+        productRepository.save(pr);
+    }
 }

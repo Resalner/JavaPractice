@@ -6,48 +6,56 @@ import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.UserRepository;
 import com.github.resalner.javapractice.request.UserRequest;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @Service
-public class UserServiceImpl{
-  @Autowired
-  private final UserRepository userRepository;
+@RequiredArgsConstructor
+public class UserServiceImpl {
 
-  public UserService(UserRepository userRepository){
-    this.userRepository = userRepository;
-  }
+    private final UserRepository userRepository;
 
-  public List<User> getUsers(){
-    return userRepository.findAll();
-  }
-
-  public void addUser(UserRequest userRequest){
-    User user = new User();
-    user.setUsername(userRequest.username());
-    user.setPassword(userRequest.password());
-    user.setRole(userRequest.role());
-    userRepository.save(user);
-  }
-
-  public User getUser(long id){
-    return userRepository.findById(id).orElseThrow(()->EntityNotFoundException("не найден пользователь с id = "+id));
-  }
-
-  public void deleteUser(long id){
-    userRepository.deleteById(id).orElseThrow(()->EntityNotFoundException("не найден пользователь с id = "+id));
-  }
-
-  public User updateUser(long id, UserRequest userRequest){
-    User us = userRepository.findById(id).orElseThrow(()->EntityNotFoundException("не найден пользователь с id = "+id));
-    if(Objects.nonNull(userRequest.username()) && !"".equals(userRequest.username())){
-      us.setUsername(userRequest.username());
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
-    if(Objects.nonNull(userRequest.password()) && !"".equals(userRequest.password())){
-      us.setPassword(userRequest.password());
+
+    public void addUser(UserRequest userRequest) {
+        User user = new User();
+        user.setUsername(userRequest.username());
+        user.setPassword(userRequest.password());
+        user.setRole(userRequest.role());
+        userRepository.save(user);
     }
-    if(Objects.nonNull(userRequest.role()) && !"".equals(userRequest.role())){
-      us.setRole(userRequest.role());
+
+    public User getUser(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
-    userRepository.save(us);
-  }
+
+    public void deleteUser(long id) {
+        userRepository.deleteById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
+    }
+
+    public User updateUser(long id, UserRequest userRequest) {
+        User us = userRepository.findById(id)
+                .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
+        if (Objects.nonNull(userRequest.username())
+                && !"".equals(userRequest.username())) {
+
+            us.setUsername(userRequest.username());
+        }
+        if (Objects.nonNull(userRequest.password())
+                && !"".equals(userRequest.password())) {
+
+            us.setPassword(userRequest.password());
+        }
+        if (Objects.nonNull(userRequest.role())
+                && !"".equals(userRequest.role())) {
+
+            us.setRole(userRequest.role());
+        }
+        userRepository.save(us);
+    }
 }
