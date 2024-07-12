@@ -1,4 +1,4 @@
-package com.github.resalner.javapractice.error
+package com.github.resalner.javapractice.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
