@@ -10,38 +10,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Service
-public class CategoryService{
+public class CategoryService {
 
-  @Autowired
-  private final CategoryRepository categoryRepository;
-  
+    @Autowired
+    private final CategoryRepository categoryRepository;
 
-  public CategoryService(CategoryRepository categoryRepository){
-    this.categoryRepository = categoryRepository;
-  }
 
-  public List<Category> getCategories(){
-    return categoryRepository.findAll();
-  }
-
-  public void addCategory(CategoryRequest categoryRequest){
-    Category category = new Category();
-    category.setName(categoryRequest.name());
-    categoryRepository.save(category);
-    
-  }
-  public Category getCategory(long id){
-    return categoryRepository.findById(id).orElseThrow(()->NotFoundException("не найдена категория с id = "+id));
-  }
-  public void deleteCategory(long id){
-    categoryRepository.deleteById(id).orElseThrow(()->NotFoundException("не найдена категория с id = "+id));
-  }
-  public Category updateCategory(long id, CategoryRequest categoryRequest){
-    Category category = categoryRepository.findById(id).orElseThrow(()->NotFoundException("не найдена категория с id = "+id));
-    
-    if(Objects.nonNull(categoryRequest.name()) && !"".equals(categoryRequest.name())){
-      category.setName(categoryRequest.name());
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
-    categoryRepository.save(category);
-  }
+
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
+    }
+
+    public void addCategory(CategoryRequest categoryRequest) {
+        Category category = new Category();
+        category.setName(categoryRequest.name());
+        categoryRepository.save(category);
+
+    }
+
+    public Category getCategory(long id) {
+        return categoryRepository.findById(id).orElseThrow(() -> NotFoundException("не найдена категория с id = " + id));
+    }
+
+    public void deleteCategory(long id) {
+        categoryRepository.deleteById(id).orElseThrow(() -> NotFoundException("не найдена категория с id = " + id));
+    }
+
+    public Category updateCategory(long id, CategoryRequest categoryRequest) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> NotFoundException("не найдена категория с id = " + id));
+
+        if (Objects.nonNull(categoryRequest.name()) && !"".equals(categoryRequest.name())) {
+            category.setName(categoryRequest.name());
+        }
+        categoryRepository.save(category);
+    }
 }
