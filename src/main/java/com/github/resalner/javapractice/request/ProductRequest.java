@@ -6,19 +6,20 @@ import lombok.NoArgsConstructor;
 import jakarta.valiadation.constraints.NotBlank;
 
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
-    @NotBlank(message = "Не заполнено поле имя")
-    private String name;
+public class ProductRequest{
+  @NotBlank(message = "Не заполнено поле имя")
+  private String name;
 
-    @NotBlank(message = "Не заполнено поле описание")
-    private String description;
-
-    @NotBlank(message = "Не заполнено поле цена")
-    private Double price;
-
-    @NotBlank(message = "Не заполнено поле категория")
-    private long category_ID;
+  @NotBlank(message = "Не заполнено поле описание")
+  private String description;
+  
+  @NotBlank(message = "Не заполнено поле цена")
+  private Double price;
+  
+  @NotBlank(message = "Не заполнено поле категория")
+  private long categoryId;
 }
