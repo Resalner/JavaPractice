@@ -1,49 +1,114 @@
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+№1 
 
-import com.example.myapp.entity.Product;
-import com.example.myapp.repository.ProductRepository;
+public interface ProductService {
+    boolean createProduct(ProductDto productDto, UserDto userDto);
 
-@Service
-public class ProductService {
-    private final ProductRepository productRepository;
+    boolean updateProduct(Long productId, ProductDto productDto, UserDto userDto);
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    ProductDto getProductDetails(Long productId, UserDto userDto);
 
-    public Product createProduct(String name, double price, Category category) {
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        product.setCategory(category);
-        return productRepository.save(product);
-    }
+    List<ProductDto> getAllProducts(UserDto userDto);
 
-    public Product updateProduct(Long id, String name, double price, Category category) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + id));
-        product.setName(name);
-        product.setPrice(price);
-        product.setCategory(category);
-        return productRepository.save(product);
-    }
-
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
-    }
-
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + id));
-    }
-
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-
-    public List<Product> getProductsByCategory(Category category) {
-        return productRepository.findByCategory(category);
-    }
+    boolean deleteProduct(Long productId, UserDto userDto);
 }
 
+№2 
+
+public class ProductServiceImpl implements ProductService {
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository) {
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public boolean createProduct(ProductDto productDto, UserDto userDto) {
+        User user = userRepository.findById(userDto.getUserId());
+        if (!user.hasPermission(Permission.CREATE_PRODUCT)) {
+            return false;
+        }
+
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setCategory(productDto.getCategory());
+        product.setImage(productDto.getImage());
+        productRepository.save(product);
+
+        return true;
+    }
+
+    @Override
+    public boolean updateProduct(Long productId, ProductDto productDto, UserDto userDto) {
+        User user = userRepository.findById(userDto.getUserId());
+        if (!user.hasPermission(Permission.UPDATE_PRODUCT)) {
+            return false;
+        }
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setName(productDto.getName());
+            product.setDescription(productDto.getDescription());
+            product.setPrice(productDto.getPrice());
+            product.setCategory(productDto.getCategory());
+            product.setImage(productDto.getImage());
+            productRepository.save(product);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public ProductDto getProductDetails(Long productId, UserDto userDto) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            return new ProductDto(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getPrice(),
+                    product.getCategory(),
+                    product.getImage()
+            );
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts(UserDto userDto) {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(product -> new ProductDto(
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getPrice(),
+                        product.getCategory(),
+                        product.getImage()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean deleteProduct(Long productId, UserDto userDto) {
+        User user = userRepository.findById(userDto.getUserId());
+        if (!user.hasPermission(Permission.DELETE_PRODUCT)) {
+            return false;
+        }
+
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isPresent()) {
+            productRepository.delete(optionalProduct.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
