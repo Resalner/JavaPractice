@@ -3,10 +3,13 @@ package com.github.resalner.javapractice.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.valiadation.constraints.Past;
-import jakarta.valiadation.constraints.NotBlank;
-import jakarta.valiadation.constraints.Email;
-import jakarta.valiadation.constraints.Pattern;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.NotBlank;
+
+import java.util.Date;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +24,7 @@ public class UserInfoRequest {
     private String surname;
 
     @NotBlank(message = "Необходимо указать номер телефона")
-    @Pattern(regexp = "^375(33|44|29|25)\\d{7}$", message = "неверный формат номера телефона"")
+    @Pattern(regexp = "^375(33|44|29|25)\\d{7}$", message = "неверный формат номера телефона")
             private String phoneNumber;
 
             @NotBlank(message = "Необходимо указать дату рождения")

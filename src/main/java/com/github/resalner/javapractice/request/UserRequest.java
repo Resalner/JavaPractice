@@ -5,8 +5,8 @@ import com.github.resalner.javapractice.annotation.RoleAnnotation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.valiadation.constraints.NotBlank;
-import jakarta.valiadation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class UserRequest {
     private String username;
 
     @NotBlank(message = "Необходимо указать пароль")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", messege = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", message = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
     private String password;
 
     @NotBlank(message = "Необходимо указать роль")

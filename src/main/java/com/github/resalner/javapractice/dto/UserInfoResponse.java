@@ -2,6 +2,9 @@ package com.github.resalner.javapractice.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 
 @Data
