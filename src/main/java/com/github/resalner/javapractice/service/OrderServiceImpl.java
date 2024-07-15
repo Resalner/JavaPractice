@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl {
+public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
 
@@ -20,7 +20,7 @@ public class OrderServiceImpl {
         return orderRepository.findAll();
     }
 
-    public void addOrder(OrderRequest orderRequest) {
+    public void saveOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setUserId(orderRequest.userId());
         order.setOrderDate(orderRequest.orderDate());
@@ -48,32 +48,39 @@ public class OrderServiceImpl {
                 && !"".equals(orderRequest.userId())) {
 
             or.setUserId(orderRequest.userId());
+
         }
         if (Objects.nonNull(orderRequest.orderDate())
                 && !"".equals(orderRequest.orderDate())) {
 
             or.setOrderDate(orderRequest.orderDate());
+
         }
         if (Objects.nonNull(orderRequest.totalPrice())
                 && !"".equals(orderRequest.totalPrice())) {
 
             or.setTotaPprice(orderRequest.totalPrice());
+
         }
         if (Objects.nonNull(orderRequest.status())
                 && !"".equals(orderRequest.status())) {
 
             or.setStatus(orderRequest.status());
+
         }
         if (Objects.nonNull(orderRequest.adressId())
                 && !"".equals(orderRequest.adressId())) {
 
             or.setAdressId(orderRequest.adressId());
+
         }
         if (Objects.nonNull(orderRequest.comments())
                 && !"".equals(orderRequest.comments())) {
 
             or.setComments(orderRequest.comments());
+
         }
+
         orderRepository.save(or);
     }
 }

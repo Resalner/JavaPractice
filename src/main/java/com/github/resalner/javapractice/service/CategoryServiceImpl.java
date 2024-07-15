@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
@@ -20,7 +20,7 @@ public class CategoryServiceImpl {
         return categoryRepository.findAll();
     }
 
-    public void addCategory(CategoryRequest categoryRequest) {
+    public void saveCategory(CategoryRequest categoryRequest) {
         Category category = new Category();
         category.setName(categoryRequest.name());
         categoryRepository.save(category);
@@ -43,6 +43,7 @@ public class CategoryServiceImpl {
                 && !"".equals(categoryRequest.name())) {
 
             category.setName(categoryRequest.name());
+
         }
         categoryRepository.save(category);
     }

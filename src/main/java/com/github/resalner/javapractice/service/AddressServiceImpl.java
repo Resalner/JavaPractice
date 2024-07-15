@@ -6,13 +6,14 @@ import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Address;
 import com.github.resalner.javapractice.repository.AddressRepository;
 import com.github.resalner.javapractice.request.AddressRequest;
+import com.github.resalner.javapractice.map.AddressMapper;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AddressServiceImpl {
+public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
@@ -20,13 +21,13 @@ public class AddressServiceImpl {
         return addressRepository.findAll();
     }
 
-    public void addAddress(AddressRequest addressRequest) {
+    public void saveAddress(AddressRequest addressRequest) {
         Address address = new Address();
         address.setCity(addressRequest.city());
         address.setStreet(addressRequest.street());
         address.setHouseNumber(addressRequest.houseNumber());
         address.setApartamentNumber(addressRequest.apartamentNumber());
-        addressRepository.save(address);
+        mapper.map(addressRequest, address);
     }
 
     public Address getAddress(long id) {
@@ -46,21 +47,25 @@ public class AddressServiceImpl {
                 && !"".equals(addressRequest.city())) {
 
             ad.setCity(addressRequest.city());
+
         }
         if (Objects.nonNull(addressRequest.street())
                 && !"".equals(addressRequest.street())) {
 
             ad.setStreet(addressRequest.street());
+
         }
         if (Objects.nonNull(addressRequest.houseNumber())
                 && !"".equals(addressRequest.houseNumber())) {
 
             ad.setHouseNumber(addressRequest.houseNumber());
+
         }
         if (Objects.nonNull(addressRequest.apartamentNumber())
                 && !"".equals(addressRequest.apartamentNumber())) {
 
             ad.setApartamentNumber(addressRequest.apartamentNumber());
+
         }
         addressRepository.save(ad);
     }

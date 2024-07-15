@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -20,7 +20,7 @@ public class UserServiceImpl {
         return userRepository.findAll();
     }
 
-    public void addUser(UserRequest userRequest) {
+    public void saveUser(UserRequest userRequest) {
         User user = new User();
         user.setUsername(userRequest.username());
         user.setPassword(userRequest.password());
@@ -45,17 +45,21 @@ public class UserServiceImpl {
                 && !"".equals(userRequest.username())) {
 
             us.setUsername(userRequest.username());
+
         }
         if (Objects.nonNull(userRequest.password())
                 && !"".equals(userRequest.password())) {
 
             us.setPassword(userRequest.password());
+
         }
         if (Objects.nonNull(userRequest.role())
                 && !"".equals(userRequest.role())) {
 
             us.setRole(userRequest.role());
+
         }
+
         userRepository.save(us);
     }
 }

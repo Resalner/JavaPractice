@@ -12,14 +12,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserInfoServiceImpl {
+public class UserInfoServiceImpl implements UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
     public List<UserInfo> getUsers() {
         return userInfoRepository.findAll();
     }
 
-    public void addUserInfo(UserInfoRequest userInfoRequest) {
+    public void saveUserInfo(UserInfoRequest userInfoRequest) {
         UserInfo userInfo = new UserInfo();
         userInfo.setname(userInfoRequest.name());
         userInfo.setsurname(userInfoRequest.surname());
@@ -47,32 +47,39 @@ public class UserInfoServiceImpl {
                 && !"".equals(userInfoRequest.name())) {
 
             ui.setname(userInfoRequest.name());
+
         }
         if (Objects.nonNull(userInfoRequest.surname())
                 && !"".equals(userInfoRequest.surname())) {
 
             ui.setsurname(userInfoRequest.surname());
+
         }
         if (Objects.nonNull(userInfoRequest.phonenumber())
                 && !"".equals(userInfoRequest.phonenumber())) {
 
             ui.setphonenumber(userInfoRequest.phonenumber());
+
         }
         if (Objects.nonNull(userInfoRequest.birthDate())
                 && !"".equals(userInfoRequest.birthDate())) {
 
             ui.setbirthDate(userInfoRequest.birthDate());
+
         }
         if (Objects.nonNull(userInfoRequest.gender())
                 && !"".equals(userInfoRequest.gender())) {
 
             ui.setgender(userInfoRequest.gender());
+
         }
         if (Objects.nonNull(userInfoRequest.email())
                 && !"".equals(userInfoRequest.email())) {
 
             ui.setemail(userInfoRequest.email());
+
         }
+
         userInfoRepository.save(ui);
     }
 }

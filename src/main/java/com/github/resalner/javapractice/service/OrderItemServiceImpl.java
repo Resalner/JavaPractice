@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderItemServiceImpl {
+public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
@@ -20,7 +20,7 @@ public class OrderItemServiceImpl {
         return orderItemRepository.findAll();
     }
 
-    public void addOrderItem(OrderItemRequest orderItemRequest) {
+    public void saveOrderItem(OrderItemRequest orderItemRequest) {
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderId(orderItemRequest.orderId());
         orderItem.setProductId(orderItemRequest.productId());
@@ -46,22 +46,27 @@ public class OrderItemServiceImpl {
                 && !"".equals(orderItemRequest.orderId())) {
 
             or.setOrderId(orderItemRequest.orderId());
+
         }
         if (Objects.nonNull(orderItemRequest.productId())
                 && !"".equals(orderItemRequest.productId())) {
 
             or.setProductId(orderItemRequest.productId());
+
         }
         if (Objects.nonNull(orderItemRequest.count())
                 && !"".equals(orderItemRequest.count())) {
 
             or.setCount(orderItemRequest.count());
+
         }
         if (Objects.nonNull(orderItemRequest.price())
                 && !"".equals(orderItemRequest.price())) {
 
             or.setPrice(orderItemRequest.price());
+
         }
+
         orderItemRepository.save(or);
     }
 }

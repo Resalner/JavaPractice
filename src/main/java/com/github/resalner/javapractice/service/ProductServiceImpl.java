@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
@@ -20,7 +20,7 @@ public class ProductServiceImpl {
         return productRepository.findAll();
     }
 
-    public void addProduct(ProductRequest productRequest) {
+    public void saveProduct(ProductRequest productRequest) {
         Product product = new Product();
         product.setName(productRequest.name());
         product.setDescription(productRequest.description());
@@ -46,22 +46,27 @@ public class ProductServiceImpl {
                 && !"".equals(productRequest.name())) {
 
             pr.setName(productRequest.name());
+
         }
         if (Objects.nonNull(productRequest.description())
                 && !"".equals(productRequest.description())) {
 
             pr.setDescription(productRequest.description());
+
         }
         if (Objects.nonNull(productRequest.price())
                 && !"".equals(productRequest.price())) {
 
             pr.setPrice(productRequest.price());
+
         }
         if (Objects.nonNull(productRequest.categoryId())
                 && !"".equals(productRequest.categoryId())) {
 
             pr.setcategoryId(productRequest.categoryId());
+
         }
+
         productRepository.save(pr);
     }
 }
