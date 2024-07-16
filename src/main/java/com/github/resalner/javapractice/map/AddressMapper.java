@@ -1,18 +1,21 @@
 package com.github.resalner.javapractice.map;
 
 import com.github.resalner.javapractice.model.Address;
-import com.github.resalner.javapractice.response.AddressResponse;
+import com.github.resalner.javapractice.dto.AddressResponse;
+import com.github.resalner.javapractice.request.AddressRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
+import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface AddressMapper {
-    AddressMapper INSTANCE = Mappers.getMapper(AddressMapper.class);
+public interface AddressMapper { 
 
-    @Mapping(target = "city", source = "city")
-    @Mapping(target = "street", source = "street")
-    @Mapping(target = "houseNumber", source = "houseNumber")
-    @Mapping(target = "apartamentNumber", source = "apartamentNumber")
-    Address map(AddressResponse addressResponse);
+    AddressResponse toResponse(Address address);
+    
+    Address toAddress(AddressRequest addressRequest);
+
+    List<AddressResponse>  toDomain(List<Address> address);
+
 }
