@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.OrderItem;
 import com.github.resalner.javapractice.repository.OrderItemRepository;
-import com.github.resalner.javapractice.request.OrderItemRequest;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderItemServiceImpl implements OrderItemService {
+public class OrderItemServiceImpl implement OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
@@ -20,12 +19,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.findAll();
     }
 
-    public void saveOrderItem(OrderItemRequest orderItemRequest) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setOrderId(orderItemRequest.orderId());
-        orderItem.setProductId(orderItemRequest.productId());
-        orderItem.setCount(orderItemRequest.count());
-        orderItem.setPrice(orderItemRequest.price());
+    public void saveOrderItem(OrderItem orderItem) {
         orderItemRepository.save(orderItem);
     }
 
@@ -39,34 +33,30 @@ public class OrderItemServiceImpl implements OrderItemService {
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
     }
 
-    public OrderItem updateOrderItem(long id, OrderItemRequest orderItemRequest) {
+    public OrderItem updateOrderItem(long id, OrderItem orderItem) {
         OrderItem or = orderItemRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
-        if (Objects.nonNull(orderItemRequest.orderId())
-                && !"".equals(orderItemRequest.orderId())) {
+        if (Objects.nonNull(orderItem.orderId())
+                && !"".equals(orderItem.orderId())) {
 
-            or.setOrderId(orderItemRequest.orderId());
-
+            or.setOrderId(orderItem.orderId());
         }
-        if (Objects.nonNull(orderItemRequest.productId())
-                && !"".equals(orderItemRequest.productId())) {
+        if (Objects.nonNull(orderItem.productId())
+                && !"".equals(orderItem.productId())) {
 
-            or.setProductId(orderItemRequest.productId());
-
+            or.setProductId(orderItem.productId());
         }
-        if (Objects.nonNull(orderItemRequest.count())
-                && !"".equals(orderItemRequest.count())) {
+        if (Objects.nonNull(orderItem.count())
+                && !"".equals(orderItem.count())) {
 
-            or.setCount(orderItemRequest.count());
-
+            or.setCount(orderItem.count());
         }
-        if (Objects.nonNull(orderItemRequest.price())
-                && !"".equals(orderItemRequest.price())) {
+        if (Objects.nonNull(orderItem.price())
+                && !"".equals(orderItem.price())) {
 
-            or.setPrice(orderItemRequest.price());
-
+            or.setPrice(orderItem.price());
         }
-
         orderItemRepository.save(or);
+        return or;
     }
 }

@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.UserRepository;
-import com.github.resalner.javapractice.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implement UserService {
 
     private final UserRepository userRepository;
 
@@ -20,11 +19,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-    public void saveUser(UserRequest userRequest) {
-        User user = new User();
-        user.setUsername(userRequest.username());
-        user.setPassword(userRequest.password());
-        user.setRole(userRequest.role());
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
@@ -38,28 +33,25 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    public User updateUser(long id, UserRequest userRequest) {
+    public User updateUser(long id, User user) {
         User us = userRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
-        if (Objects.nonNull(userRequest.username())
-                && !"".equals(userRequest.username())) {
+        if (Objects.nonNull(user.username())
+                && !"".equals(user.username())) {
 
-            us.setUsername(userRequest.username());
-
+            us.setUsername(user.username());
         }
-        if (Objects.nonNull(userRequest.password())
-                && !"".equals(userRequest.password())) {
+        if (Objects.nonNull(user.password())
+                && !"".equals(user.password())) {
 
-            us.setPassword(userRequest.password());
-
+            us.setPassword(user.password());
         }
-        if (Objects.nonNull(userRequest.role())
-                && !"".equals(userRequest.role())) {
+        if (Objects.nonNull(user.role())
+                && !"".equals(user.role())) {
 
-            us.setRole(userRequest.role());
-
+            us.setRole(user.role());
         }
-
         userRepository.save(us);
+        return us;
     }
 }

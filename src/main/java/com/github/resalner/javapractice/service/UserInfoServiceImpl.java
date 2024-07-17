@@ -5,28 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.UserInfo;
 import com.github.resalner.javapractice.repository.UserInfoRepository;
-import com.github.resalner.javapractice.request.UserInfoRequest;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoServiceImpl implement UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
     public List<UserInfo> getUsers() {
         return userInfoRepository.findAll();
     }
 
-    public void saveUserInfo(UserInfoRequest userInfoRequest) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setname(userInfoRequest.name());
-        userInfo.setsurname(userInfoRequest.surname());
-        userInfo.setphonenumber(userInfoRequest.phonenumber());
-        userInfo.setbirthDate(userInfoRequest.birthDate());
-        userInfo.setgender(userInfoRequest.gender());
-        userInfo.setemail(userInfoRequest.email());
+    public void saveUserInfo(UserInfo userInfo) {
         userInfoRepository.save(userInfo);
     }
 
@@ -40,46 +32,40 @@ public class UserInfoServiceImpl implements UserInfoService {
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    public UserInfo updateUserInfo(long id, UserInfoRequest userInfoRequest) {
+    public UserInfo updateUserInfo(long id, UserInfo userInfo) {
         UserInfo ui = userInfoRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
-        if (Objects.nonNull(userInfoRequest.name())
-                && !"".equals(userInfoRequest.name())) {
+        if (Objects.nonNull(userInfo.name())
+                && !"".equals(userInfo.name())) {
 
-            ui.setname(userInfoRequest.name());
-
+            ui.setname(userInfo.name());
         }
-        if (Objects.nonNull(userInfoRequest.surname())
-                && !"".equals(userInfoRequest.surname())) {
+        if (Objects.nonNull(userInfo.surname())
+                && !"".equals(userInfo.surname())) {
 
-            ui.setsurname(userInfoRequest.surname());
-
+            ui.setsurname(userInfo.surname());
         }
-        if (Objects.nonNull(userInfoRequest.phonenumber())
-                && !"".equals(userInfoRequest.phonenumber())) {
+        if (Objects.nonNull(userInfo.phonenumber())
+                && !"".equals(userInfo.phonenumber())) {
 
-            ui.setphonenumber(userInfoRequest.phonenumber());
-
+            ui.setphonenumber(userInfo.phonenumber());
         }
-        if (Objects.nonNull(userInfoRequest.birthDate())
-                && !"".equals(userInfoRequest.birthDate())) {
+        if (Objects.nonNull(userInfo.birthDate())
+                && !"".equals(userInfo.birthDate())) {
 
-            ui.setbirthDate(userInfoRequest.birthDate());
-
+            ui.setbirthDate(userInfo.birthDate());
         }
-        if (Objects.nonNull(userInfoRequest.gender())
-                && !"".equals(userInfoRequest.gender())) {
+        if (Objects.nonNull(userInfo.gender())
+                && !"".equals(userInfo.gender())) {
 
-            ui.setgender(userInfoRequest.gender());
-
+            ui.setgender(userInfo.gender());
         }
-        if (Objects.nonNull(userInfoRequest.email())
-                && !"".equals(userInfoRequest.email())) {
+        if (Objects.nonNull(userInfo.email())
+                && !"".equals(userInfo.email())) {
 
-            ui.setemail(userInfoRequest.email());
-
+            ui.setemail(userInfo.email());
         }
-
         userInfoRepository.save(ui);
+        return ui;
     }
 }

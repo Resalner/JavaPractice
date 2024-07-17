@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Product;
 import com.github.resalner.javapractice.repository.ProductRepository;
-import com.github.resalner.javapractice.request.ProductRequest;
+import com.github.resalner.javapractice.request.Product;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implement ProductService {
 
     private final ProductRepository productRepository;
 
@@ -20,12 +20,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
-    public void saveProduct(ProductRequest productRequest) {
-        Product product = new Product();
-        product.setName(productRequest.name());
-        product.setDescription(productRequest.description());
-        product.setPrice(productRequest.price());
-        product.setCategoryId(productRequest.categoryId());
+    public void saveProduct(Product product) {
         productRepository.save(product);
     }
 
@@ -39,34 +34,30 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
     }
 
-    public Product updateProduct(long id, ProductRequest productRequest) {
+    public Product updateProduct(long id, Product product) {
         Product pr = productRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
-        if (Objects.nonNull(productRequest.name())
-                && !"".equals(productRequest.name())) {
+        if (Objects.nonNull(product.name())
+                && !"".equals(product.name())) {
 
-            pr.setName(productRequest.name());
-
+            pr.setName(product.name());
         }
-        if (Objects.nonNull(productRequest.description())
-                && !"".equals(productRequest.description())) {
+        if (Objects.nonNull(product.description())
+                && !"".equals(product.description())) {
 
-            pr.setDescription(productRequest.description());
-
+            pr.setDescription(product.description());
         }
-        if (Objects.nonNull(productRequest.price())
-                && !"".equals(productRequest.price())) {
+        if (Objects.nonNull(product.price())
+                && !"".equals(product.price())) {
 
-            pr.setPrice(productRequest.price());
-
+            pr.setPrice(product.price());
         }
-        if (Objects.nonNull(productRequest.categoryId())
-                && !"".equals(productRequest.categoryId())) {
+        if (Objects.nonNull(product.categoryId())
+                && !"".equals(product.categoryId())) {
 
-            pr.setcategoryId(productRequest.categoryId());
-
+            pr.setcategoryId(product.categoryId());
         }
-
         productRepository.save(pr);
+        return pr;
     }
 }

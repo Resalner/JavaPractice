@@ -2,7 +2,6 @@ package com.github.resalner.javapractice.service;
 
 import com.github.resalner.javapractice.model.Category;
 import com.github.resalner.javapractice.repository.CategoryRepository;
-import com.github.resalner.javapractice.request.CategoryRequest;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll();
     }
 
-    public void saveCategory(CategoryRequest categoryRequest) {
-        Category category = new Category();
-        category.setName(categoryRequest.name());
+    public void saveCategory(Category category) {
         categoryRepository.save(category);
     }
 
@@ -36,15 +33,15 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
     }
 
-    public Category updateCategory(long id, CategoryRequest categoryRequest) {
-        Category category = categoryRepository.findById(id)
+    public Category updateCategory(long id, Category category) {
+        Category cat = categoryRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
-        if (Objects.nonNull(categoryRequest.name())
-                && !"".equals(categoryRequest.name())) {
+        if (Objects.nonNull(category.name())
+                && !"".equals(category.name())) {
 
-            category.setName(categoryRequest.name());
-
+            cat.setName(category.name());
         }
-        categoryRepository.save(category);
+        categoryRepository.save(cat);
+        return cat;
     }
 }
