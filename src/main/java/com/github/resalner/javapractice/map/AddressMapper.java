@@ -7,15 +7,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
+
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface AddressMapper { 
+public interface AddressMapper {
 
     AddressResponse toResponse(Address address);
-    
+
     Address toAddress(AddressRequest addressRequest);
 
-    List<AddressResponse>  toDomain(List<Address> address);
+    List<AddressResponse> toDomain(List<Address> address);
 
 }

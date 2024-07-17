@@ -1,18 +1,21 @@
 package com.github.resalner.javapractice.map;
 
 import com.github.resalner.javapractice.model.OrderItem;
-import com.github.resalner.javapractice.response.OrderItemResponse;
+import com.github.resalner.javapractice.dto.OrderItemResponse;
+import com.github.resalner.javapractice.request.OrderItemRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
+
+import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface OrderItemMapper {
-    OrderItemMapper INSTANCE = Mappers.getMapper(OrderItemMapper.class);
 
-    @Mapping(target = "orderId", source = "order.id")
-    @Mapping(target = "productId", source = "product.id")
-    @Mapping(target = "count", source = "count")
-    @Mapping(target = "price", source = "price")
-    OrderItem toOrderItem(OrderItemResponse orderItemResponse);
+    OrderItemResponse toResponse(OrderItem orderItem);
+
+    OrderItem toOrderItem(OrderItemRequest orderItemRequest);
+
+    List<OrderItem> toDomain(List<OrderItem> orderItem);
 }
