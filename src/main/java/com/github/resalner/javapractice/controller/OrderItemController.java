@@ -26,23 +26,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderItemController {
 
+    @Autowired
+    privatefinal OrderItemMapper
+    mapper;
     private final OrderItemService orderItemService;
 
     @GetMapping
     public List<OrderItemResponse> getOrderItems() {
-        return orderItemService.getOrderItems();
+        List<OrderItem> orderItems = orderItemService.getOrderItems();
+        return mapper.toDomain(orderItems);
     }
 
     @PostMapping
     public OrderItemResponse saveOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest) {
-        OrderItemResponse orderItemResponse = mappers.toDomain(orderItemRequest)
-        OrderItem orderItem = orderItemService.addOrderItem(orderItemResponse);
+        OrderItem orderItem = mapper.toOrderItem(orderItemRequest);
+        orderItemService.addOrderItem(orderItem);
         return mappers.toResponse(orderItem);
     }
 
     @GetMapping("/{id}")
     public OrderItemResponse getOrderItem(@PathVariable("id") long orderItemId) {
-        return orderItemService.getOrderItem(orderItemId);
+        OrderItem orderItem = orderItemService.getOrderItem(orderItemId);
+        return mapper.toResponse(orderItem);
     }
 
     @DeleteMapping("/{id}")
@@ -52,6 +57,8 @@ public class OrderItemController {
 
     @PutMapping("/{id}")
     public OrderItemResponse updateOrderItem(@PathVariable("id") long orderItemId, @RequestBody @Valid OrderItemRequest orderItemRequest) {
-        return orderItemService.updateOrderItem(orderItemId, orderItemRequest);
+        OrderItem orderItem = mapper.toOrderItem(orderItemRequest);
+        orderItem = orderItemService.updateOrderItem(orderItemId, orderItem);
+        return mapper.toResponse(orderItem);
     }
 }

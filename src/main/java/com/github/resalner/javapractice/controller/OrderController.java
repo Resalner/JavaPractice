@@ -27,17 +27,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
+    @Autowired
+    private final OrderMapper mapper;
     private final OrderService orderService;
 
     @GetMapping
     public List<OrderResponse> getOrders() {
-        return orderService.getOrders();
+        List<Order> orders = orderService.getOrders();
+        return mapper.toDomain(orders);
     }
 
     @PostMapping
     public OrderResponse saveOrder(@RequestBody @Valid OrderRequest orderRequest) {
-        OrderResponse orderResponse = mappers.toDomain(orderRequest);
-        Order order = orderService.saveOrder(orderResponse);
+        Order order = mapper.toOrder(orderRequest);
+        orderService.saveOrder(order);
         return mappers.toResponse(order);
 
     }
@@ -54,6 +57,8 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public OrderResponse updateOrder(@PathVariable("id") long orderid, @RequestBody @Valid OrderRequest orderRequest) {
-        return orderService.updateOrder(orderid, orderRequest);
+        Order order = mapper.toOrder(orderRequest);
+        order = orderService.updateOrder(orderid, order);
+        return mapper.toResponse(order);
     }
 }

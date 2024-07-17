@@ -18,44 +18,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
- 
+
 @RestController
 @RequestMapping(path = "/api/v1/addresses")
 @RequiredArgsConstructor
-public class AddressController{
-  
-  @Autowired
-  private AddressMapper mapper;
-  private final AddressService addressService;
+public class AddressController {
 
-  @GetMapping
-  public List<AddressResponse> getAddresses(){
-    return mapper.toDomain(addressService.getAddresses());
-  } 
-  
-  @PostMapping
-  public AddressResponse saveAddress(@RequestBody @Valid AddressRequest addressRequest){
-    Address address = mapper.toAddress(addressRequest);
-    addressService.saveAddress(address);
-    return mapper.toResponse(address);
-  }
-  
-  @GetMapping("/{id}")
-  public AddressResponse getAddress(@PathVariable("id") long addressid){
-    Address address = addressService.getAddress(addressid);
-    return mapper.toResponse(address);
-  }
-  
-  @DeleteMapping("/{id}")
-  public void deleteAddress(@PathVariable("id") long addressid){
-    addressService.deleteAddress(addressid);
-  }
-  
-  @PutMapping("/{id}")
-  public AddressResponse updateAddress(@PathVariable("id") long addressid, @RequestBody @Valid AddressRequest addressRequest){
-    AddressResponse addressResponse = mapper.toDomain(addressRequest);
-    Address address = mapper.toAddress(addressResponse);
-    return addressService.updateAddress(addressid, address);
-  }
+    @Autowired
+    private final AddressMapper mapper;
+    private final AddressService addressService;
+
+    @GetMapping
+    public List<AddressResponse> getAddresses() {
+        List<Address> addresses = addressService.getAddresses();
+        return mapper.toDomain(addresses);
+    }
+
+    @PostMapping
+    public AddressResponse saveAddress(@RequestBody @Valid AddressRequest addressRequest) {
+        Address address = mapper.toAddress(addressRequest);
+        addressService.saveAddress(address);
+        return mapper.toResponse(address);
+    }
+
+    @GetMapping("/{id}")
+    public AddressResponse getAddress(@PathVariable("id") long addressid) {
+        Address address = addressService.getAddress(addressid);
+        return mapper.toResponse(address);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAddress(@PathVariable("id") long addressid) {
+        addressService.deleteAddress(addressid);
+    }
+
+    @PutMapping("/{id}")
+    public AddressResponse updateAddress(@PathVariable("id") long addressid, @RequestBody @Valid AddressRequest addressRequest) {
+        Address address = mapper.toAddress(addressRequest);
+        address = addressService.updateAddress(addressid, address);
+        return mapper.toResponse(address);
+    }
 }

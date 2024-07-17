@@ -24,24 +24,28 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/v1/user-info")
 public class UserInfoController {
+
     @Autowired
-    private UserInfoService userInfoService;
+    private final UserInfoMapper mapper;
+    private final UserInfoService userInfoService;
 
     @GetMapping
     public List<UserInfoResponse> getUsers() {
-        return userInfoService.getUsers();
+        List<UserInfo> users = userInfoService.getUsers();
+        return mapper.toDomain(users)
     }
 
     @PostMapping
     public UserInfoResponse saveUser(@RequestBody @Valid UserInfoRequest userInfoRequest) {
-        UserInfoResponse userInfoResponse = mappers.toDomain(userInfoRequest);
-        UserInfo userInfo = userInfoService.saveUserInfo(userInfoResponse);
+        UserInfo userInfo = mapper.toUserInfo(userInfoRequest);
+        userInfoService.saveUserInfo(userInfo);
         return mappers.toResponse(userInfo);
     }
 
     @GetMapping("/{id}")
     public UserInfoResponse getUser(@PathVariable("id") long userId) {
-        return userInfoService.getUserInfo(userId);
+        UserInfo userInfo = userInfoService.getUser(userId);
+        return mapper.toResponse(userInfo);
     }
 
     @DeleteMapping("/{id}")
@@ -51,6 +55,9 @@ public class UserInfoController {
 
     @PutMapping("/{id}")
     public UserInfoResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserInfoRequest userInfoRequest) {
-        return userInfoService.updateUserInfo(userId, userInfoRequest);
+        UserInfo userInfo = mapper.toUserInfo(userInfoRequest);
+        userInfo = userInfoService.updateUserInfo(userId, userInfo);
+        return mapper.toResponse(userInfo);
+        ;
     }
 }

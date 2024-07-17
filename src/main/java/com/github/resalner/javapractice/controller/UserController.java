@@ -26,23 +26,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
+    @Autowired
+    private final UserMapper mapper;
     private final UserService userService;
 
     @GetMapping
     public List<UserResponse> getUsers() {
-        return userService.getUsers();
+        List<User> users = userService.getAllUsers();
+        return mapper.toDomain(users);
     }
 
     @PostMapping
     public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
-        UserResponse userResponse = mappers.toDomain(userRequest);
-        User user = userService.saveUser(userResponse);
+        User user = mapper.toUser(userRequest);
+        userService.saveUser(user);
         return mappers.toResponse(user);
     }
 
     @GetMapping("/{id}")
     public UserResponse getUser(@PathVariable("id") long userId) {
-        return userService.getUser(userId);
+        User user = userService.getUser(userId);
+        return mapper.toResponse(user);
     }
 
     @DeleteMapping("/{id}")
@@ -52,6 +56,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public UserResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserRequest userRequest) {
-        return userService.updateUser(userId, userRequest);
+        User user = mapper.toUser(userRequest);
+        user = userService.updateUser(userId, user);
+        return mapper.toResponse(user);
     }
 }

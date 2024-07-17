@@ -5,7 +5,7 @@ import com.github.resalner.javapractice.repository.CategoryRepository;
 import com.github.resalner.javapractice.request.CategoryRequest;
 import com.github.resalner.javapractice.service.CategoryService;
 import com.github.resalner.javapractice.dto.CategoryResponse;
-import com.github.resalner.javapractice.map.CateogryMapper;
+import com.github.resalner.javapractice.map.CategoryMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,18 +26,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
+    @Autowired
+    private final CategoryMapper mapper;
     private final CategoryService categoryService;
 
     @GetMapping
     public List<CategoryResponse> getCategories() {
-        return categoryService.getCategories();
+        List<Category> categories = categoryService.getCategories();
+        return mapper.toDomain(categoties);
     }
 
     @PostMapping
     public CategoryResponse saveCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
-        CategoryResponse categoryResponse = mappers.toDomain(categoryRequest);
-        Category category = categoryService.saveCategory(categoryResponse);
-        return mappers.toResponse(category);
+        Category category = mapper.toCategory(categoryRequest);
+        categoryService.saveCategory(category);
+        return mapper.toResponse(category);
     }
 
     @GetMapping("/{id}")
@@ -52,6 +55,9 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public CategoryResponse updateCategory(@PathVariable("id") long categoryId, @RequestBody @Valid CategoryRequest categoryRequest) {
-        return categoryService.updateCategory(categoryId, categoryRequest);
+        CategoryResponse categoryResponse = mapper.toDomain(categoryRequest);
+        Category category = mapper.toCategory(categoryResponse);
+        return categoryService.updateCategory(categoryId, category);
+
     }
 }

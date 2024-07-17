@@ -25,24 +25,28 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
+
     @Autowired
+    private final ProductMapper mapper;
     private final ProductService productService;
 
     @GetMapping
     public List<ProductResponse> getProducts() {
-        return productService.getProducts();
+        List<Product> products = productService.getProducts();
+        return mapper.toDomain(products);
     }
 
     @PostMapping
     public ProductResponse saveProduct(@RequestBody @Valid ProductRequest productRequest) {
-        ProductResponse productResponse = mappers.toDomain(productRequest);
-        Product product = productService.saveProduct(productResponse)
+        Product product = mapper.toProduct(productRequest);
+        productService.saveProduct(product);
         return mappers.toResponse(product);
     }
 
     @GetMapping("/{id}")
     public ProductResponse getProduct(@PathVariable("id") long productid) {
-        return productService.getProduct(productid);
+        Product product = productService.getProduct(productid);
+        return mapper.toResponse(product);
     }
 
     @DeleteMapping("/{id}")
@@ -52,6 +56,8 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ProductResponse updateProduct(@PathVariable("id") long productid, @RequestBody @Valid ProductRequest productRequest) {
-        return productService.updateProduct(productid, productRequest);
+        Product product = mapper.toProduct(productRequest);
+        product = productService.updateProduct(productid, product);
+        return mapper.toResponse(product);
     }
 }
