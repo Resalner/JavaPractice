@@ -17,49 +17,54 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
+    @Ovveride
     public List<Address> getAddresses() {
         return addressRepository.findAll();
     }
 
+    @Ovveride
     public Address saveAddress(Address address) {
-        addressRepository.save(address);
+        address = addressRepository.save(address);
         return address;
     }
 
+    @Ovveride
     public Address getAddress(long id) {
         return addressRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
     }
 
+    @Ovveride
     public void deleteAddress(long id) {
         addressRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
     }
 
-    public Address updateAddress(long id, Address address) {
-        Address ad = addressRepository.findById(id)
+    @Ovveride
+    public Address updateAddress(long id, Address addressForUpdate) {
+        Address address = addressRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
-        if (Objects.nonNull(address.city())
-                && !"".equals(address.city())) {
+        if (Objects.nonNull(addressForUpdate.city())
+                && !"".equals(addressForUpdate.city())) {
 
-            ad.setCity(address.city());
+            address.setCity(addressForUpdate.city());
         }
-        if (Objects.nonNull(address.street())
-                && !"".equals(address.street())) {
+        if (Objects.nonNull(addressForUpdate.street())
+                && !"".equals(addressForUpdate.street())) {
 
-            ad.setStreet(address.street());
+            address.setStreet(addressForUpdate.street());
         }
-        if (Objects.nonNull(address.houseNumber())
-                && !"".equals(address.houseNumber())) {
+        if (Objects.nonNull(addressForUpdate.houseNumber())
+                && !"".equals(addressForUpdate.houseNumber())) {
 
-            ad.setHouseNumber(address.houseNumber());
+            address.setHouseNumber(addressForUpdate.houseNumber());
         }
-        if (Objects.nonNull(address.apartamentNumber())
-                && !"".equals(address.apartamentNumber())) {
+        if (Objects.nonNull(addressForUpdate.apartamentNumber())
+                && !"".equals(addressForUpdate.apartamentNumber())) {
 
-            ad.setApartamentNumber(address.apartamentNumber());
+            address.setApartamentNumber(addressForUpdate.apartamentNumber());
         }
-        addressRepository.save(ad);
-        return ad;
+        addressRepository.save(address);
+        return address;
     }
 }

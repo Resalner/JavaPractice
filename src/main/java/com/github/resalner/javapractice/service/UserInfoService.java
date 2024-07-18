@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.service;
 
 import com.github.resalner.javapractice.model.UserInfo;
-import com.github.resalner.javapractice.request.UserInfoRequest;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ public interface UserInfoService {
 
     UserInfo saveUserInfo(long id);
 
-    void addUserInfo(UserInfoRequest userInfoRequest);
+    UserInfo saveUserInfo(UserInfo userInfo);
 
-    UserInfo updateUserInfo(long id, UserInfoRequest userInfoRequest);
+    UserInfo updateUserInfo(long id, UserInfo userInfo);
 
     void deleteUserInfo(long id);
 }

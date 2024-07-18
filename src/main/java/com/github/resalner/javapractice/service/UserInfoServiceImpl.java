@@ -14,58 +14,64 @@ import java.util.List;
 public class UserInfoServiceImpl implement UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
+    @Ovveride
     public List<UserInfo> getUsers() {
         return userInfoRepository.findAll();
     }
 
-    public void saveUserInfo(UserInfo userInfo) {
-        userInfoRepository.save(userInfo);
+    @Ovveride
+    public UserInfo saveUserInfo(UserInfo userInfo) {
+        userInfo = userInfoRepository.save(userInfo);
+        return userInfo;
     }
 
+    @Ovveride
     public UserInfo getUserInfo(long id) {
         return userInfoRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
+    @Ovveride
     public void deleteUserInfo(long id) {
         userInfoRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    public UserInfo updateUserInfo(long id, UserInfo userInfo) {
-        UserInfo ui = userInfoRepository.findById(id)
+    @Ovveride
+    public UserInfo updateUserInfo(long id, UserInfo userInfoForUpdate) {
+        UserInfo userInfo = userInfoRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
-        if (Objects.nonNull(userInfo.name())
-                && !"".equals(userInfo.name())) {
+        if (Objects.nonNull(userInfoForUpdate.name())
+                && !"".equals(userInfoForUpdate.name())) {
 
-            ui.setname(userInfo.name());
+            userInfo.setname(userInfoForUpdate.name());
         }
-        if (Objects.nonNull(userInfo.surname())
-                && !"".equals(userInfo.surname())) {
+        if (Objects.nonNull(userInfoForUpdate.surname())
+                && !"".equals(userInfoForUpdate.surname())) {
 
-            ui.setsurname(userInfo.surname());
+            userInfo.setsurname(userInfoForUpdate.surname());
         }
-        if (Objects.nonNull(userInfo.phonenumber())
-                && !"".equals(userInfo.phonenumber())) {
+        if (Objects.nonNull(userInfoForUpdate.phonenumber())
+                && !"".equals(userInfoForUpdate.phonenumber())) {
 
-            ui.setphonenumber(userInfo.phonenumber());
+            userInfo.setphonenumber(userInfoForUpdate.phonenumber());
         }
-        if (Objects.nonNull(userInfo.birthDate())
-                && !"".equals(userInfo.birthDate())) {
+        if (Objects.nonNull(userInfoForUpdate.birthDate())
+                && !"".equals(userInfoForUpdate.birthDate())) {
 
-            ui.setbirthDate(userInfo.birthDate());
+            userInfo.setbirthDate(userInfoForUpdate.birthDate());
         }
-        if (Objects.nonNull(userInfo.gender())
-                && !"".equals(userInfo.gender())) {
+        if (Objects.nonNull(userInfoForUpdate.gender())
+                && !"".equals(userInfoForUpdate.gender())) {
 
-            ui.setgender(userInfo.gender());
+            userInfo.setgender(userInfoForUpdate.gender());
         }
-        if (Objects.nonNull(userInfo.email())
-                && !"".equals(userInfo.email())) {
+        if (Objects.nonNull(userInfoForUpdate.email())
+                && !"".equals(userInfoForUpdate.email())) {
 
-            ui.setemail(userInfo.email());
+            userInfo.setemail(userInfoForUpdate.email());
         }
-        userInfoRepository.save(ui);
-        return ui;
+        userInfoRepository.save(userInfo);
+        return userInfo;
     }
 }

@@ -15,48 +15,54 @@ public class OrderItemServiceImpl implement OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
+    @Ovveride
     public List<OrderItem> getOrderItems() {
         return orderItemRepository.findAll();
     }
 
-    public void saveOrderItem(OrderItem orderItem) {
-        orderItemRepository.save(orderItem);
+    @Ovveride
+    public OrderItem saveOrderItem(OrderItem orderItem) {
+        orderItem = orderItemRepository.save(orderItem);
+        return orderItem;
     }
 
+    @Ovveride
     public OrderItem getOrderItem(long id) {
         return orderItemRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
     }
 
+    @Ovveride
     public void deleteOrderItem(long id) {
         orderItemRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
     }
 
-    public OrderItem updateOrderItem(long id, OrderItem orderItem) {
-        OrderItem or = orderItemRepository.findById(id)
+    @Ovveride
+    public OrderItem updateOrderItem(long id, OrderItem orderItemForUpdate) {
+        OrderItem orderItem = orderItemRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
-        if (Objects.nonNull(orderItem.orderId())
-                && !"".equals(orderItem.orderId())) {
+        if (Objects.nonNull(orderItemForUpdate.orderId())
+                && !"".equals(orderItemForUpdate.orderId())) {
 
-            or.setOrderId(orderItem.orderId());
+            orderItem.setOrderId(orderItemForUpdate.orderId());
         }
-        if (Objects.nonNull(orderItem.productId())
-                && !"".equals(orderItem.productId())) {
+        if (Objects.nonNull(orderItemForUpdate.productId())
+                && !"".equals(orderItemForUpdate.productId())) {
 
-            or.setProductId(orderItem.productId());
+            orderItem.setProductId(orderItemForUpdate.productId());
         }
-        if (Objects.nonNull(orderItem.count())
-                && !"".equals(orderItem.count())) {
+        if (Objects.nonNull(orderItemForUpdate.count())
+                && !"".equals(orderItemForUpdate.count())) {
 
-            or.setCount(orderItem.count());
+            orderItem.setCount(orderItemForUpdate.count());
         }
-        if (Objects.nonNull(orderItem.price())
-                && !"".equals(orderItem.price())) {
+        if (Objects.nonNull(orderItemForUpdate.price())
+                && !"".equals(orderItemForUpdate.price())) {
 
-            or.setPrice(orderItem.price());
+            orderItem.setPrice(orderItemForUpdate.price());
         }
-        orderItemRepository.save(or);
-        return or;
+        orderItemRepository.save(orderItem);
+        return orderItem;
     }
 }

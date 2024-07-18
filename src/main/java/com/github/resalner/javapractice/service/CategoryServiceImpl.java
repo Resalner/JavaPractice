@@ -15,33 +15,39 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    @Ovveride
     public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
 
-    public void saveCategory(Category category) {
-        categoryRepository.save(category);
+    @Ovveride
+    public Category saveCategory(Category category) {
+        category = categoryRepository.save(category);
+        return category;
     }
 
+    @Ovveride
     public Category getCategory(long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
     }
 
+    @Ovveride
     public void deleteCategory(long id) {
         categoryRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
     }
 
-    public Category updateCategory(long id, Category category) {
-        Category cat = categoryRepository.findById(id)
+    @Ovveride
+    public Category updateCategory(long id, Category categoryForUpdate) {
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
-        if (Objects.nonNull(category.name())
-                && !"".equals(category.name())) {
+        if (Objects.nonNull(categoryForUpdate.name())
+                && !"".equals(categoryForUpdate.name())) {
 
-            cat.setName(category.name());
+            category.setName(categoryForUpdate.name());
         }
-        categoryRepository.save(cat);
-        return cat;
+        categoryRepository.save(category);
+        return category;
     }
 }

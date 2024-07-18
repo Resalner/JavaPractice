@@ -16,48 +16,54 @@ public class ProductServiceImpl implement ProductService {
 
     private final ProductRepository productRepository;
 
+    @Ovveride
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
-    public void saveProduct(Product product) {
-        productRepository.save(product);
+    @Ovveride
+    public Product saveProduct(Product product) {
+        product = productRepository.save(product);
+        return product;
     }
 
+    @Ovveride
     public Product getProduct(long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
     }
 
+    @Ovveride
     public void deleteProduct(long id) {
         productRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
     }
 
-    public Product updateProduct(long id, Product product) {
-        Product pr = productRepository.findById(id)
+    @Ovveride
+    public Product updateProduct(long id, Product productForUpdate) {
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
-        if (Objects.nonNull(product.name())
-                && !"".equals(product.name())) {
+        if (Objects.nonNull(productForUpdate.name())
+                && !"".equals(productForUpdate.name())) {
 
-            pr.setName(product.name());
+            product.setName(productForUpdate.name());
         }
-        if (Objects.nonNull(product.description())
-                && !"".equals(product.description())) {
+        if (Objects.nonNull(productForUpdate.description())
+                && !"".equals(productForUpdate.description())) {
 
-            pr.setDescription(product.description());
+            product.setDescription(productForUpdate.description());
         }
-        if (Objects.nonNull(product.price())
-                && !"".equals(product.price())) {
+        if (Objects.nonNull(productForUpdate.price())
+                && !"".equals(productForUpdate.price())) {
 
-            pr.setPrice(product.price());
+            product.setPrice(productForUpdate.price());
         }
-        if (Objects.nonNull(product.categoryId())
-                && !"".equals(product.categoryId())) {
+        if (Objects.nonNull(productForUpdate.categoryId())
+                && !"".equals(productForUpdate.categoryId())) {
 
-            pr.setcategoryId(product.categoryId());
+            product.setcategoryId(productForUpdate.categoryId());
         }
-        productRepository.save(pr);
-        return pr;
+        productRepository.save(product);
+        return product;
     }
 }

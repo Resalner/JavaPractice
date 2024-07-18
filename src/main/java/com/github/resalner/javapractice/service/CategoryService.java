@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.service;
 
 import com.github.resalner.javapractice.model.Category;
-import com.github.resalner.javapractice.request.CategoryRequest;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ public interface CategoryService {
 
     Category getCategory(long id);
 
-    void saveCategory(CategoryRequest categoryRequest);
+    Category saveCategory(Category category);
 
     void deleteCategory(long id);
 
-    Category updateCategory(long id, CategoryRequest categoryRequest);
+    Category updateCategory(long id, Category category);
 }

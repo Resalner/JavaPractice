@@ -16,59 +16,64 @@ public class OrderServiceImpl implement OrderService {
 
     private final OrderRepository orderRepository;
 
+    @Ovveride
     public List<Order> getOrders() {
         return orderRepository.findAll();
     }
 
-    public void saveOrder(Order order) {
-        orderRepository.save(order);
+    @Ovveride
+    public Order saveOrder(Order order) {
+        order = orderRepository.save(order);
+        return order;
     }
 
+    @Ovveride
     public Order getOrder(long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
     }
 
+    @Ovveride
     public void deleteOrder(long id) {
         orderRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
     }
 
-
-    public Order updateOrder(long id, Order order) {
-        Order or = orderRepository.findById(id)
+    @Ovveride
+    public Order updateOrder(long id, Order orderForUpdate) {
+        Order order = orderRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
-        if (Objects.nonNull(order.userId())
-                && !"".equals(order.userId())) {
+        if (Objects.nonNull(orderForUpdate.userId())
+                && !"".equals(orderForUpdate.userId())) {
 
-            or.setUserId(order.userId());
+            order.setUserId(orderForUpdate.userId());
         }
-        if (Objects.nonNull(order.orderDate())
-                && !"".equals(order.orderDate())) {
+        if (Objects.nonNull(orderForUpdate.orderDate())
+                && !"".equals(orderForUpdate.orderDate())) {
 
-            or.setOrderDate(order.orderDate());
+            order.setOrderDate(orderForUpdate.orderDate());
         }
-        if (Objects.nonNull(order.totalPrice())
-                && !"".equals(order.totalPrice())) {
+        if (Objects.nonNull(orderForUpdate.totalPrice())
+                && !"".equals(orderForUpdate.totalPrice())) {
 
-            or.setTotaPprice(order.totalPrice());
+            order.setTotaPprice(orderForUpdate.totalPrice());
         }
-        if (Objects.nonNull(order.status())
-                && !"".equals(order.status())) {
+        if (Objects.nonNull(orderForUpdate.status())
+                && !"".equals(orderForUpdate.status())) {
 
-            or.setStatus(order.status());
+            order.setStatus(orderForUpdate.status());
         }
-        if (Objects.nonNull(order.adressId())
-                && !"".equals(order.adressId())) {
+        if (Objects.nonNull(orderForUpdate.adressId())
+                && !"".equals(orderForUpdate.adressId())) {
 
-            or.setAdressId(order.adressId());
+            order.setAdressId(orderForUpdate.adressId());
         }
-        if (Objects.nonNull(order.comments())
-                && !"".equals(order.comments())) {
+        if (Objects.nonNull(orderForUpdate.comments())
+                && !"".equals(orderForUpdate.comments())) {
 
-            or.setComments(order.comments());
+            order.setComments(orderForUpdate.comments());
         }
-        orderRepository.save(or);
-        return or;
+        orderRepository.save(order);
+        return order;
     }
 }

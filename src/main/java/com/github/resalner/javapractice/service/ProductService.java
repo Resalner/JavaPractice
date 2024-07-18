@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.service;
 
 import com.github.resalner.javapractice.model.Product;
-import com.github.resalner.javapractice.request.ProductRequest;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ public interface ProductService {
 
     Product getProduct(long id);
 
-    void saveProduct(ProductRequest productRequest);
+    Product saveProduct(Product product);
 
     void deleteProduct(long id);
 
-    Product updateProduct(long id, ProductRequest productRequest);
+    Product updateProduct(long id, Product product);
 }

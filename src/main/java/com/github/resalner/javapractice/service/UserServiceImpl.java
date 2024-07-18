@@ -15,43 +15,49 @@ public class UserServiceImpl implement UserService {
 
     private final UserRepository userRepository;
 
+    @Ovveride
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    public void saveUser(User user) {
-        userRepository.save(user);
+    @Ovveride
+    public User saveUser(User user) {
+        user = userRepository.save(user);
+        return user;
     }
 
+    @Ovveride
     public User getUser(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
+    @Ovveride
     public void deleteUser(long id) {
         userRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    public User updateUser(long id, User user) {
-        User us = userRepository.findById(id)
+    @Ovveride
+    public User updateUser(long id, User userForUpdate) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
-        if (Objects.nonNull(user.username())
-                && !"".equals(user.username())) {
+        if (Objects.nonNull(userForUpdate.username())
+                && !"".equals(userForUpdate.username())) {
 
-            us.setUsername(user.username());
+            user.setUsername(userForUpdate.username());
         }
-        if (Objects.nonNull(user.password())
-                && !"".equals(user.password())) {
+        if (Objects.nonNull(userForUpdate.password())
+                && !"".equals(userForUpdate.password())) {
 
-            us.setPassword(user.password());
+            user.setPassword(userForUpdate.password());
         }
-        if (Objects.nonNull(user.role())
-                && !"".equals(user.role())) {
+        if (Objects.nonNull(userForUpdate.role())
+                && !"".equals(userForUpdate.role())) {
 
-            us.setRole(user.role());
+            user.setRole(userForUpdate.role());
         }
-        userRepository.save(us);
-        return us;
+        userRepository.save(user);
+        return user;
     }
 }
