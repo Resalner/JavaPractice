@@ -47,5 +47,5 @@ public interface UserRegistrationMapper {
 	@Mapping(source = "userInfo.birthDate", target = "birthDate")
 	@Mapping(source = "userInfo.gender", target = "gender")
 	@Mapping(source = "userInfo.email", target = "email")
-	RegistrationDataResponse toUserRegistrationResponse(User user, UserInfo userInfo);
+	RegistrationDataResponse toRegistrationResponse(User user, UserInfo userInfo);
 }

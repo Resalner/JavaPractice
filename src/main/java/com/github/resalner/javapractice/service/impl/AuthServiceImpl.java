@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 		userRepository.save(user);
 		userInfoRepository.save(userInfo);
 
-		return registrationMapper.toUserRegistrationResponse(user, userInfo);
+		return registrationMapper.toRegistrationResponse(user, userInfo);
 	}
 
 	private boolean usernameExists(String username) {
