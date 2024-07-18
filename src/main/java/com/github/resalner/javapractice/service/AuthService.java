@@ -1,8 +1,8 @@
 package com.github.resalner.javapractice.service;
 
-import com.github.resalner.javapractice.model.User;
-import com.github.resalner.javapractice.model.UserInfo;
+import com.github.resalner.javapractice.dto.RegistrationData;
+import com.github.resalner.javapractice.dto.RegistrationDataResponse;
 
 public interface AuthService {
-	void registerNewUserAccount(User user, UserInfo userInfo);
+	RegistrationDataResponse registerNewUserAccount(RegistrationData data);
 }

@@ -1,6 +1,6 @@
 package com.github.resalner.javapractice.annotation;
 
-import com.github.resalner.javapractice.request.UserRegistrationDataRequest;
+import com.github.resalner.javapractice.request.RegistrationDataRequest;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -14,7 +14,7 @@ public class PasswordMatchesValidator
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
-		UserRegistrationDataRequest registrationData = (UserRegistrationDataRequest) value;
+		RegistrationDataRequest registrationData = (RegistrationDataRequest) value;
 		return registrationData.getPassword().equals(registrationData.getMatchingPassword());
 	}
 }
