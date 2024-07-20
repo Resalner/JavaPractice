@@ -38,14 +38,14 @@ public interface UserRegistrationMapper {
 	@Mapping(source = "email", target = "email")
 	UserInfo toUserInfo(RegistrationData data);
 
-	@Mapping(source = "user.id", target = "id")
-	@Mapping(source = "user.username", target = "username")
-	@Mapping(source = "user.role", target = "role")
-	@Mapping(source = "userInfo.name", target = "name")
-	@Mapping(source = "userInfo.surname", target = "surname")
-	@Mapping(source = "userInfo.phoneNumber", target = "phoneNumber")
-	@Mapping(source = "userInfo.birthDate", target = "birthDate")
-	@Mapping(source = "userInfo.gender", target = "gender")
-	@Mapping(source = "userInfo.email", target = "email")
-	RegistrationDataResponse toRegistrationResponse(User user, UserInfo userInfo);
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "data.username", target = "username")
+	@Mapping(source = "data.role", target = "role")
+	@Mapping(source = "data.name", target = "name")
+	@Mapping(source = "data.surname", target = "surname")
+	@Mapping(source = "data.phoneNumber", target = "phoneNumber")
+	@Mapping(source = "data.birthDate", target = "birthDate")
+	@Mapping(source = "data.gender", target = "gender")
+	@Mapping(source = "data.email", target = "email")
+	RegistrationDataResponse toUserRegistrationResponse(RegistrationData data, Long id);
 }

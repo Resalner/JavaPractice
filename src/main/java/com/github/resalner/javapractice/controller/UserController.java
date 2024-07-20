@@ -70,6 +70,6 @@ public class UserController {
 	@PostMapping("/user/registration")
 	public RegistrationDataResponse registerNewUser(@RequestBody @Valid RegistrationDataRequest registrationData) {
 		RegistrationData data = mapper.toRegistrationData(registrationData);
-		return authService.registerNewUserAccount(data);
+		return mapper.toUserRegistrationResponse(data, authService.registerNewUserAccount(data).getId());
 	}
 }

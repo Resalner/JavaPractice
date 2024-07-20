@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
 	private final UserRegistrationMapper registrationMapper;
 
 	@Override
-	public RegistrationDataResponse registerNewUserAccount(RegistrationData data) {
+	public User registerNewUserAccount(RegistrationData data) {
 		if (usernameExists(data.getUsername())) {
 			throw new EntityAlreadyExistsException("Аккаунт с таким логином уже есть: " + data.getUsername());
 		}
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 		userRepository.save(user);
 		userInfoRepository.save(userInfo);
 
-		return registrationMapper.toRegistrationResponse(user, userInfo);
+		return user;
 	}
 
 	private boolean usernameExists(String username) {
