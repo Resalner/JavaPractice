@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserInfoServiceImpl implement UserInfoService {
+public class UserInfoServiceImpl implements UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
     @Override
