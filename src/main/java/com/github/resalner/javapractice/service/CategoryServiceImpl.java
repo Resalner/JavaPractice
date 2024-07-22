@@ -15,30 +15,30 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Ovveride
+    @Override
     public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public Category saveCategory(Category category) {
         category = categoryRepository.save(category);
         return category;
     }
 
-    @Ovveride
+    @Override
     public Category getCategory(long id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteCategory(long id) {
         categoryRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public Category updateCategory(long id, Category categoryForUpdate) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найдена категория с id = " + id));
@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
 
             category.setName(categoryForUpdate.name());
         }
-        categoryRepository.save(category);
+        category = categoryRepository.save(category);
         return category;
     }
 }

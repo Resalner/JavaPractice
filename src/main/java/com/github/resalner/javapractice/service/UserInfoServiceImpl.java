@@ -14,30 +14,30 @@ import java.util.List;
 public class UserInfoServiceImpl implement UserInfoService {
     private final UserInfoRepository userInfoRepository;
 
-    @Ovveride
+    @Override
     public List<UserInfo> getUsers() {
         return userInfoRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public UserInfo saveUserInfo(UserInfo userInfo) {
         userInfo = userInfoRepository.save(userInfo);
         return userInfo;
     }
 
-    @Ovveride
+    @Override
     public UserInfo getUserInfo(long id) {
         return userInfoRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteUserInfo(long id) {
         userInfoRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public UserInfo updateUserInfo(long id, UserInfo userInfoForUpdate) {
         UserInfo userInfo = userInfoRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
@@ -71,7 +71,7 @@ public class UserInfoServiceImpl implement UserInfoService {
 
             userInfo.setemail(userInfoForUpdate.email());
         }
-        userInfoRepository.save(userInfo);
+        userInfo = userInfoRepository.save(userInfo);
         return userInfo;
     }
 }

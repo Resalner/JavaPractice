@@ -16,24 +16,24 @@ public class ProductServiceImpl implement ProductService {
 
     private final ProductRepository productRepository;
 
-    @Ovveride
+    @Override
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public Product saveProduct(Product product) {
         product = productRepository.save(product);
         return product;
     }
 
-    @Ovveride
+    @Override
     public Product getProduct(long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteProduct(long id) {
         productRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден продукт с id = " + id));
@@ -63,7 +63,7 @@ public class ProductServiceImpl implement ProductService {
 
             product.setcategoryId(productForUpdate.categoryId());
         }
-        productRepository.save(product);
+        product = productRepository.save(product);
         return product;
     }
 }

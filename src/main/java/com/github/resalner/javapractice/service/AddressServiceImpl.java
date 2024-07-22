@@ -17,30 +17,30 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
-    @Ovveride
+    @Override
     public List<Address> getAddresses() {
         return addressRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public Address saveAddress(Address address) {
         address = addressRepository.save(address);
         return address;
     }
 
-    @Ovveride
+    @Override
     public Address getAddress(long id) {
         return addressRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteAddress(long id) {
         addressRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public Address updateAddress(long id, Address addressForUpdate) {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
@@ -64,7 +64,7 @@ public class AddressServiceImpl implements AddressService {
 
             address.setApartamentNumber(addressForUpdate.apartamentNumber());
         }
-        addressRepository.save(address);
+        address = addressRepository.save(address);
         return address;
     }
 }

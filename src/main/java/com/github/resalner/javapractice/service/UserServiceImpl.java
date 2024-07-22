@@ -15,30 +15,30 @@ public class UserServiceImpl implement UserService {
 
     private final UserRepository userRepository;
 
-    @Ovveride
+    @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public User saveUser(User user) {
         user = userRepository.save(user);
         return user;
     }
 
-    @Ovveride
+    @Override
     public User getUser(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteUser(long id) {
         userRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public User updateUser(long id, User userForUpdate) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден пользователь с id = " + id));
@@ -57,7 +57,7 @@ public class UserServiceImpl implement UserService {
 
             user.setRole(userForUpdate.role());
         }
-        userRepository.save(user);
+        user = userRepository.save(user);
         return user;
     }
 }

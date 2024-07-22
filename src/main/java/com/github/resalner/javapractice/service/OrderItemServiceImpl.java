@@ -15,30 +15,30 @@ public class OrderItemServiceImpl implement OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
-    @Ovveride
+    @Override
     public List<OrderItem> getOrderItems() {
         return orderItemRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public OrderItem saveOrderItem(OrderItem orderItem) {
         orderItem = orderItemRepository.save(orderItem);
         return orderItem;
     }
 
-    @Ovveride
+    @Override
     public OrderItem getOrderItem(long id) {
         return orderItemRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteOrderItem(long id) {
         orderItemRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public OrderItem updateOrderItem(long id, OrderItem orderItemForUpdate) {
         OrderItem orderItem = orderItemRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден элемент заказа с id = " + id));
@@ -62,7 +62,7 @@ public class OrderItemServiceImpl implement OrderItemService {
 
             orderItem.setPrice(orderItemForUpdate.price());
         }
-        orderItemRepository.save(orderItem);
+        orderItem = orderItemRepository.save(orderItem);
         return orderItem;
     }
 }

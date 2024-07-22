@@ -16,30 +16,30 @@ public class OrderServiceImpl implement OrderService {
 
     private final OrderRepository orderRepository;
 
-    @Ovveride
+    @Override
     public List<Order> getOrders() {
         return orderRepository.findAll();
     }
 
-    @Ovveride
+    @Override
     public Order saveOrder(Order order) {
         order = orderRepository.save(order);
         return order;
     }
 
-    @Ovveride
+    @Override
     public Order getOrder(long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public void deleteOrder(long id) {
         orderRepository.deleteById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
     }
 
-    @Ovveride
+    @Override
     public Order updateOrder(long id, Order orderForUpdate) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> EntityNotFoundException("не найден заказ с id = " + id));
@@ -73,7 +73,7 @@ public class OrderServiceImpl implement OrderService {
 
             order.setComments(orderForUpdate.comments());
         }
-        orderRepository.save(order);
+        order = orderRepository.save(order);
         return order;
     }
 }
