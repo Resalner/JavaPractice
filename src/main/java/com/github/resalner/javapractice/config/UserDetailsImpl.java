@@ -2,6 +2,7 @@ package com.github.resalner.javapractice.config;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,14 +16,15 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class SecUserDetails implements UserDetails{
+public class UserDetailsImpl implements UserDetails {
 
 	private final User user;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
 		
-		return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
+		return grantedAuthorities;
 	}
 
 	@Override
@@ -55,4 +57,3 @@ public class SecUserDetails implements UserDetails{
 		return true;
 	}
 }
-
