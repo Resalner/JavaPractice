@@ -8,7 +8,12 @@ import com.github.resalner.javapractice.request.UserRequest;
 import com.github.resalner.javapractice.service.AuthService;
 import com.github.resalner.javapractice.service.UserService;
 import com.github.resalner.javapractice.dto.JwtResponse;
+import com.github.resalner.javapractice.dto.RefreshTokenData;
+import com.github.resalner.javapractice.dto.UserCredentials;
 import com.github.resalner.javapractice.dto.UserResponse;
+import com.github.resalner.javapractice.map.RefreshTokenMapper;
+import com.github.resalner.javapractice.map.UserAuthenticationMapper;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +41,8 @@ public class UserController {
 
 	private final UserService userService;
 	private final AuthService authService;
-	private final AuthenticationManager authenticationManager;
+	private final UserAuthenticationMapper authMapper;
+	private final RefreshTokenMapper tokenMapper;
 
 	@GetMapping
 	public List<UserResponse> getUsers() {
@@ -64,13 +70,15 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		return ResponseEntity.ok().body(authService.authentication(loginRequest));
+	public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		UserCredentials credentials = authMapper.toUserCredentials(loginRequest);
+		return authMapper.toJwtResponse(authService.authentication(credentials));
 	}
 
 	@PostMapping("/refresh-token")
-	public ResponseEntity<JwtResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-		JwtResponse jwtResponse = authService.refreshToken(refreshTokenRequest);
-		return ResponseEntity.ok(jwtResponse);
+	public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+		RefreshTokenData tokenData = tokenMapper.toRefreshTokenData(refreshTokenRequest);
+		return authMapper.toJwtResponse(authService.refreshToken(tokenData));
+
 	}
 }

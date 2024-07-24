@@ -33,6 +33,7 @@
 		<liquibase.version>3.6.3</liquibase.version>
 		<jakarta.validation.version>3.0.2</jakarta.validation.version>
 		<hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
+		<mapstruct.version>1.6.0.Beta1</mapstruct.version>
 		<jwt.version>0.11.5</jwt.version>
 	</properties>
 
@@ -86,6 +87,11 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<dependency>

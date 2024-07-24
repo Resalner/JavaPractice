@@ -14,7 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.github.resalner.javapractice.dto.JwtAuthorisationData;
 import com.github.resalner.javapractice.dto.JwtResponse;
+import com.github.resalner.javapractice.dto.RefreshTokenData;
+import com.github.resalner.javapractice.dto.UserCredentials;
 import com.github.resalner.javapractice.model.RefreshToken;
 import com.github.resalner.javapractice.repository.RefreshTokenRepository;
 import com.github.resalner.javapractice.repository.UserRepository;
@@ -38,9 +41,9 @@ public class AuthServiceImpl implements AuthService {
 	private final UserDetailsService userDetailsService;
 
 	@Override
-	public JwtResponse authentication(LoginRequest loginRequest) {
+	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(userCredentials.getLogin(), userCredentials.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -53,16 +56,16 @@ public class AuthServiceImpl implements AuthService {
 
 		RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
 
-		return new JwtResponse(accessToken, refreshToken.getToken(), userDetails.getUsername(), roles);
+		return new JwtAuthorisationData(accessToken, refreshToken.getToken(), userDetails.getUsername(), roles);
 	}
 
 	@Override
-	public JwtResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-		String refreshToken = refreshTokenRequest.getToken();
+	public JwtAuthorisationData refreshToken(RefreshTokenData refreshTokenData) {
+		String refreshToken = refreshTokenData.getToken();
 
 		RefreshToken existingRefreshToken = refreshTokenRepository.findByToken(refreshToken);
 		if (existingRefreshToken == null) {
-			throw new RuntimeException("Invalid refresh token");
+			throw new RuntimeException("Неверный токен обновления");
 		}
 
 		String username = jwtService.extractUsername(refreshToken);
@@ -70,16 +73,16 @@ public class AuthServiceImpl implements AuthService {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
 		if (!jwtService.validateToken(existingRefreshToken.getToken(), userDetails)) {
-			throw new RuntimeException("Invalid refresh token");
+			throw new RuntimeException("Неверный токен обновления");
 		}
 
 		String newAccessToken = jwtService.generateToken(userDetails);
-		String newRefreshToken = jwtService.generateToken(userDetails); // Если требуется новый refresh токен
+		String newRefreshToken = jwtService.generateToken(userDetails);
 
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
 
-		return new JwtResponse(newAccessToken, newRefreshToken, username, roles);
+		return new JwtAuthorisationData(newAccessToken, newRefreshToken, username, roles);
 	}
 
 }
