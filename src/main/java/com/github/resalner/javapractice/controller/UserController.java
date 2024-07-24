@@ -2,8 +2,12 @@ package com.github.resalner.javapractice.controller;
 
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.UserRepository;
+import com.github.resalner.javapractice.request.LoginRequest;
+import com.github.resalner.javapractice.request.RefreshTokenRequest;
 import com.github.resalner.javapractice.request.UserRequest;
+import com.github.resalner.javapractice.service.AuthService;
 import com.github.resalner.javapractice.service.UserService;
+import com.github.resalner.javapractice.dto.JwtResponse;
 import com.github.resalner.javapractice.dto.UserResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,49 +30,47 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/users" )
+@RequestMapping(path = "/api/v1/users")
 @RequiredArgsConstructor
-public class UserController{
+public class UserController {
 
-  private final UserService userService;
-  private final AuthenticationManager authenticationManager;
+	private final UserService userService;
+	private final AuthService authService;
+	private final AuthenticationManager authenticationManager;
 
- 
-  @GetMapping
-  public List<UserResponse> getUsers(){
-    return userService.getUsers();
-  } 
+	@GetMapping
+	public List<UserResponse> getUsers() {
+		return userService.getUsers();
+	}
 
-  @PostMapping
-  public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest){
-    userService.addUser(userRequest);
-  }
-  
-  @GetMapping("/{id}")
-  public UserResponse getUser(@PathVariable("id") long userId){
-    return userService.getUser(userId);
-  }
-  
-  @DeleteMapping("/{id}")
-  public void deleteUser(@PathVariable("id") long userId){
-    userService.deleteUser(userId);
-  }
-  
-  @PutMapping("/{id}")
-  public UserResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserRequest userRequest){
-    return userService.updateUser(userId, userRequest);
-  }
-  
-  @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody UserRequest request) {
-      try {
-          Authentication authentication = authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-          );
+	@PostMapping
+	public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
+		userService.addUser(userRequest);
+	}
 
-          return ResponseEntity.ok("Login successful");
-      } catch (AuthenticationException e) {
-          return ResponseEntity.status(401).body("Login failed");
-      }
-  }
+	@GetMapping("/{id}")
+	public UserResponse getUser(@PathVariable("id") long userId) {
+		return userService.getUser(userId);
+	}
+
+	@DeleteMapping("/{id}")
+	public void deleteUser(@PathVariable("id") long userId) {
+		userService.deleteUser(userId);
+	}
+
+	@PutMapping("/{id}")
+	public UserResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserRequest userRequest) {
+		return userService.updateUser(userId, userRequest);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		return ResponseEntity.ok().body(authService.authentication(loginRequest));
+	}
+
+	@PostMapping("/refresh-token")
+	public ResponseEntity<JwtResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+		JwtResponse jwtResponse = authService.refreshToken(refreshTokenRequest);
+		return ResponseEntity.ok(jwtResponse);
+	}
 }

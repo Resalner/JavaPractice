@@ -27,14 +27,15 @@
 		<tag />
 		<url />
 	</scm>
-	
+
 	<properties>
 		<java.version>21</java.version>
 		<liquibase.version>3.6.3</liquibase.version>
 		<jakarta.validation.version>3.0.2</jakarta.validation.version>
 		<hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
+		<jwt.version>0.11.5</jwt.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -79,15 +80,34 @@
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
-            <version>${jakarta.validation.version}</version>
+			<version>${jakarta.validation.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
+			<version>${hibernate.validator.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jwt.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jwt.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${jwt.version}</version>
+		</dependency>
+
 	</dependencies>
-         
+
 	<build>
 		<plugins>
 			<plugin>
@@ -107,7 +127,8 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>${liquibase.version}</version>
 				<configuration>
-					<propertyFile>${project.basedir}/src/main/resources/liquibase.properties</propertyFile>
+					<propertyFile>
+						${project.basedir}/src/main/resources/liquibase.properties</propertyFile>
 				</configuration>
 			</plugin>
 		</plugins>

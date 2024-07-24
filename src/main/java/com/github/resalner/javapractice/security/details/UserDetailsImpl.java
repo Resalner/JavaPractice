@@ -1,4 +1,4 @@
-package com.github.resalner.javapractice.config;
+package com.github.resalner.javapractice.security.details;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,11 +19,12 @@ import lombok.NoArgsConstructor;
 public class UserDetailsImpl implements UserDetails {
 
 	private final User user;
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
-		
+		List<SimpleGrantedAuthority> grantedAuthorities = Collections
+				.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
+
 		return grantedAuthorities;
 	}
 
