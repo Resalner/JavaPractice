@@ -27,8 +27,7 @@ import java.util.List;
 public class OrderItemController {
 
     @Autowired
-    privatefinal OrderItemMapper
-    mapper;
+    private final OrderItemMapper  mapper;
     private final OrderItemService orderItemService;
 
     @GetMapping
@@ -40,8 +39,8 @@ public class OrderItemController {
     @PostMapping
     public OrderItemResponse saveOrderItem(@RequestBody @Valid OrderItemRequest orderItemRequest) {
         OrderItem orderItem = mapper.toOrderItem(orderItemRequest);
-        orderItemService.addOrderItem(orderItem);
-        return mappers.toResponse(orderItem);
+        orderItemService.saveOrderItem(orderItem);
+        return mapper.toResponse(orderItem);
     }
 
     @GetMapping("/{id}")

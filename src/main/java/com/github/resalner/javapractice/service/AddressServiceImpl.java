@@ -15,56 +15,56 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
 
-    private final AddressRepository addressRepository;
+	private final AddressRepository addressRepository;
 
-    @Override
-    public List<Address> getAddresses() {
-        return addressRepository.findAll();
-    }
+	@Override
+	public List<Address> getAddresses() {
+		return addressRepository.findAll();
+	}
 
-    @Override
-    public Address saveAddress(Address address) {
-        address = addressRepository.save(address);
-        return address;
-    }
+	@Override
+	public Address saveAddress(Address address) {
+		address = addressRepository.save(address);
+		return address;
+	}
 
-    @Override
-    public Address getAddress(long id) {
-        return addressRepository.findById(id)
-                .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
-    }
+	@Override
+	public Address getAddress(long id) {
+		return addressRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("не найден адрес с id = " + id));
+	}
 
-    @Override
-    public void deleteAddress(long id) {
-        addressRepository.deleteById(id)
-                .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
-    }
+	@Override
+	public void deleteAddress(long id) {
+		addressRepository.deleteById(id);
+	}
 
-    @Override
-    public Address updateAddress(long id, Address addressForUpdate) {
-        Address address = addressRepository.findById(id)
-                .orElseThrow(() -> EntityNotFoundException("не найден адрес с id = " + id));
-        if (Objects.nonNull(addressForUpdate.city())
-                && !"".equals(addressForUpdate.city())) {
+	@Override
+	public Address updateAddress(long id, Address addressForUpdate) {
+		Address address = addressRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("не найден адрес с id = " + id));
+		String newCity = addressForUpdate.getCity();
+		String newStreet = addressForUpdate.getStreet();
+		String newHouseNumber = addressForUpdate.getHouseNumber();
+		String newApartmentNumber = addressForUpdate.getApartmentNumber();
 
-            address.setCity(addressForUpdate.city());
-        }
-        if (Objects.nonNull(addressForUpdate.street())
-                && !"".equals(addressForUpdate.street())) {
+		if (Objects.nonNull(newCity) && !"".equals(newCity)) {
 
-            address.setStreet(addressForUpdate.street());
-        }
-        if (Objects.nonNull(addressForUpdate.houseNumber())
-                && !"".equals(addressForUpdate.houseNumber())) {
+			address.setCity(newCity);
+		}
+		if (Objects.nonNull(newStreet) && !"".equals(newStreet)) {
 
-            address.setHouseNumber(addressForUpdate.houseNumber());
-        }
-        if (Objects.nonNull(addressForUpdate.apartamentNumber())
-                && !"".equals(addressForUpdate.apartamentNumber())) {
+			address.setStreet(newStreet);
+		}
+		if (Objects.nonNull(newHouseNumber) && !"".equals(newHouseNumber)) {
 
-            address.setApartamentNumber(addressForUpdate.apartamentNumber());
-        }
-        address = addressRepository.save(address);
-        return address;
-    }
+			address.setHouseNumber(newHouseNumber);
+		}
+		if (Objects.nonNull(newApartmentNumber) && !"".equals(newApartmentNumber)) {
+
+			address.setApartmentNumber(newApartmentNumber);
+		}
+		address = addressRepository.save(address);
+		return address;
+	}
 }

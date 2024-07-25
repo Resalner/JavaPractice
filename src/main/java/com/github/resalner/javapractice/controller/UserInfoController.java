@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/user-info")
 public class UserInfoController {
 
@@ -32,19 +33,19 @@ public class UserInfoController {
     @GetMapping
     public List<UserInfoResponse> getUsers() {
         List<UserInfo> users = userInfoService.getUsers();
-        return mapper.toDomain(users)
+        return mapper.toDomain(users);
     }
 
     @PostMapping
     public UserInfoResponse saveUser(@RequestBody @Valid UserInfoRequest userInfoRequest) {
         UserInfo userInfo = mapper.toUserInfo(userInfoRequest);
         userInfoService.saveUserInfo(userInfo);
-        return mappers.toResponse(userInfo);
+        return mapper.toResponse(userInfo);
     }
 
     @GetMapping("/{id}")
     public UserInfoResponse getUser(@PathVariable("id") long userId) {
-        UserInfo userInfo = userInfoService.getUser(userId);
+        UserInfo userInfo = userInfoService.getUserInfo(userId);
         return mapper.toResponse(userInfo);
     }
 
@@ -58,6 +59,5 @@ public class UserInfoController {
         UserInfo userInfo = mapper.toUserInfo(userInfoRequest);
         userInfo = userInfoService.updateUserInfo(userId, userInfo);
         return mapper.toResponse(userInfo);
-        ;
     }
 }

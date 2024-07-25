@@ -22,10 +22,10 @@ public class Address {
     private String street;
 
     @Column(name = "house_number", nullable = false)
-    private String house_number;
+    private String houseNumber;
 
     @Column(name = "apartment_number")
-    private String apartment_number;
+    private String apartmentNumber;
     
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private Set<Order> orders;

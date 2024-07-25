@@ -12,7 +12,10 @@ public class StatusValidator implements ConstraintValidator<StatusAnnotation, St
     }
 
     @Override
-    public boolean isValid(String status, StatusAnnotation statusAnnotation) {
-        return status != null && status.matches("PENDING", "SHIPPED", "DELIVERED", "CANCELED");
+    public boolean isValid(String status, ConstraintValidatorContext context) {
+        return status != null && (status.matches("PENDING") 
+        						||status.matches("SHIPPED") 
+        						||status.matches("DELIVERED") 
+        						||status.matches("CANCELED"));
     }
 }

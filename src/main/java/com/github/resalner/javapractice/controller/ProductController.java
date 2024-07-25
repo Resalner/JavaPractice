@@ -40,7 +40,7 @@ public class ProductController {
     public ProductResponse saveProduct(@RequestBody @Valid ProductRequest productRequest) {
         Product product = mapper.toProduct(productRequest);
         productService.saveProduct(product);
-        return mappers.toResponse(product);
+        return mapper.toResponse(product);
     }
 
     @GetMapping("/{id}")

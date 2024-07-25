@@ -8,12 +8,12 @@ import java.util.List;
 
 public class RoleValidator implements ConstraintValidator<RoleAnnotation, String> {
 
-    @Override
-    public void initialize(RoleAnnotation constraintAnnotation) {
-    }
+	@Override
+	public void initialize(RoleAnnotation constraintAnnotation) {
+	}
 
-    @Override
-    public boolean isValid(String role, RoleAnnotation roleAnnotation) {
-        return role != null && role.matches("CUSTOMER", "ADMIN");
-    }
+	@Override
+	public boolean isValid(String role, ConstraintValidatorContext context) {
+		return role != null && (role.matches("CUSTOMER") || role.matches("ADMIN"));
+	}
 }

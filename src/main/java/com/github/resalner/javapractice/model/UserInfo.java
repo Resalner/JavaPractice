@@ -27,7 +27,7 @@ public class UserInfo {
     private String surname;
 
     @Column(name = "phone_number", nullable = false)
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "birth_date")
     private Date birthDate;

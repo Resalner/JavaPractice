@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
-import org.mapsruct.factory.Mappers;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -40,14 +39,12 @@ public class OrderController {
     @PostMapping
     public OrderResponse saveOrder(@RequestBody @Valid OrderRequest orderRequest) {
         Order order = mapper.toOrder(orderRequest);
-        orderService.saveOrder(order);
-        return mappers.toResponse(order);
-
+        return mapper.toResponse(orderService.saveOrder(order));
     }
 
     @GetMapping("/{id}")
     public OrderResponse getOrder(@PathVariable("id") long orderid) {
-        return orderService.getOrder(orderid);
+        return mapper.toResponse(orderService.getOrder(orderid));
     }
 
     @DeleteMapping("/{id}")

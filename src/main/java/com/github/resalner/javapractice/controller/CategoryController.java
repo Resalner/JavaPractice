@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
-import org.mapstruct.factory.Mappers;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -33,19 +32,18 @@ public class CategoryController {
     @GetMapping
     public List<CategoryResponse> getCategories() {
         List<Category> categories = categoryService.getCategories();
-        return mapper.toDomain(categoties);
+        return mapper.toDomain(categories);
     }
 
     @PostMapping
     public CategoryResponse saveCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
         Category category = mapper.toCategory(categoryRequest);
-        categoryService.saveCategory(category);
-        return mapper.toResponse(category);
+        return mapper.toResponse(categoryService.saveCategory(category));
     }
 
     @GetMapping("/{id}")
     public CategoryResponse getCategory(@PathVariable("id") long categoryId) {
-        return categoryService.getCategory(categoryId);
+        return mapper.toResponse(categoryService.getCategory(categoryId));
     }
 
     @DeleteMapping("/{id}")
@@ -55,9 +53,8 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public CategoryResponse updateCategory(@PathVariable("id") long categoryId, @RequestBody @Valid CategoryRequest categoryRequest) {
-        CategoryResponse categoryResponse = mapper.toDomain(categoryRequest);
-        Category category = mapper.toCategory(categoryResponse);
-        return categoryService.updateCategory(categoryId, category);
+        Category category = mapper.toCategory(categoryRequest);
+        return mapper.toResponse(categoryService.updateCategory(categoryId, category));
 
     }
 }

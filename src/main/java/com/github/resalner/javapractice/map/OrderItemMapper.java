@@ -17,5 +17,5 @@ public interface OrderItemMapper {
 
     OrderItem toOrderItem(OrderItemRequest orderItemRequest);
 
-    List<OrderItem> toDomain(List<OrderItem> orderItem);
+    List<OrderItemResponse> toDomain(List<OrderItem> orderItem);
 }

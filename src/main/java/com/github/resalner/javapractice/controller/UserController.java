@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
-import org.mapstruct.factory.Mappers;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -40,7 +39,7 @@ public class UserController {
     public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
         User user = mapper.toUser(userRequest);
         userService.saveUser(user);
-        return mappers.toResponse(user);
+        return mapper.toResponse(user);
     }
 
     @GetMapping("/{id}")
