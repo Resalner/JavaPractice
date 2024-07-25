@@ -2,14 +2,12 @@ package com.github.resalner.javapractice.request;
 
 import com.github.resalner.javapractice.model.Status;
 import com.github.resalner.javapractice.model.User;
-
-import java.util.Date;
-
 import com.github.resalner.javapractice.annotation.StatusAnnotation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
+
 
 @Data
 @AllArgsConstructor

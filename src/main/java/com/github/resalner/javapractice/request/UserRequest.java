@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +18,7 @@ public class UserRequest {
     private String username;
 
     @NotBlank(message = "Необходимо указать пароль")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", message = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", messege = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
     private String password;
 
     @NotBlank(message = "Необходимо указать роль")

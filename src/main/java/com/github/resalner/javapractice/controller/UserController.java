@@ -11,6 +11,9 @@ import com.github.resalner.javapractice.dto.UserInfoResponse;
 import com.github.resalner.javapractice.dto.RegistrationData;
 import com.github.resalner.javapractice.dto.RegistrationDataResponse;
 import com.github.resalner.javapractice.dto.UserResponse;
+
+import com.github.resalner.javapractice.map.UserMapper;
+
 import com.github.resalner.javapractice.map.UserRegistrationMapper;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import jakarta.validation.Valid;
-
+import org.mapstruct.factory.Mappers;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -38,34 +41,42 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-	private final UserService userService;
-	private final AuthService authService;
-	private final UserRegistrationMapper mapper;
+    @Autowired
+    private final UserMapper mapper;
+    private final UserService userService;
+    private final AuthService authService;
+	  private final UserRegistrationMapper mapper;
+  
+    @GetMapping
+    public List<UserResponse> getUsers() {
+        List<User> users = userService.getAllUsers();
+        return mapper.toDomain(users);
+    }
 
-	@GetMapping
-	public List<UserResponse> getUsers() {
-		return userService.getUsers();
-	}
+    @PostMapping
+    public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
+        User user = mapper.toUser(userRequest);
+        userService.saveUser(user);
+        return mappers.toResponse(user);
+    }
 
-	@PostMapping
-	public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
-		userService.addUser(userRequest);
-	}
+    @GetMapping("/{id}")
+    public UserResponse getUser(@PathVariable("id") long userId) {
+        User user = userService.getUser(userId);
+        return mapper.toResponse(user);
+    }
 
-	@GetMapping("/{id}")
-	public UserResponse getUser(@PathVariable("id") long userId) {
-		return userService.getUser(userId);
-	}
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") long userId) {
+        userService.deleteUser(userId);
+    }
 
-	@DeleteMapping("/{id}")
-	public void deleteUser(@PathVariable("id") long userId) {
-		userService.deleteUser(userId);
-	}
-
-	@PutMapping("/{id}")
-	public UserResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserRequest userRequest) {
-		return userService.updateUser(userId, userRequest);
-	}
+    @PutMapping("/{id}")
+    public UserResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserRequest userRequest) {
+        User user = mapper.toUser(userRequest);
+        user = userService.updateUser(userId, user);
+        return mapper.toResponse(user);
+    }
 
 	@PostMapping("/user/registration")
 	public RegistrationDataResponse registerNewUser(@RequestBody @Valid RegistrationDataRequest registrationData) {

@@ -5,11 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.NotBlank;
-
-import java.util.Date;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+
 
 @Data
 @AllArgsConstructor

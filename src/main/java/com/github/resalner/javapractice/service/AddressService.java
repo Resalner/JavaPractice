@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.service;
 
 import com.github.resalner.javapractice.model.Address;
-import com.github.resalner.javapractice.request.AddressRequest;
 
 import java.util.List;
 
@@ -10,9 +9,10 @@ public interface AddressService {
 
     Address getAddress(long id);
 
-    void addAddress(AddressRequest addressRequest);
+    Address saveAddress(Address address);
 
-    Address updateAddress(long id, AddressRequest addressRequest);
+    Address updateAddress(long id, Address address);
 
     void deleteAddress(long id);
+
 }
