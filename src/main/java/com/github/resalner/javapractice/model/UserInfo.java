@@ -8,15 +8,13 @@ import lombok.ToString;
 
 import java.sql.Date;
 
-import org.springframework.data.domain.Persistable;
-
 @Entity
 @Table(name = "users_info")
 @Data
 @ToString(includeFieldNames = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo implements Persistable<Long> {
+public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -29,7 +27,7 @@ public class UserInfo implements Persistable<Long> {
     private String surname;
 
     @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
+    private String phone_number;
 
     @Column(name = "birth_date")
     private Date birthDate;
@@ -44,12 +42,4 @@ public class UserInfo implements Persistable<Long> {
     @MapsId
     @JoinColumn(name = "id")
     private User user;
-
-    @Transient
-	private boolean isNew = true;
-
-	@Override
-	public boolean isNew() {
-		return this.isNew || this.id == null;
-	}
 }
