@@ -3,10 +3,11 @@ package com.github.resalner.javapractice.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.valiadation.constraints.Past;
-import jakarta.valiadation.constraints.NotBlank;
-import jakarta.valiadation.constraints.Email;
-import jakarta.valiadation.constraints.Pattern;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+
 
 @Data
 @AllArgsConstructor

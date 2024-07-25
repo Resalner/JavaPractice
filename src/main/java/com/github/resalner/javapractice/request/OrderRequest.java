@@ -6,7 +6,8 @@ import com.github.resalner.javapractice.annotation.StatusAnnotation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.valiadation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
+
 
 @Data
 @AllArgsConstructor

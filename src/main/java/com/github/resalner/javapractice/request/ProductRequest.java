@@ -3,7 +3,8 @@ package com.github.resalner.javapractice.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.valiadation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
+
 
 @Data
 @AllArgsConstructor

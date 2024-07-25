@@ -16,7 +16,7 @@ import java.lang.annotation.Documented;
 @Documented
 @Constraint(validatedBy = {RoleValidator.class})
 public @interface RoleAnnotation {
-    public String messege() default "Неверная роль";
+    public String message() default "Неверная роль";
 
     public Class<?>[] groups() default {};
 

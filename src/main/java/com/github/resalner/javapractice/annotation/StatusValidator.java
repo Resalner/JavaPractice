@@ -8,9 +8,11 @@ import java.util.List;
 
 public class StatusValidator implements ConstraintValidator<StatusAnnotation, String> {
     @Override
-    public boolean isValid(String status, StatusAnnotation statusAnnotation) {
-        List<String> Statuses = Arrays.asList("PENDING", "SHIPPED", "DELIVERED", "CANCELED");
-        return Statuses.contains(status);
+    public void initialize(StatusAnnotation constraintAnnotation) {
     }
 
+    @Override
+    public boolean isValid(String status, StatusAnnotation statusAnnotation) {
+        return status != null && status.matches("PENDING", "SHIPPED", "DELIVERED", "CANCELED");
+    }
 }

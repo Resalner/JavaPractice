@@ -5,8 +5,9 @@ import com.github.resalner.javapractice.annotation.RoleAnnotation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.valiadation.constraints.NotBlank;
-import jakarta.valiadation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 
 @Data
 @AllArgsConstructor
