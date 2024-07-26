@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.controller;
 
 import com.github.resalner.javapractice.model.User;
-import com.github.resalner.javapractice.repository.UserRepository;
 import com.github.resalner.javapractice.request.LoginRequest;
 import com.github.resalner.javapractice.request.RefreshTokenRequest;
 import com.github.resalner.javapractice.request.UserRequest;
@@ -14,6 +13,7 @@ import com.github.resalner.javapractice.dto.UserResponse;
 import com.github.resalner.javapractice.map.RefreshTokenMapper;
 import com.github.resalner.javapractice.map.UserAuthenticationMapper;
 
+import com.github.resalner.javapractice.map.UserMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,16 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-
 import jakarta.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @RestController
@@ -39,24 +32,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-	private final UserService userService;
 	private final AuthService authService;
 	private final UserAuthenticationMapper authMapper;
 	private final RefreshTokenMapper tokenMapper;
+	private final UserMapper mapper;
+	private final UserService userService;
 
 	@GetMapping
 	public List<UserResponse> getUsers() {
-		return userService.getUsers();
+		List<User> users = userService.getAllUsers();
+		return mapper.toDomain(users);
 	}
 
 	@PostMapping
 	public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
-		userService.addUser(userRequest);
+		User user = mapper.toUser(userRequest);
+		userService.saveUser(user);
+		return mapper.toResponse(user);
 	}
 
 	@GetMapping("/{id}")
 	public UserResponse getUser(@PathVariable("id") long userId) {
-		return userService.getUser(userId);
+		User user = userService.getUser(userId);
+		return mapper.toResponse(user);
 	}
 
 	@DeleteMapping("/{id}")
@@ -66,7 +64,9 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public UserResponse updateUser(@PathVariable("id") long userId, @RequestBody @Valid UserRequest userRequest) {
-		return userService.updateUser(userId, userRequest);
+		User user = mapper.toUser(userRequest);
+		user = userService.updateUser(userId, user);
+		return mapper.toResponse(user);
 	}
 
 	@PostMapping("/login")
@@ -79,6 +79,5 @@ public class UserController {
 	public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
 		RefreshTokenData tokenData = tokenMapper.toRefreshTokenData(refreshTokenRequest);
 		return authMapper.toJwtResponse(authService.refreshToken(tokenData));
-
 	}
 }

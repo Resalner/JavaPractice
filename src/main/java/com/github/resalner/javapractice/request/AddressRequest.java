@@ -10,14 +10,14 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class AddressRequest {
 
-    @NotBlank(message = "Необходимо указать город")
-    private String city;
+	@NotBlank(message = "Необходимо указать город")
+	private String city;
 
-    @NotBlank(message = "Необходимо указать улицу")
-    private String street;
+	@NotBlank(message = "Необходимо указать улицу")
+	private String street;
 
-    @NotBlank(message = "Необходимо указать номер дома")
-    private String houseNumber;
+	@NotBlank(message = "Необходимо указать номер дома")
+	private String houseNumber;
 
-    private String apartamentNumber;
+	private String apartamentNumber;
 }

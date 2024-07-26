@@ -9,6 +9,6 @@ import jakarta.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequest {
-    @NotBlank(message = "Необходимо указать название")
-    private String name;
+	@NotBlank(message = "Необходимо указать название")
+	private String name;
 }

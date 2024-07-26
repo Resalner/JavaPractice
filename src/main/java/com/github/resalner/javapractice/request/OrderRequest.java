@@ -16,21 +16,21 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class OrderRequest {
 
-    @NotBlank(message = "Необходимо указать пользователя")
-    private long userId;
+	@NotBlank(message = "Необходимо указать пользователя")
+	private long userId;
 
-    @NotBlank(message = "Необходимо указать дату")
-    private Date orderDate;
+	@NotBlank(message = "Необходимо указать дату")
+	private Date orderDate;
 
-    @NotBlank(message = "Необходимо указать цену")
-    private double totalPrice;
+	@NotBlank(message = "Необходимо указать цену")
+	private double totalPrice;
 
-    @NotBlank(message = "Необходимо указать статус")
-    @StatusAnnotation
-    private Status status;
+	@NotBlank(message = "Необходимо указать статус")
+	@StatusAnnotation
+	private Status status;
 
-    @NotBlank(message = "Необходимо указать адрес")
-    private long addressId;
+	@NotBlank(message = "Необходимо указать адрес")
+	private long addressId;
 
-    private String comments;
+	private String comments;
 }

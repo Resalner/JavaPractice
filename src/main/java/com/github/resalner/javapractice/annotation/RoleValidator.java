@@ -14,8 +14,6 @@ public class RoleValidator implements ConstraintValidator<RoleAnnotation, String
 
 	@Override
 	public boolean isValid(String role, ConstraintValidatorContext context) {
-		List<String> roles = Arrays.asList("CUSTOMER", "ADMIN");
-		return roles.contains(role);
+		return role != null && (role.matches("CUSTOMER") || role.matches("ADMIN"));
 	}
-
 }

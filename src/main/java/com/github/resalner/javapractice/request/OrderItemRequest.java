@@ -10,16 +10,16 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class OrderItemRequest {
 
-    @NotBlank(message = "Необходимо указать номер заказа")
-    private long orderId;
+	@NotBlank(message = "Необходимо указать номер заказа")
+	private long orderId;
 
-    @NotBlank(message = "Необходимо указать номер товара")
-    private long productId;
+	@NotBlank(message = "Необходимо указать номер товара")
+	private long productId;
 
-    @NotBlank(message = "Необходимо указать количество")
-    private Integer count;
+	@NotBlank(message = "Необходимо указать количество")
+	private Integer count;
 
-    @NotBlank(message = "Необходимо указать цену")
-    private Double price;
+	@NotBlank(message = "Необходимо указать цену")
+	private Double price;
 
 }
