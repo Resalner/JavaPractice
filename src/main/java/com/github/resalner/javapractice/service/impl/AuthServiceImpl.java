@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(userCredentials.getLogin(), userCredentials.getPassword()));
+				new UsernamePasswordAuthenticationToken(userCredentials.login(), userCredentials.password()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public JwtAuthorisationData refreshToken(RefreshTokenData refreshTokenData) {
-		String refreshToken = refreshTokenData.getToken();
+		String refreshToken = refreshTokenData.token();
 
 		RefreshToken existingRefreshToken = refreshTokenRepository.findByToken(refreshToken);
 		if (existingRefreshToken == null) {

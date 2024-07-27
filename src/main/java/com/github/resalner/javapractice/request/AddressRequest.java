@@ -1,23 +1,17 @@
 package com.github.resalner.javapractice.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class AddressRequest {
+public record AddressRequest(
 
-	@NotBlank(message = "Необходимо указать город")
-	private String city;
+		@NotBlank(message = "Необходимо указать город")
+		String city,
 
-	@NotBlank(message = "Необходимо указать улицу")
-	private String street;
+		@NotBlank(message = "Необходимо указать улицу")
+		String street,
 
-	@NotBlank(message = "Необходимо указать номер дома")
-	private String houseNumber;
+		@NotBlank(message = "Необходимо указать номер дома")
+		String houseNumber,
 
-	private String apartamentNumber;
-}
+		String apartamentNumber
+){}

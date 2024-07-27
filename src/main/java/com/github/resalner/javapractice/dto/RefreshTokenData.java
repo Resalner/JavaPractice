@@ -1,12 +1,4 @@
 package com.github.resalner.javapractice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public record RefreshTokenData(String token) {}
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class RefreshTokenData {
-	private String token;
-}

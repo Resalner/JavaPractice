@@ -2,16 +2,8 @@ package com.github.resalner.javapractice.dto;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class JwtAuthorisationData {
-	private String accessToken;
-	private String refreshToken;
-	private String username;
-	private List<String> roles;
-}
+public record JwtAuthorisationData(String accessToken,
+								String refreshToken,
+								String username,
+								List<String> roles
+) {}

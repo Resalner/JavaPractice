@@ -11,8 +11,6 @@ import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service

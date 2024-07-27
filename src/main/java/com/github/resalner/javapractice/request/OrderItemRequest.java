@@ -1,25 +1,18 @@
 package com.github.resalner.javapractice.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class OrderItemRequest {
+public record OrderItemRequest(
+		
+		@NotBlank(message = "Необходимо указать номер заказа")
+		long orderId,
 
-	@NotBlank(message = "Необходимо указать номер заказа")
-	private long orderId;
+		@NotBlank(message = "Необходимо указать номер товара")
+		long productId,
 
-	@NotBlank(message = "Необходимо указать номер товара")
-	private long productId;
+		@NotBlank(message = "Необходимо указать количество")
+		Integer count,
 
-	@NotBlank(message = "Необходимо указать количество")
-	private Integer count;
-
-	@NotBlank(message = "Необходимо указать цену")
-	private Double price;
-
-}
+		@NotBlank(message = "Необходимо указать цену")
+		Double price
+) {}

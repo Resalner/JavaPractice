@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
@@ -19,8 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class RefreshTokenService {
 
 	private final RefreshTokenRepository refreshTokenRepository;
-
 	private final UserRepository userRepository;
+
+	@Value("${jwt.expiration}")
+	private long refreshTokenExpiryTime;
 
 	public RefreshToken createRefreshToken(String username) {
 		Optional<User> optionalUser = userRepository.findByUsername(username);
@@ -31,7 +34,7 @@ public class RefreshTokenService {
 		RefreshToken refreshToken = new RefreshToken();
 		refreshToken.setUser(user);
 		refreshToken.setToken(UUID.randomUUID().toString());
-		refreshToken.setExpiryDate(Instant.now().plusMillis(600000));
+		refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime));
 
 		return refreshToken;
 	}

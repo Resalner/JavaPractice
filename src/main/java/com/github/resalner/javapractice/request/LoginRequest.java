@@ -1,14 +1,11 @@
 package com.github.resalner.javapractice.request;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
-@Data
-public class LoginRequest {
+public record LoginRequest(
+		@NotBlank(message = "Необходимо ввести логин")
+		String username,
 
-	@NotBlank(message = "Необходимо ввести логин")
-	private String username;
-
-	@NotBlank(message = "Необходимо ввести пароль")
-	private String password;
-}
+		@NotBlank(message = "Необходимо ввести пароль")
+		String password) 
+{}
