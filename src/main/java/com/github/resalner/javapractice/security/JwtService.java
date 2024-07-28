@@ -5,20 +5,35 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.github.resalner.javapractice.dto.JwtAuthorisationData;
+import com.github.resalner.javapractice.model.RefreshToken;
+import com.github.resalner.javapractice.security.details.UserDetailsImpl;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
+
+	private final UserDetailsService userDetailsService;
+	private final RefreshTokenService refreshTokenService;
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -68,5 +83,19 @@ public class JwtService {
 	private Key getSignKey() {
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		return Keys.hmacShaKeyFor(keyBytes);
+	}
+
+	public JwtAuthorisationData generateJwtAuthData(UserDetailsImpl userDetails) {
+		String accessToken = generateToken(userDetails);
+		RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
+		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+
+		return new JwtAuthorisationData(accessToken, refreshToken.getToken(), userDetails.getUsername(), roles);
+	}
+
+	public boolean authenticate(String username, String password) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		return userDetails != null && passwordEncoder.matches(password, userDetails.getPassword());
 	}
 }

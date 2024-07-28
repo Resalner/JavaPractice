@@ -34,29 +34,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
-	private final RefreshTokenService refreshTokenService;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final UserDetailsService userDetailsService;
 
 	@Override
 	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(userCredentials.login(), userCredentials.password()));
+		boolean isAuthenticated = jwtService.authenticate(userCredentials.login(), userCredentials.password());
+		if (!isAuthenticated) {
+			throw new RuntimeException("Неверные учетные данные");
+		}
 
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userCredentials.login());
+		JwtAuthorisationData jwtAuthData = jwtService.generateJwtAuthData(userDetails);
 
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-		String accessToken = jwtService.generateToken(userDetails);
-
-		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-
-		RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
-
-		return new JwtAuthorisationData(accessToken, refreshToken.getToken(), userDetails.getUsername(), roles);
+		return new JwtAuthorisationData(jwtAuthData.accessToken(), jwtAuthData.refreshToken(), jwtAuthData.username(),
+				jwtAuthData.roles());
 	}
 
 	@Override
