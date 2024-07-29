@@ -1,11 +1,15 @@
 package com.github.resalner.javapractice.controller;
 
 import com.github.resalner.javapractice.model.Order;
+import com.github.resalner.javapractice.model.OrderItem;
 import com.github.resalner.javapractice.repository.OrderRepository;
 import com.github.resalner.javapractice.request.OrderRequest;
 import com.github.resalner.javapractice.service.OrderService;
+import com.github.resalner.javapractice.service.OrderItemService;
 import com.github.resalner.javapractice.dto.OrderResponse;
+import com.github.resalner.javapractice.dto.OrderItemResponse;
 import com.github.resalner.javapractice.map.OrderMapper;
+import com.github.resalner.javapractice.map.OrderItemMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +33,18 @@ public class OrderController {
     @Autowired
     private final OrderMapper mapper;
     private final OrderService orderService;
+    private final OrderItemMapper map;
 
     @GetMapping
     public List<OrderResponse> getOrders() {
         List<Order> orders = orderService.getOrders();
         return mapper.toDomain(orders);
+    }
+
+    @GetMapping("/{id}")
+    public List<OrderItemResponse> getOrderItems(@PathVariable("id") long orderId) {
+        List<OrderItem> orderItems = orderItemService.getOrderItemByOrderId(orderId);
+        return map.toDomain(orderItems);
     }
 
     @PostMapping
