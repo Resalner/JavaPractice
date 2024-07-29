@@ -3,6 +3,7 @@ package com.github.resalner.javapractice.service;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Address;
 import com.github.resalner.javapractice.model.Order;
+import com.github.resalner.javapractice.model.OrderItem;
 import com.github.resalner.javapractice.model.Status;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.OrderItemRepository;
@@ -24,67 +25,73 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-	private final OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
 
-	@Override
-	public List<Order> getOrders() {
-		return orderRepository.findAll();
-	}
+    @Override
+    public List<Order> getOrders() {
+        return orderRepository.findAll();
+    }
 
-	@Override
-	public Order saveOrder(Order order) {
-		order = orderRepository.save(order);
-		return order;
-	}
+    @Override
+    public Order saveOrder(Order order) {
+        order = orderRepository.save(order);
+        return order;
+    }
 
-	@Override
-	public Order getOrder(long id) {
-		return orderRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найден заказ с id = " + id));
-	}
+    @Override
+    List<OrderItem> getOrderItemByOrderId(long orderId) {
+        return orderItemRepository.findAllById(orderId);
+    }
 
-	@Override
-	public void deleteOrder(long id) {
-		orderRepository.deleteById(id);
-	}
+    @Override
+    public Order getOrder(long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("не найден заказ с id = " + id));
+    }
 
-	@Override
-	public Order updateOrder(long id, Order orderForUpdate) {
-		Order order = orderRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найден заказ с id = " + id));
+    @Override
+    public void deleteOrder(long id) {
+        orderRepository.deleteById(id);
+    }
 
-		User newUser = orderForUpdate.getUser();
-		Date newOrderDate = orderForUpdate.getOrderDate();
-		Double newTotalPrice = orderForUpdate.getTotalPrice();
-		Status newStatus = orderForUpdate.getStatus();
-		Address newAddress = orderForUpdate.getAddress();
-		String newComments = orderForUpdate.getComments();
+    @Override
+    public Order updateOrder(long id, Order orderForUpdate) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("не найден заказ с id = " + id));
 
-		if (Objects.nonNull(newUser)) {
+        User newUser = orderForUpdate.getUser();
+        Date newOrderDate = orderForUpdate.getOrderDate();
+        Double newTotalPrice = orderForUpdate.getTotalPrice();
+        Status newStatus = orderForUpdate.getStatus();
+        Address newAddress = orderForUpdate.getAddress();
+        String newComments = orderForUpdate.getComments();
 
-			order.setUser(newUser);
-		}
-		if (Objects.nonNull(newOrderDate)) {
+        if (Objects.nonNull(newUser)) {
 
-			order.setOrderDate(newOrderDate);
-		}
-		if (Objects.nonNull(newTotalPrice)) {
+            order.setUser(newUser);
+        }
+        if (Objects.nonNull(newOrderDate)) {
 
-			order.setTotalPrice(newTotalPrice);
-		}
-		if (Objects.nonNull(newStatus)) {
+            order.setOrderDate(newOrderDate);
+        }
+        if (Objects.nonNull(newTotalPrice)) {
 
-			order.setStatus(newStatus);
-		}
-		if (Objects.nonNull(newAddress)) {
+            order.setTotalPrice(newTotalPrice);
+        }
+        if (Objects.nonNull(newStatus)) {
 
-			order.setAddress(newAddress);
-		}
-		if (Objects.nonNull(newComments) && !"".equals(newComments)) {
+            order.setStatus(newStatus);
+        }
+        if (Objects.nonNull(newAddress)) {
 
-			order.setComments(newComments);
-		}
-		order = orderRepository.save(order);
-		return order;
-	}
+            order.setAddress(newAddress);
+        }
+        if (Objects.nonNull(newComments) && !"".equals(newComments)) {
+
+            order.setComments(newComments);
+        }
+        order = orderRepository.save(order);
+        return order;
+    }
 }
