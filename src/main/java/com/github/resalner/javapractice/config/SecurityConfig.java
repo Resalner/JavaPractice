@@ -34,9 +34,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/register").permitAll()
 						.requestMatchers("/api/v1/**").authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.formLogin(formLogin -> formLogin
-		                .loginPage("/login") 
-		                .permitAll())
+				.formLogin(formLogin -> formLogin.disable())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 

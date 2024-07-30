@@ -12,6 +12,7 @@
 	<include file="40-changeset-category-table.xml" relativeToChangelogFile="true"/>
 	<include file="50-changeset-product-table.xml" relativeToChangelogFile="true"/>
 	<include file="60-changeset-order-item-table.xml" relativeToChangelogFile="true"/>
+	<include file="70-changeset-refresh-token-table.xml" relativeToChangelogFile="true"/>
 
 	
 
