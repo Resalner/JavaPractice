@@ -6,9 +6,16 @@ import com.github.resalner.javapractice.dto.RefreshTokenData;
 import com.github.resalner.javapractice.dto.UserCredentials;
 import com.github.resalner.javapractice.request.LoginRequest;
 import com.github.resalner.javapractice.request.RefreshTokenRequest;
+import com.github.resalner.javapractice.dto.RegistrationData;
+import com.github.resalner.javapractice.dto.RegistrationDataResponse;
+import com.github.resalner.javapractice.model.User;
+
 
 public interface AuthService {
 	JwtAuthorisationData authentication(UserCredentials userCredentials);
 
 	JwtAuthorisationData refreshToken(RefreshTokenData refreshTokenData);
+	
+	User registerNewUserAccount(RegistrationData data);
+
 }

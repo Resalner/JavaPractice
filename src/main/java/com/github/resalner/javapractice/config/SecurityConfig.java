@@ -31,11 +31,12 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter)
 			throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/register").permitAll()
-						.requestMatchers("/api/v1/**").authenticated())
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.formLogin(formLogin -> formLogin.disable())
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
+	            .authorizeHttpRequests(auth -> auth
+	                    .requestMatchers("/api/v1/users", "/api/v1/users/user/registration").permitAll()
+	                    .requestMatchers("/api/v1/**").authenticated())
+	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	            .formLogin(formLogin -> formLogin.disable())
+	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 
 	@Bean
