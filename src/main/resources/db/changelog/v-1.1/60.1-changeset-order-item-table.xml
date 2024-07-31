@@ -5,14 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="9" author="yana zhukava">
+    <changeSet id="17" author="yana zhukava">
         <sqlFile dbms="postgresql"
                  encoding="utf8"
                  endDelimiter="\n;"
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"
-                 path="70-create-refresh-token-table.sql"/>
+                 path="60.1-alter-id-column-type-to-bigserial-order-item.sql"/>  
         <rollback>
             <sqlFile dbms="postgresql"
                      encoding="utf8"
@@ -20,7 +20,7 @@
                      relativeToChangelogFile="true"
                      splitStatements="true"
                      stripComments="true"
-                     path="70-drop-refresh-token-table.sql"/>
+                     path="60.1-revert-id-column-type-to-bigint-order-item.sql"/>
         </rollback>
     </changeSet>
 
