@@ -2,6 +2,9 @@ package com.github.resalner.javapractice.request;
 
 import com.github.resalner.javapractice.model.Role;
 import com.github.resalner.javapractice.annotation.RoleAnnotation;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -12,11 +15,10 @@ public record UserRequest(
 		String username,
 
 		@NotBlank(message = "Необходимо указать пароль")
-		@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])",
+		@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$",
 				message = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
 		String password,
 
-		@NotBlank(message = "Необходимо указать роль")
 		@RoleAnnotation
 		Role role
 ) {}

@@ -8,8 +8,10 @@ CREATE TABLE order_items (
 
 ALTER TABLE order_items
 ADD CONSTRAINT fk_order_item_order 
-FOREIGN KEY (order_id) REFERENCES orders(id);
+FOREIGN KEY (order_id) REFERENCES orders(id)
+ON DELETE CASCADE;
 
 ALTER TABLE order_items
 ADD CONSTRAINT fk_order_item_product 
-FOREIGN KEY (product_id) REFERENCES products(id);
+FOREIGN KEY (product_id) REFERENCES products(id)
+ON DELETE CASCADE;

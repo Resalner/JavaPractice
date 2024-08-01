@@ -14,6 +14,7 @@ import com.github.resalner.javapractice.dto.UserCredentials;
 import com.github.resalner.javapractice.dto.RegistrationData;
 import com.github.resalner.javapractice.dto.RegistrationDataResponse;
 import com.github.resalner.javapractice.dto.UserResponse;
+import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.map.RefreshTokenMapper;
 import com.github.resalner.javapractice.map.UserAuthenticationMapper;
 
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -88,7 +91,7 @@ public class UserController {
 		return authMapper.toJwtResponse(authService.refreshToken(tokenData));
 	}
 
-    @PostMapping("/user/registration")
+    @PostMapping("/registration")
 	public RegistrationDataResponse registerNewUser(@RequestBody @Valid RegistrationDataRequest registrationData) {
 		RegistrationData data = registrationMapper.toRegistrationData(registrationData);
 		return registrationMapper.toUserRegistrationResponse(data, authService.registerNewUserAccount(data).getId());

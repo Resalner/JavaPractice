@@ -1,18 +1,18 @@
 package com.github.resalner.javapractice.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record OrderItemRequest(
 		
-		@NotBlank(message = "Необходимо указать номер заказа")
-		long orderId,
+		@NotNull(message = "Необходимо указать номер заказа")
+		Long orderId,
 
-		@NotBlank(message = "Необходимо указать номер товара")
-		long productId,
+		@NotNull(message = "Необходимо указать номер товара")
+		Long productId,
 
-		@NotBlank(message = "Необходимо указать количество")
+		@NotNull(message = "Необходимо указать количество")
 		Integer count,
 
-		@NotBlank(message = "Необходимо указать цену")
+		@NotNull(message = "Необходимо указать цену")
 		Double price
 ) {}

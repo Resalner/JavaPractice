@@ -10,9 +10,7 @@ public record ProductRequest(
 		@NotBlank(message = "Не заполнено поле описание")
 		String description,
 
-		@NotBlank(message = "Не заполнено поле цена")
 		Double price,
 
-		@NotBlank(message = "Не заполнено поле категория")
-		long categoryId
+		Long categoryId
 ) {}

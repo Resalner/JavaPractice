@@ -13,5 +13,5 @@ public record AddressRequest(
 		@NotBlank(message = "Необходимо указать номер дома")
 		String houseNumber,
 
-		String apartamentNumber
+		String apartmentNumber
 ){}

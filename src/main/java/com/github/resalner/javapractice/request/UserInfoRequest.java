@@ -22,11 +22,9 @@ public record UserInfoRequest(
 		@Pattern(regexp = "^375(33|44|29|25)\\d{7}$", message = "неверный формат номера телефона")
 		String phoneNumber,
 
-		@NotBlank(message = "Необходимо указать дату рождения")
 		@Past(message = "Дата рождения должна быть в прошлом")
 		Date birthDate,
 
-		@NotBlank(message = "Необходимо указать пол")
 		boolean gender,
 
 		@NotBlank(message = "Необходимо указать email")

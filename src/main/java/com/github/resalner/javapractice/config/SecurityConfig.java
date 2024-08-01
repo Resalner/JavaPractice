@@ -32,13 +32,13 @@ public class SecurityConfig {
 			throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
 	            .authorizeHttpRequests(auth -> auth
-	                    .requestMatchers("/api/v1/users", "/api/v1/users/user/registration").permitAll()
+	                    .requestMatchers("/api/v1/**", "/api/v1/users/user/registration").permitAll()
 	                    .requestMatchers("/api/v1/**").authenticated())
 	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .formLogin(formLogin -> formLogin.disable())
 	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
-
+	
 	@Bean
 	AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService) {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

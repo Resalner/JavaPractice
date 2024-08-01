@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 public record OrderRequest(
 		
 		@NotBlank(message = "Необходимо указать пользователя")
-		long userId,
+		Long userId,
 
 		@NotBlank(message = "Необходимо указать дату")
 		Date orderDate,
@@ -16,12 +16,11 @@ public record OrderRequest(
 		@NotBlank(message = "Необходимо указать цену")
 		double totalPrice,
 
-		@NotBlank(message = "Необходимо указать статус")
 		@StatusAnnotation
 		Status status,
 
 		@NotBlank(message = "Необходимо указать адрес")
-		long addressId,
+		Long addressId,
 
 		String comments
 ) {}

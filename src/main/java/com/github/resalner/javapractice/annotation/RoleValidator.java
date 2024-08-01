@@ -6,14 +6,16 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.List;
 
-public class RoleValidator implements ConstraintValidator<RoleAnnotation, String> {
+import com.github.resalner.javapractice.model.Role;
+
+public class RoleValidator implements ConstraintValidator<RoleAnnotation, Role> {
 
 	@Override
 	public void initialize(RoleAnnotation constraintAnnotation) {
 	}
 
 	@Override
-	public boolean isValid(String role, ConstraintValidatorContext context) {
-		return role != null && (role.matches("CUSTOMER") || role.matches("ADMIN"));
-	}
+    public boolean isValid(Role role, ConstraintValidatorContext context) {
+        return role != null && (role == Role.CUSTOMER || role == Role.ADMIN);
+    }
 }

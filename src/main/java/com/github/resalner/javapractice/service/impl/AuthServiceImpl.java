@@ -56,7 +56,6 @@ public class AuthServiceImpl implements AuthService {
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final UserRegistrationMapper registrationMapper;
 
-
 	@Override
 	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
 		boolean isAuthenticated = jwtService.authenticate(userCredentials.login(), userCredentials.password());
@@ -93,7 +92,6 @@ public class AuthServiceImpl implements AuthService {
 
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
-
 		return new JwtAuthorisationData(newAccessToken, newRefreshToken, username, roles);
 	}
 	
@@ -121,7 +119,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	private boolean usernameExists(String username) {
-		return userRepository.findByUsername(username) != null;
+		return userRepository.findByUsername(username).isPresent();
 	}
 }
 
