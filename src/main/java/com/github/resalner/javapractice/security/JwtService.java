@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.resalner.javapractice.dto.JwtAuthorisationData;
-import com.github.resalner.javapractice.model.RefreshToken;
+import com.github.resalner.javapractice.model.UserToken;
 import com.github.resalner.javapractice.security.details.UserDetailsImpl;
 
 import java.security.Key;
@@ -32,13 +32,13 @@ import java.util.stream.Collectors;
 public class JwtService {
 
 	private final UserDetailsService userDetailsService;
-	private final RefreshTokenService refreshTokenService;
+	private final UserTokenService userTokenService;
 	private final BCryptPasswordEncoder passwordEncoder;
 
 	@Value("${jwt.secret}")
 	private String secret;
 
-	@Value("${jwt.expiration}")
+	@Value("${jwt.access-token-expiration}")
 	private long expiration;
 
 	public String extractUsername(String token) {
@@ -75,7 +75,10 @@ public class JwtService {
 	}
 
 	private String createToken(Map<String, Object> claims, String username) {
-		return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder().
+				setClaims(claims).
+				setSubject(username).
+				setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + expiration))
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 	}
@@ -87,11 +90,12 @@ public class JwtService {
 
 	public JwtAuthorisationData generateJwtAuthData(UserDetailsImpl userDetails) {
 		String accessToken = generateToken(userDetails);
-		RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
+		UserToken userToken = userTokenService.createUserToken(userDetails.getUsername(), accessToken);
+		
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
 
-		return new JwtAuthorisationData(accessToken, refreshToken.getToken(), userDetails.getUsername(), roles);
+		return new JwtAuthorisationData(accessToken, userToken.getRefreshToken(), userDetails.getUsername(), roles);
 	}
 
 	public boolean authenticate(String username, String password) {
