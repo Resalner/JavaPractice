@@ -54,13 +54,6 @@ public class UserController {
 		return mapper.toDomain(users);
 	}
 
-	@PostMapping
-	public UserResponse saveUser(@RequestBody @Valid UserRequest userRequest) {
-		User user = mapper.toUser(userRequest);
-		userService.saveUser(user);
-		return mapper.toResponse(user);
-	}
-
 	@GetMapping("/{id}")
 	public UserResponse getUser(@PathVariable("id") long userId) {
 		User user = userService.getUser(userId);

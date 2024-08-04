@@ -34,22 +34,10 @@ public class UserInfoController {
         return mapper.toDomain(users);
     }
 
-    @PostMapping
-    public UserInfoResponse saveUserInfo(@RequestBody @Valid UserInfoRequest userInfoRequest) {
-        UserInfo userInfo = mapper.toUserInfo(userInfoRequest);
-        userInfoService.saveUserInfo(userInfo);
-        return mapper.toResponse(userInfo);
-    }
-
     @GetMapping("/{id}")
     public UserInfoResponse getUserInfo(@PathVariable("id") long userId) {
         UserInfo userInfo = userInfoService.getUserInfo(userId);
         return mapper.toResponse(userInfo);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUserInfo(@PathVariable("id") long userId) {
-        userInfoService.deleteUserInfo(userId);
     }
 
     @PutMapping("/{id}")

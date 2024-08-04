@@ -24,22 +24,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfo saveUserInfo(UserInfo userInfo) {
-		userInfo = userInfoRepository.save(userInfo);
-		return userInfo;
-	}
-
-	@Override
 	public UserInfo getUserInfo(long id) {
 		return getUserInfoIfExists(id);
-	}
-
-	@Override
-	public void deleteUserInfo(long id) {
-		if (!userInfoRepository.existsById(id)) {
-			throw new EntityNotFoundException("Не найден продукт с id = " + id);
-		}
-		userInfoRepository.deleteById(id);
 	}
 
 	@Override
@@ -59,9 +45,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setBirthDate(birthDate);
 		userInfo.setGender(gender);
 		userInfo.setEmail(email);
-		
+
 		userInfo = userInfoRepository.save(userInfo);
-		
+
 		return userInfo;
 	}
 
