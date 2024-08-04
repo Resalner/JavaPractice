@@ -4,22 +4,23 @@ import com.github.resalner.javapractice.model.Status;
 import java.util.Date;
 import com.github.resalner.javapractice.annotation.StatusAnnotation;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record OrderRequest(
 		
-		@NotBlank(message = "Необходимо указать пользователя")
+		@NotNull(message = "Необходимо указать пользователя")
 		Long userId,
 
-		@NotBlank(message = "Необходимо указать дату")
+		@NotNull(message = "Необходимо указать дату")
 		Date orderDate,
 
-		@NotBlank(message = "Необходимо указать цену")
-		double totalPrice,
+		@NotNull(message = "Необходимо указать цену")
+		Double totalPrice,
 
 		@StatusAnnotation
 		Status status,
 
-		@NotBlank(message = "Необходимо указать адрес")
+		@NotNull(message = "Необходимо указать адрес")
 		Long addressId,
 
 		String comments

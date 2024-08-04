@@ -29,25 +29,34 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category getCategory(long id) {
-		return categoryRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найдена категория с id = " + id));
+		return getCategoryIfExists(id);
 	}
 
 	@Override
 	public void deleteCategory(long id) {
+		if (!categoryRepository.existsById(id)) {
+			throw new EntityNotFoundException("Не найден продукт с id = " + id);
+		}
 		categoryRepository.deleteById(id);
 	}
 
 	@Override
 	public Category updateCategory(long id, Category categoryForUpdate) {
+		Category category = getCategoryIfExists(id);
+		
+		String newName = categoryForUpdate.getName();
+		
+		category.setName(newName);
+		
+		category = categoryRepository.save(category);
+		
+		return category;
+	}
+
+	private Category getCategoryIfExists(long id) {
 		Category category = categoryRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найдена категория с id = " + id));
-		String newName = categoryForUpdate.getName();
-		if (Objects.nonNull(newName) && !"".equals(newName)) {
 
-			category.setName(newName);
-		}
-		category = categoryRepository.save(category);
 		return category;
 	}
 }

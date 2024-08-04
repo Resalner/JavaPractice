@@ -7,6 +7,6 @@ public record OrderResponse(long id,
 							Date orderDate,
 							double totalPrice,
 							String status,
-							long adressId,
+							long addressId,
 							String comments
 ) {}
