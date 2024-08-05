@@ -2,6 +2,7 @@ package com.github.resalner.javapractice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,8 +33,11 @@ public class SecurityConfig {
 			throws Exception {
 		return http.csrf(AbstractHttpConfigurer::disable)
 	            .authorizeHttpRequests(auth -> auth
-	                    .requestMatchers("/api/v1/**", "/api/v1/users/user/registration").permitAll()
-	                    .requestMatchers("/api/v1/**").authenticated())
+	                    .requestMatchers("/api/v1/users/login", "/api/v1/users/registration").permitAll()
+	                    .requestMatchers(HttpMethod.DELETE, "/api/v1/users").hasRole("ADMIN") 
+	                    .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+	                    .requestMatchers("/api/v1/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
+	                    .requestMatchers("/api/v1/**").authenticated())	            
 	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .formLogin(formLogin -> formLogin.disable())
 	            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();

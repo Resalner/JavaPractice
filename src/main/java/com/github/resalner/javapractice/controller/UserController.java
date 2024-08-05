@@ -15,7 +15,7 @@ import com.github.resalner.javapractice.dto.RegistrationData;
 import com.github.resalner.javapractice.dto.RegistrationDataResponse;
 import com.github.resalner.javapractice.dto.UserResponse;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
-import com.github.resalner.javapractice.map.RefreshTokenMapper;
+import com.github.resalner.javapractice.map.UserTokenMapper;
 import com.github.resalner.javapractice.map.UserAuthenticationMapper;
 
 import com.github.resalner.javapractice.map.UserMapper;
@@ -43,7 +43,7 @@ public class UserController {
 
 	private final AuthService authService;
 	private final UserAuthenticationMapper authMapper;
-	private final RefreshTokenMapper tokenMapper;
+	private final UserTokenMapper tokenMapper;
 	private final UserMapper mapper;
 	private final UserService userService;
     private final UserRegistrationMapper registrationMapper;

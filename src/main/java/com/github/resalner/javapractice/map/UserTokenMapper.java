@@ -9,7 +9,7 @@ import com.github.resalner.javapractice.dto.RefreshTokenData;
 import com.github.resalner.javapractice.request.RefreshTokenRequest;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface RefreshTokenMapper {
+public interface UserTokenMapper {
 
 	@Mapping(source = "token", target = "token")
 	RefreshTokenData toRefreshTokenData(RefreshTokenRequest request);
