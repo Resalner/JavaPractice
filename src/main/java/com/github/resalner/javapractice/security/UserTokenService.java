@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.security;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,29 +30,30 @@ public class UserTokenService {
 	@Value("${jwt.refresh-token-expiration}")
 	private long refreshTokenExpiryTime;
 
-	public UserToken createUserToken(String username, String accessToken) {
+	public UserToken createUserToken(String username, String accessToken, String refreshToken) {
 		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new EntityNotFoundException("Пользователь не найден: " + username));
 
-		UserToken existingUserToken = userTokenRepository.findByUsername(username);
+		UserToken existingUserToken = userTokenRepository.findByUserId(user.getId());
 
 		UserToken userToken;
-
+		
 		if (existingUserToken != null) {
-			existingUserToken.setRefreshToken(UUID.randomUUID().toString());
-			existingUserToken.setRefreshTokenExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime));
+			existingUserToken.setRefreshToken(refreshToken);
+			existingUserToken.setRefreshTokenExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime).plusSeconds(10800));
 			existingUserToken.setAccessToken(accessToken);
-			existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime)); 
+			existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).plusSeconds(10800));
 
 			userToken = userTokenRepository.save(existingUserToken);
+
 		} else {
 			userToken = new UserToken();
-			userToken.setUsername(username);
-			userToken.setRefreshToken(UUID.randomUUID().toString());
-			userToken.setRefreshTokenExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime));
+			userToken.setUser(user);
+			userToken.setRefreshToken(refreshToken);
+			userToken.setRefreshTokenExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime).plusSeconds(10800));
 			userToken.setAccessToken(accessToken);
-			userToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime)); 
-			
+			userToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).plusSeconds(10800));
+
 			userToken = userTokenRepository.save(userToken);
 		}
 
@@ -65,6 +68,10 @@ public class UserTokenService {
 		}
 
 		return userToken;
+	}
+
+	public void setAccessTokenExpiryDate(UserToken existingUserToken) {
+		existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).plusSeconds(10800));
 	}
 
 	public UserToken verifyExpiration(UserToken token) {

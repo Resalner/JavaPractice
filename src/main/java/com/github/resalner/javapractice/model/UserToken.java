@@ -1,12 +1,7 @@
 package com.github.resalner.javapractice.model;
 
 import java.time.Instant;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -30,6 +25,7 @@ public class UserToken {
     @Column(name = "refresh_token_expiration", nullable = false)
     private Instant refreshTokenExpiryDate;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

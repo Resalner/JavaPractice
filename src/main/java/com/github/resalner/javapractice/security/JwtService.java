@@ -12,11 +12,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.resalner.javapractice.dto.JwtAuthorisationData;
+import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.model.UserToken;
+import com.github.resalner.javapractice.repository.UserTokenRepository;
 import com.github.resalner.javapractice.security.details.UserDetailsImpl;
 
 import java.security.Key;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,12 +36,16 @@ public class JwtService {
 	private final UserDetailsService userDetailsService;
 	private final UserTokenService userTokenService;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final UserTokenRepository userTokenRepository;
 
 	@Value("${jwt.secret}")
 	private String secret;
 
 	@Value("${jwt.access-token-expiration}")
-	private long expiration;
+	private long accessExpiration;
+
+	@Value("${jwt.refresh-token-expiration}")
+	private long refreshExpiration;
 
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -62,25 +68,40 @@ public class JwtService {
 		return extractExpiration(token).before(new Date());
 	}
 
-	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	public Boolean validateAccessToken(String token, String usernameFromDB, User user) {
+		UserToken userToken = userTokenRepository.findByUserId(user.getId());
+		String usernameFromToken = extractUsername(token);
+		return (usernameFromToken.equals(usernameFromDB) && !isTokenExpired(token)
+				&& token.equals(userToken.getAccessToken()));
 	}
 
-	public String generateToken(UserDetails userDetails) {
+	public Boolean validateRefreshToken(String token, String usernameFromDB, User user) {
+		UserToken userToken = userTokenRepository.findByUserId(user.getId());
+		String usernameFromToken = extractUsername(token);
+		return (usernameFromToken.equals(usernameFromDB) && !isTokenExpired(token)
+				&& token.equals(userToken.getRefreshToken()));
+	}
+	
+	public String generateAccessToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("roles",
 				userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
-		return createToken(claims, userDetails.getUsername());
+		return createToken(claims, userDetails.getUsername(), accessExpiration);
 	}
 
-	private String createToken(Map<String, Object> claims, String username) {
-		return Jwts.builder().
-				setClaims(claims).
-				setSubject(username).
-				setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + expiration))
-				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+	public String generateRefreshToken(UserDetails userDetails) {
+		Map<String, Object> claims = new HashMap<>();
+		return createToken(claims, userDetails.getUsername(), refreshExpiration);
+	}
+	
+	private String createToken(Map<String, Object> claims, String username, long expirationTime) {
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(username)
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis() + expirationTime + 10800))
+				.signWith(getSignKey(), SignatureAlgorithm.HS256)
+				.compact();
 	}
 
 	private Key getSignKey() {
@@ -89,9 +110,11 @@ public class JwtService {
 	}
 
 	public JwtAuthorisationData generateJwtAuthData(UserDetailsImpl userDetails) {
-		String accessToken = generateToken(userDetails);
-		UserToken userToken = userTokenService.createUserToken(userDetails.getUsername(), accessToken);
-		
+		String accessToken = generateAccessToken(userDetails);
+		String refreshToken = generateRefreshToken(userDetails);
+
+		UserToken userToken = userTokenService.createUserToken(userDetails.getUsername(), accessToken, refreshToken);
+
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
 

@@ -11,6 +11,6 @@ import com.github.resalner.javapractice.request.RefreshTokenRequest;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserTokenMapper {
 
-	@Mapping(source = "token", target = "token")
+	@Mapping(source = "token", target = "refreshToken")
 	RefreshTokenData toRefreshTokenData(RefreshTokenRequest request);
 }

@@ -1,4 +1,3 @@
-
 package com.github.resalner.javapractice.security;
 
 import java.io.IOException;
@@ -13,8 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.github.resalner.javapractice.model.UserToken;
-import com.github.resalner.javapractice.repository.UserTokenRepository;
+import com.github.resalner.javapractice.exception.EntityNotFoundException;
+import com.github.resalner.javapractice.model.User;
+import com.github.resalner.javapractice.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final JwtService jwtService;
 	private final UserDetailsService userDetailsService;
 	private final static String TOKEN_PREFIX = "Bearer ";
-	private final UserTokenRepository userTokenRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -37,27 +37,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	    String token = getJWTFromRequest(request);
 
-	    if (StringUtils.hasText(token)) {
+	    if (token != null) {
 	        String username = jwtService.extractUsername(token);
 
 	        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+	            User user = userRepository.findByUsername(username)
+	                    .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден: " + username));
+
 	            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-	            UserToken userToken = userTokenRepository.findByUsername(username);
 
-	            if (userToken != null && token.equals(userToken.getAccessToken())) {
-	                if (jwtService.isTokenExpired(token)) {
-
-	                    String newToken = jwtService.generateToken(userDetails);
-	                    userToken.setAccessToken(newToken);
-	                    userTokenRepository.save(userToken);
-
-	                    response.setHeader(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + newToken);
-	                } else {
-	                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-	                            userDetails, null, userDetails.getAuthorities());
-	                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-	                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-	                }
+	            if (jwtService.validateAccessToken(token, username, user)) {
+	                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,
+	                        null, userDetails.getAuthorities());
+	                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+	                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 	            }
 	        }
 	    }
@@ -68,11 +61,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private String getJWTFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
-			return bearerToken.substring(TOKEN_PREFIX.length(), bearerToken.length());
-		}
-
-		return null;
+		return (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX))
+				? bearerToken.substring(TOKEN_PREFIX.length())
+				: null;
 	}
 }
