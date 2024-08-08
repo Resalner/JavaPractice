@@ -76,12 +76,4 @@ public class UserTokenService {
 	public void setAccessTokenExpiryDate(UserToken existingUserToken) {
 		existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk")));
 	}
-
-	public UserToken verifyExpiration(UserToken token) {
-		if (token.getRefreshTokenExpiryDate().isBefore(Instant.now().atZone(ZoneId.of("Europe/Minsk")))) {
-			userTokenRepository.delete(token);
-			throw new RuntimeException("Токен обновления просрочен. Пожалуйста войдите в аккаунт");
-		}
-		return token;
-	}
 }

@@ -30,6 +30,7 @@ import com.github.resalner.javapractice.security.UserTokenService;
 import com.github.resalner.javapractice.security.details.UserDetailsImpl;
 import com.github.resalner.javapractice.service.AuthService;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -48,8 +49,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(userCredentials.login());
-		if (userDetails == null || !passwordEncoder.matches(userCredentials.password(), userDetails.getPassword()))
-		{
+		if (userDetails == null || !passwordEncoder.matches(userCredentials.password(), userDetails.getPassword())) {
 			throw new InvalidPasswordException("Неверные учетные данные");
 		}
 
@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
 
 		UserDetails userDetails = new UserDetailsImpl(user);
 
-		if (!jwtService.validateRefreshToken(refreshToken, user)) {
+		if (!jwtService.validateRefreshToken(refreshToken, existingUserToken, user)) {
 			throw new InvalidRefreshTokenException("Неверный/Устаревший токен обновления");
 		}
 
@@ -82,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
 
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
-		
+
 		return new JwtAuthorisationData(newAccessToken, refreshToken, user.getUsername(), roles);
 	}
 

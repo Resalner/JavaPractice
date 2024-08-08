@@ -1,6 +1,7 @@
 package com.github.resalner.javapractice.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.resalner.javapractice.dto.JwtAuthorisationData;
+import com.github.resalner.javapractice.exception.InvalidRefreshTokenException;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.model.UserToken;
 import com.github.resalner.javapractice.repository.UserTokenRepository;
@@ -75,11 +77,17 @@ public class JwtService {
 				&& token.equals(userToken.getAccessToken()));
 	}
 
-	public Boolean validateRefreshToken(String token, User user) {
-		String usernameFromToken = extractUsername(token);
-		return (usernameFromToken.equals(user.getUsername()) && !isTokenExpired(token));
+	public Boolean validateRefreshToken(String token, UserToken existingUserToken, User user) {
+		try {
+			String usernameFromToken = extractUsername(token);
+			return (usernameFromToken.equals(user.getUsername()) && !isTokenExpired(token));
+		} catch (ExpiredJwtException ex) {
+			throw new InvalidRefreshTokenException("Токен обновления истек "
+					+ existingUserToken.getRefreshTokenExpiryDate() + ". Пожалуйста перезайдите в аккаунт");
+
+		}
 	}
-	
+
 	public String generateAccessToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put("roles",
@@ -91,15 +99,12 @@ public class JwtService {
 		Map<String, Object> claims = new HashMap<>();
 		return createToken(claims, userDetails.getUsername(), refreshExpiration);
 	}
-	
+
 	private String createToken(Map<String, Object> claims, String username, long expirationTime) {
-		return Jwts.builder()
-				.setClaims(claims)
-				.setSubject(username)
-				.setIssuedAt(new Date())
+		System.out.println(new Date(System.currentTimeMillis() - expirationTime));
+		return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-				.signWith(getSignKey(), SignatureAlgorithm.HS256)
-				.compact();
+				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 	}
 
 	private Key getSignKey() {
