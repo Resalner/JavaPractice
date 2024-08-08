@@ -67,7 +67,7 @@ public class UserTokenService {
 		UserToken userToken = userTokenRepository.findByRefreshToken(token);
 
 		if (userToken == null) {
-			throw new RuntimeException("Токен обновления не найден");
+			throw new EntityNotFoundException("Токен обновления не найден");
 		}
 
 		return userToken;

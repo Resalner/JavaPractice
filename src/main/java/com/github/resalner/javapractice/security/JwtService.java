@@ -75,11 +75,9 @@ public class JwtService {
 				&& token.equals(userToken.getAccessToken()));
 	}
 
-	public Boolean validateRefreshToken(String token, String usernameFromDB, User user) {
-		UserToken userToken = userTokenRepository.findByUserId(user.getId());
+	public Boolean validateRefreshToken(String token, User user) {
 		String usernameFromToken = extractUsername(token);
-		return (usernameFromToken.equals(usernameFromDB) && !isTokenExpired(token)
-				&& token.equals(userToken.getRefreshToken()));
+		return (usernameFromToken.equals(user.getUsername()) && !isTokenExpired(token));
 	}
 	
 	public String generateAccessToken(UserDetails userDetails) {

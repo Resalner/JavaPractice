@@ -16,6 +16,8 @@ import com.github.resalner.javapractice.dto.UserCredentials;
 import com.github.resalner.javapractice.dto.RegistrationData;
 import com.github.resalner.javapractice.exception.EntityAlreadyExistsException;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
+import com.github.resalner.javapractice.exception.InvalidPasswordException;
+import com.github.resalner.javapractice.exception.InvalidRefreshTokenException;
 import com.github.resalner.javapractice.map.UserRegistrationMapper;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.model.UserInfo;
@@ -47,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
 	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
 		boolean isAuthenticated = jwtService.authenticate(userCredentials.login(), userCredentials.password());
 		if (!isAuthenticated) {
-			throw new RuntimeException("Неверные учетные данные");
+			throw new InvalidPasswordException("Неверные учетные данные");
 		}
 
 		UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userCredentials.login());
@@ -58,31 +60,31 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-    public JwtAuthorisationData refreshToken(RefreshTokenData refreshTokenData) {
-        String refreshToken = refreshTokenData.refreshToken(); 
+	public JwtAuthorisationData refreshToken(RefreshTokenData refreshTokenData) {
+		String refreshToken = refreshTokenData.refreshToken();
 
-        UserToken existingUserToken = userTokenService.findByRefreshToken(refreshToken); 
-        
-        User user = userRepository.findById(existingUserToken.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден: " + existingUserToken.getId())); 
-        
-        String username =  user.getUsername();
+		UserToken existingUserToken = userTokenService.findByRefreshToken(refreshToken);
+		if (existingUserToken == null) {
+			throw new EntityNotFoundException("Токен обновления не найден");
+		}
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username); 
+		User user = existingUserToken.getUser();
 
-        if (!jwtService.validateRefreshToken(refreshToken, username, user)) {
-            throw new RuntimeException("Неверный токен обновления");
-        }
+		UserDetails userDetails = new UserDetailsImpl(user);
 
-        String newAccessToken = jwtService.generateAccessToken(userDetails);
-        existingUserToken.setAccessToken(newAccessToken);
-        userTokenService.setAccessTokenExpiryDate(existingUserToken); 
-        userTokenRepository.save(existingUserToken);
-        
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        return new JwtAuthorisationData(newAccessToken, refreshToken, username, roles);
-    }
+		if (!jwtService.validateRefreshToken(refreshToken, user)) {
+			throw new InvalidRefreshTokenException("Неверный/Устаревший токен обновления");
+		}
+
+		String newAccessToken = jwtService.generateAccessToken(userDetails);
+		existingUserToken.setAccessToken(newAccessToken);
+		userTokenService.setAccessTokenExpiryDate(existingUserToken);
+		userTokenRepository.save(existingUserToken);
+
+		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+				.collect(Collectors.toList());
+		return new JwtAuthorisationData(newAccessToken, refreshToken, user.getUsername(), roles);
+	}
 
 	@Override
 	public User registerNewUserAccount(RegistrationData data) {
