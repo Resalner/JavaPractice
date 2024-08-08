@@ -1,0 +1,4 @@
+ALTER TABLE refresh_tokens
+ALTER COLUMN id SET DATA TYPE BIGINT;
+
+DROP SEQUENCE IF EXISTS refresh_tokens_id_seq;

@@ -1,0 +1,4 @@
+ALTER TABLE order_items
+ALTER COLUMN id SET DATA TYPE BIGINT;
+
+DROP SEQUENCE IF EXISTS order_items_id_seq;

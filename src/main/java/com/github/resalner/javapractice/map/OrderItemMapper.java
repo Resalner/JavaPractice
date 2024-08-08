@@ -12,9 +12,13 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface OrderItemMapper {
-
+	
+	@Mapping(source = "order.id", target = "orderId")
+	@Mapping(source = "product.id", target = "productId")
     OrderItemResponse toResponse(OrderItem orderItem);
-
+	
+	@Mapping(source = "orderId", target = "order.id")
+	@Mapping(source = "productId", target = "product.id")
     OrderItem toOrderItem(OrderItemRequest orderItemRequest);
 
     List<OrderItemResponse> toDomain(List<OrderItem> orderItem);

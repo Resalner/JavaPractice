@@ -1,6 +1,6 @@
 CREATE TABLE users (
     id BIGINT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(250) NOT NULL,
     role VARCHAR(50) NOT NULL
 );

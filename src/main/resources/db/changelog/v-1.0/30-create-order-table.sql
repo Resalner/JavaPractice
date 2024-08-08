@@ -10,8 +10,10 @@ CREATE TABLE orders (
 
 ALTER TABLE orders
 ADD CONSTRAINT fk_order_user
-FOREIGN KEY (user_id) REFERENCES users(id);
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;
 
 ALTER TABLE orders
 ADD CONSTRAINT fk_order_address
-FOREIGN KEY (address_id) REFERENCES address(id);
+FOREIGN KEY (address_id) REFERENCES address(id)
+ON DELETE CASCADE;

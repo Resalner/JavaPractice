@@ -32,6 +32,7 @@ public class Order {
     private Double totalPrice;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)  
     private Status status;
 
     @ManyToOne

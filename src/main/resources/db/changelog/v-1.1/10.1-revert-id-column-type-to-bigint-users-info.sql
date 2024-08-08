@@ -1,0 +1,4 @@
+ALTER TABLE users_info
+ALTER COLUMN id SET DATA TYPE BIGINT;
+
+DROP SEQUENCE IF EXISTS users_info_id_seq;

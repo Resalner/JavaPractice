@@ -10,4 +10,5 @@ CREATE TABLE users_info (
 
 ALTER TABLE users_info
 ADD CONSTRAINT fk_user_id
-FOREIGN KEY (id) REFERENCES users(id);
+FOREIGN KEY (id) REFERENCES users(id)
+ON DELETE CASCADE;

@@ -30,41 +30,39 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public Address getAddress(long id) {
-		return addressRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найден адрес с id = " + id));
+		return getAddressIfExists(id);
 	}
 
 	@Override
 	public void deleteAddress(long id) {
+		if (!addressRepository.existsById(id)) {
+			throw new EntityNotFoundException("Не найден продукт с id = " + id);
+		}
 		addressRepository.deleteById(id);
 	}
 
 	@Override
 	public Address updateAddress(long id, Address addressForUpdate) {
-		Address address = addressRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найден адрес с id = " + id));
+		Address address = getAddressIfExists(id);
 		String newCity = addressForUpdate.getCity();
 		String newStreet = addressForUpdate.getStreet();
 		String newHouseNumber = addressForUpdate.getHouseNumber();
 		String newApartmentNumber = addressForUpdate.getApartmentNumber();
 
-		if (Objects.nonNull(newCity) && !"".equals(newCity)) {
-
-			address.setCity(newCity);
-		}
-		if (Objects.nonNull(newStreet) && !"".equals(newStreet)) {
-
-			address.setStreet(newStreet);
-		}
-		if (Objects.nonNull(newHouseNumber) && !"".equals(newHouseNumber)) {
-
-			address.setHouseNumber(newHouseNumber);
-		}
-		if (Objects.nonNull(newApartmentNumber) && !"".equals(newApartmentNumber)) {
-
-			address.setApartmentNumber(newApartmentNumber);
-		}
+		address.setCity(newCity);
+		address.setStreet(newStreet);
+		address.setHouseNumber(newHouseNumber);
+		address.setApartmentNumber(newApartmentNumber);
+		
 		address = addressRepository.save(address);
+		
+		return address;
+	}
+	
+	private Address getAddressIfExists(long id) {
+		Address address = addressRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("не найден адрес с id = " + id));
+		
 		return address;
 	}
 }
