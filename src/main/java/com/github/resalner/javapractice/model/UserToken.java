@@ -1,6 +1,8 @@
 package com.github.resalner.javapractice.model;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,13 +19,13 @@ public class UserToken {
     private String accessToken;
 
     @Column(name = "access_token_expiration", nullable = false)
-    private Instant accessTokenExpiryDate;
+    private ZonedDateTime accessTokenExpiryDate;
 
     @Column(name = "refresh_token", nullable = false, unique = true)
     private String refreshToken;
 
     @Column(name = "refresh_token_expiration", nullable = false)
-    private Instant refreshTokenExpiryDate;
+    private ZonedDateTime refreshTokenExpiryDate;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

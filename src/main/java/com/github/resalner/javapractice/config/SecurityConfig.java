@@ -34,7 +34,7 @@ public class SecurityConfig {
 		return http.csrf(AbstractHttpConfigurer::disable)
 	            .authorizeHttpRequests(auth -> auth
 	                    .requestMatchers("/api/v1/users/login", "/api/v1/users/registration", "/api/v1/users/refresh-token").permitAll()
-	                    .requestMatchers("/api/v1/users").hasRole("ADMIN") 
+	                    .requestMatchers("/api/v1/users").hasAuthority("ADMIN") 
 	                    .requestMatchers("/api/v1/**").authenticated())	            
 	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	            .formLogin(formLogin -> formLogin.disable())

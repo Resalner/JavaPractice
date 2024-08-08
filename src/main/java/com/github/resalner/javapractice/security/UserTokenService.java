@@ -38,11 +38,14 @@ public class UserTokenService {
 
 		UserToken userToken;
 		
+		ZonedDateTime zonedTimeAccess = Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk"));
+		ZonedDateTime zonedTimeRefresh = Instant.now().plusMillis(refreshTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk"));
+				
 		if (existingUserToken != null) {
 			existingUserToken.setRefreshToken(refreshToken);
-			existingUserToken.setRefreshTokenExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime).plusSeconds(10800));
+			existingUserToken.setRefreshTokenExpiryDate(zonedTimeRefresh);
 			existingUserToken.setAccessToken(accessToken);
-			existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).plusSeconds(10800));
+			existingUserToken.setAccessTokenExpiryDate(zonedTimeAccess);
 
 			userToken = userTokenRepository.save(existingUserToken);
 
@@ -50,9 +53,9 @@ public class UserTokenService {
 			userToken = new UserToken();
 			userToken.setUser(user);
 			userToken.setRefreshToken(refreshToken);
-			userToken.setRefreshTokenExpiryDate(Instant.now().plusMillis(refreshTokenExpiryTime).plusSeconds(10800));
+			userToken.setRefreshTokenExpiryDate(zonedTimeRefresh);
 			userToken.setAccessToken(accessToken);
-			userToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).plusSeconds(10800));
+			userToken.setAccessTokenExpiryDate(zonedTimeAccess);
 
 			userToken = userTokenRepository.save(userToken);
 		}
@@ -71,13 +74,13 @@ public class UserTokenService {
 	}
 
 	public void setAccessTokenExpiryDate(UserToken existingUserToken) {
-		existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).plusSeconds(10800));
+		existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk")));
 	}
 
 	public UserToken verifyExpiration(UserToken token) {
-		if (token.getRefreshTokenExpiryDate().isBefore(Instant.now())) {
+		if (token.getRefreshTokenExpiryDate().isBefore(Instant.now().atZone(ZoneId.of("Europe/Minsk")))) {
 			userTokenRepository.delete(token);
-			throw new RuntimeException("Refresh token expired. Please log in again.");
+			throw new RuntimeException("Токен обновления просрочен. Пожалуйста войдите в аккаунт");
 		}
 		return token;
 	}
