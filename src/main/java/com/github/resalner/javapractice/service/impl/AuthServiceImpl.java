@@ -47,12 +47,11 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public JwtAuthorisationData authentication(UserCredentials userCredentials) {
-		boolean isAuthenticated = jwtService.authenticate(userCredentials.login(), userCredentials.password());
-		if (!isAuthenticated) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername(userCredentials.login());
+		if (userDetails == null || !passwordEncoder.matches(userCredentials.password(), userDetails.getPassword()))
+		{
 			throw new InvalidPasswordException("Неверные учетные данные");
 		}
-
-		UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(userCredentials.login());
 
 		JwtAuthorisationData jwtAuthData = jwtService.generateJwtAuthData(userDetails);
 
@@ -83,6 +82,7 @@ public class AuthServiceImpl implements AuthService {
 
 		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.collect(Collectors.toList());
+		
 		return new JwtAuthorisationData(newAccessToken, refreshToken, user.getUsername(), roles);
 	}
 

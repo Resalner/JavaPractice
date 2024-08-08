@@ -107,7 +107,7 @@ public class JwtService {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public JwtAuthorisationData generateJwtAuthData(UserDetailsImpl userDetails) {
+	public JwtAuthorisationData generateJwtAuthData(UserDetails userDetails) {
 		String accessToken = generateAccessToken(userDetails);
 		String refreshToken = generateRefreshToken(userDetails);
 
@@ -117,10 +117,5 @@ public class JwtService {
 				.collect(Collectors.toList());
 
 		return new JwtAuthorisationData(accessToken, userToken.getRefreshToken(), userDetails.getUsername(), roles);
-	}
-
-	public boolean authenticate(String username, String password) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		return userDetails != null && passwordEncoder.matches(password, userDetails.getPassword());
 	}
 }
