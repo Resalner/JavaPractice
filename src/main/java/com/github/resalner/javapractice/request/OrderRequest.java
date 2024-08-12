@@ -1,36 +1,26 @@
 package com.github.resalner.javapractice.request;
 
 import com.github.resalner.javapractice.model.Status;
-import com.github.resalner.javapractice.model.User;
-
 import java.util.Date;
-
 import com.github.resalner.javapractice.annotation.StatusAnnotation;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class OrderRequest {
+public record OrderRequest(
+		
+		@NotNull(message = "Необходимо указать пользователя")
+		Long userId,
 
-	@NotBlank(message = "Необходимо указать пользователя")
-	private long userId;
+		@NotNull(message = "Заполните поле дата")
+		Date orderDate,
 
-	@NotBlank(message = "Необходимо указать дату")
-	private Date orderDate;
+		@NotNull(message = "Заполните поле цена")
+		Double totalPrice,
 
-	@NotBlank(message = "Необходимо указать цену")
-	private double totalPrice;
+		@StatusAnnotation
+		Status status,
 
-	@NotBlank(message = "Необходимо указать статус")
-	@StatusAnnotation
-	private Status status;
+		@NotNull(message = "Заполните поле адрес")
+		Long addressId,
 
-	@NotBlank(message = "Необходимо указать адрес")
-	private long addressId;
-
-	private String comments;
-}
+		String comments
+) {}

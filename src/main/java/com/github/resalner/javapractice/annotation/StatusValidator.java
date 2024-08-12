@@ -3,19 +3,18 @@ package com.github.resalner.javapractice.annotation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.EnumSet;
 
-public class StatusValidator implements ConstraintValidator<StatusAnnotation, String> {
-    @Override
-    public void initialize(StatusAnnotation constraintAnnotation) {
-    }
+import com.github.resalner.javapractice.model.Status;
 
-    @Override
-    public boolean isValid(String status, ConstraintValidatorContext context) {
-        return status != null && (status.matches("PENDING") 
-        						||status.matches("SHIPPED") 
-        						||status.matches("DELIVERED") 
-        						||status.matches("CANCELED"));
-    }
+public class StatusValidator implements ConstraintValidator<StatusAnnotation, Status> {
+
+	@Override
+	public void initialize(StatusAnnotation constraintAnnotation) {
+	}
+
+	@Override
+	public boolean isValid(Status status, ConstraintValidatorContext context) {
+		return status != null && EnumSet.allOf(Status.class).contains(status);
+	}
 }

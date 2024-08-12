@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.controller;
 
 import com.github.resalner.javapractice.model.OrderItem;
-import com.github.resalner.javapractice.repository.OrderItemRepository;
 import com.github.resalner.javapractice.request.OrderItemRequest;
 import com.github.resalner.javapractice.service.OrderItemService;
 import com.github.resalner.javapractice.dto.OrderItemResponse;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
-import org.mapstruct.factory.Mappers;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -26,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderItemController {
 
-    @Autowired
     private final OrderItemMapper  mapper;
     private final OrderItemService orderItemService;
 

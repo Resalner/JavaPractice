@@ -4,11 +4,9 @@ import com.github.resalner.javapractice.model.Category;
 import com.github.resalner.javapractice.repository.CategoryRepository;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,25 +27,32 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category getCategory(long id) {
-		return categoryRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найдена категория с id = " + id));
+		return getCategoryIfExists(id);
 	}
 
 	@Override
 	public void deleteCategory(long id) {
+		if (!categoryRepository.existsById(id)) {
+			throw new EntityNotFoundException("Не найден продукт с id = " + id);
+		}
 		categoryRepository.deleteById(id);
 	}
 
 	@Override
 	public Category updateCategory(long id, Category categoryForUpdate) {
-		Category category = categoryRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("не найдена категория с id = " + id));
+		Category category = getCategoryIfExists(id);
+		
 		String newName = categoryForUpdate.getName();
-		if (Objects.nonNull(newName) && !"".equals(newName)) {
-
-			category.setName(newName);
-		}
+		
+		category.setName(newName);
+		
 		category = categoryRepository.save(category);
+		
 		return category;
+	}
+
+	private Category getCategoryIfExists(long id) {
+		return categoryRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("не найдена категория с id = " + id));
 	}
 }

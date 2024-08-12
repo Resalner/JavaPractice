@@ -20,40 +20,38 @@ import lombok.NoArgsConstructor;
 @PasswordMatches
 public class RegistrationDataRequest {
 
-	@NotBlank(message = "Необходимо указать имя пользователя")
+	@NotBlank(message = "Заполните поле логин")
 	@Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя может содержать только буквы")
-	private String username;
+	String username;
 
-	@NotBlank(message = "Необходимо указать пароль")
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])", message = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
-	private String password;
+	@NotBlank(message = "Заполните поле пароль")
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$",
+			message = "Пароль должен содержать хотя бы одну букву в верхнем и нижнем регистре и одну цифру")
+	String password;
 
 	private String matchingPassword;
-
-	@NotBlank(message = "Необходимо указать роль")
+	
 	@RoleAnnotation
-	private Role role;
+	Role role;
 
-	@NotBlank(message = "Необходимо указать имя")
+	@NotBlank(message = "Заполните поле имя")
 	@Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя может содержать только буквы")
 	private String name;
 
-	@NotBlank(message = "Необходимо указать фамилию")
+	@NotBlank(message = "Заполните поле фамилия")
 	@Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Имя может содержать только буквы")
 	private String surname;
 
-	@NotBlank(message = "Необходимо указать номер телефона")
+	@NotBlank(message = "Заполните поле номер телефона")
 	@Pattern(regexp = "^375(33|44|29|25)\\d{7}$", message = "неверный формат номера телефона")
 	private String phoneNumber;
 
-	@NotBlank(message = "Необходимо указать дату рождения")
 	@Past(message = "Дата рождения должна быть в прошлом")
 	private Date birthDate;
 
-	@NotBlank(message = "Необходимо указать пол")
 	private boolean gender;
 
-	@NotBlank(message = "Необходимо указать email")
+	@NotBlank(message = "Заполните поле email")
 	@Email(message = "Необходимо указать корректный email")
 	private String email;
 }

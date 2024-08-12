@@ -5,7 +5,6 @@ import com.github.resalner.javapractice.dto.ProductResponse;
 import com.github.resalner.javapractice.request.ProductRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
@@ -13,9 +12,17 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProductMapper {
 
-    ProductResponse toResponse(Product product);
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "name", target = "name")
+	@Mapping(source = "description", target = "description")
+	@Mapping(source = "price", target = "price")
+	ProductResponse toResponse(Product product);
 
-    List<ProductResponse> toDomain(List<Product> product);
+	@Mapping(source = "name", target = "name")
+	@Mapping(source = "description", target = "description")
+	@Mapping(source = "price", target = "price")
+	@Mapping(source = "categoryId", target = "category.id")
+	Product toProduct(ProductRequest productRequest);
 
-    Product toProduct(ProductRequest productRequest);
+	List<ProductResponse> toDomain(List<Product> product);
 }

@@ -14,5 +14,4 @@ public interface OrderItemService {
     OrderItem getOrderItem(long id);
 
     OrderItem updateOrderItem(long id, OrderItem orderItem);
-
 }

@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.controller;
 
 import com.github.resalner.javapractice.model.Product;
-import com.github.resalner.javapractice.repository.ProductRepository;
 import com.github.resalner.javapractice.request.ProductRequest;
 import com.github.resalner.javapractice.service.ProductService;
 import com.github.resalner.javapractice.dto.ProductResponse;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.mapstruct.factory.Mappers;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -26,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
     private final ProductMapper mapper;
     private final ProductService productService;
 

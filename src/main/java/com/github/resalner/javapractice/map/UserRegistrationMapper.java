@@ -2,7 +2,7 @@ package com.github.resalner.javapractice.map;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
 
 import com.github.resalner.javapractice.dto.RegistrationData;
 import com.github.resalner.javapractice.dto.RegistrationDataResponse;
@@ -10,10 +10,9 @@ import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.model.UserInfo;
 import com.github.resalner.javapractice.request.RegistrationDataRequest;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserRegistrationMapper {
-	UserRegistrationMapper INSTANCE = Mappers.getMapper(UserRegistrationMapper.class);
-
+	
 	@Mapping(source = "username", target = "username")
 	@Mapping(source = "password", target = "password")
 	@Mapping(source = "role", target = "role")

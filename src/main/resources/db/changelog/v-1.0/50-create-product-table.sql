@@ -8,5 +8,6 @@ CREATE TABLE products (
 
 ALTER TABLE products
 ADD CONSTRAINT fk_products_category 
-FOREIGN KEY (category_id) REFERENCES category(id);
+FOREIGN KEY (category_id) REFERENCES category(id)
+ON DELETE CASCADE;
 
