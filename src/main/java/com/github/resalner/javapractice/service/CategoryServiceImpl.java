@@ -4,11 +4,9 @@ import com.github.resalner.javapractice.model.Category;
 import com.github.resalner.javapractice.repository.CategoryRepository;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -54,9 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	private Category getCategoryIfExists(long id) {
-		Category category = categoryRepository.findById(id)
+		return categoryRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найдена категория с id = " + id));
-
-		return category;
 	}
 }

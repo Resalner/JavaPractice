@@ -7,13 +7,10 @@ import com.github.resalner.javapractice.dto.UserInfoResponse;
 import com.github.resalner.javapractice.map.UserInfoMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +21,6 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/user-info")
 public class UserInfoController {
 
-    @Autowired
     private final UserInfoMapper mapper;
     private final UserInfoService userInfoService;
 

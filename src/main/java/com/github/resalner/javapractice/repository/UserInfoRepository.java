@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.github.resalner.javapractice.model.UserInfo;
 
 @Repository
-public interface UserInfoRepository extends JpaRepository<UserInfo, Long>{
+public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
-    @Modifying
-    @Query(value = "DELETE FROM users_info WHERE id = ?1", nativeQuery = true)
-    void deleteById(long id);
+	@Modifying
+	@Query(value = "DELETE FROM users_info WHERE id = :id", nativeQuery = true)
+	void deleteById(long id);
 }

@@ -6,7 +6,6 @@ import com.github.resalner.javapractice.request.OrderRequest;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;

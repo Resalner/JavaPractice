@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.github.resalner.javapractice.model.Address;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Long>{
-    @Modifying
-    @Query(value = "DELETE FROM address WHERE id = ?1", nativeQuery = true)
-    void deleteById(long id);
+public interface AddressRepository extends JpaRepository<Address, Long> {
+	@Modifying
+	@Query(value = "DELETE FROM address WHERE id = :id", nativeQuery = true)
+	void deleteById(long id);
 }

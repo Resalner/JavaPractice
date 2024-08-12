@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.github.resalner.javapractice.model.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findByCategoryId(Long categoryId);
-	
-    @Modifying
-    @Query(value = "DELETE FROM products WHERE id = ?1", nativeQuery = true)
-    void deleteById(long id);
+
+	@Modifying
+	@Query(value = "DELETE FROM products WHERE id = :id", nativeQuery = true)
+	void deleteById(long id);
 }

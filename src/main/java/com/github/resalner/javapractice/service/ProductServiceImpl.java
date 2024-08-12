@@ -1,20 +1,15 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Category;
 import com.github.resalner.javapractice.model.Product;
 import com.github.resalner.javapractice.repository.CategoryRepository;
 import com.github.resalner.javapractice.repository.ProductRepository;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -73,9 +68,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private Product getProductIfExists(long id) {
-		Product product = productRepository.findById(id)
+		return productRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найден продукт с id = " + id));
-
-		return product;
 	}
 }

@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Order;
 import com.github.resalner.javapractice.model.OrderItem;
@@ -10,7 +9,6 @@ import com.github.resalner.javapractice.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -63,9 +61,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 	
 	private OrderItem getOrderItemIfExists(long id)
 	{
-		OrderItem orderItem = orderItemRepository.findById(id)
+		return orderItemRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найден элемент заказа с id = " + id));
-		
-		return orderItem;
 	}
 }

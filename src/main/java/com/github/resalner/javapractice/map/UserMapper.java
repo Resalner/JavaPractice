@@ -4,8 +4,6 @@ import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.dto.UserResponse;
 import com.github.resalner.javapractice.request.UserRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;

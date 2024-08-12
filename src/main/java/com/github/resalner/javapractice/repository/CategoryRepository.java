@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.github.resalner.javapractice.model.Category;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long>{
-    @Modifying
-    @Query(value = "DELETE FROM category WHERE id = ?1", nativeQuery = true)
-    void deleteById(long id);
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+	@Modifying
+	@Query(value = "DELETE FROM category WHERE id = :id", nativeQuery = true)
+	void deleteById(long id);
 }

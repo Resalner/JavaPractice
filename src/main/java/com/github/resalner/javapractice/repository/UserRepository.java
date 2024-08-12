@@ -12,8 +12,8 @@ import com.github.resalner.javapractice.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	Optional<User> findByUsername(String username);
-	
-    @Modifying
-    @Query(value = "DELETE FROM users WHERE id = ?1", nativeQuery = true)
-    void deleteById(long id);
+
+	@Modifying
+	@Query(value = "DELETE FROM users WHERE id = :id", nativeQuery = true)
+	void deleteById(long id);
 }

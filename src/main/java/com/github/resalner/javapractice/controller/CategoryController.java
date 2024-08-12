@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.controller;
 
 import com.github.resalner.javapractice.model.Category;
-import com.github.resalner.javapractice.repository.CategoryRepository;
 import com.github.resalner.javapractice.request.CategoryRequest;
 import com.github.resalner.javapractice.service.CategoryService;
 import com.github.resalner.javapractice.dto.CategoryResponse;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -25,36 +23,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private final CategoryMapper mapper;
-    private final CategoryService categoryService;
+	private final CategoryMapper mapper;
+	private final CategoryService categoryService;
 
-    @GetMapping
-    public List<CategoryResponse> getCategories() {
-        List<Category> categories = categoryService.getCategories();
-        return mapper.toDomain(categories);
-    }
+	@GetMapping
+	public List<CategoryResponse> getCategories() {
+		List<Category> categories = categoryService.getCategories();
+		return mapper.toDomain(categories);
+	}
 
-    @PostMapping
-    public CategoryResponse saveCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
-        Category category = mapper.toCategory(categoryRequest);
-        return mapper.toResponse(categoryService.saveCategory(category));
-    }
+	@PostMapping
+	public CategoryResponse saveCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
+		Category category = mapper.toCategory(categoryRequest);
+		return mapper.toResponse(categoryService.saveCategory(category));
+	}
 
-    @GetMapping("/{id}")
-    public CategoryResponse getCategory(@PathVariable("id") long categoryId) {
-        return mapper.toResponse(categoryService.getCategory(categoryId));
-    }
+	@GetMapping("/{id}")
+	public CategoryResponse getCategory(@PathVariable("id") long categoryId) {
+		return mapper.toResponse(categoryService.getCategory(categoryId));
+	}
 
-    @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable("id") long categoryId) {
-        categoryService.deleteCategory(categoryId);
-    }
+	@DeleteMapping("/{id}")
+	public void deleteCategory(@PathVariable("id") long categoryId) {
+		categoryService.deleteCategory(categoryId);
+	}
 
-    @PutMapping("/{id}")
-    public CategoryResponse updateCategory(@PathVariable("id") long categoryId, @RequestBody @Valid CategoryRequest categoryRequest) {
-        Category category = mapper.toCategory(categoryRequest);
-        return mapper.toResponse(categoryService.updateCategory(categoryId, category));
-
-    }
+	@PutMapping("/{id}")
+	public CategoryResponse updateCategory(@PathVariable("id") long categoryId,	@RequestBody @Valid CategoryRequest categoryRequest) {
+		Category category = mapper.toCategory(categoryRequest);
+		return mapper.toResponse(categoryService.updateCategory(categoryId, category));
+	}
 }

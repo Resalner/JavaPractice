@@ -1,6 +1,7 @@
 package com.github.resalner.javapractice.service;
 
 import com.github.resalner.javapractice.model.Order;
+import com.github.resalner.javapractice.model.OrderItem;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface OrderService {
 
     Order getOrder(long id);
 
-    List<String> getOrderItemByOrderId(long orderId);
+    List<OrderItem> getOrderItemByOrderId(long orderId);
 
     void deleteOrder(long id);
 

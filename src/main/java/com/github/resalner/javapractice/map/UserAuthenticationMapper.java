@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.map;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 

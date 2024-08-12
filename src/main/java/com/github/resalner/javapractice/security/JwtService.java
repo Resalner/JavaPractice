@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.resalner.javapractice.dto.JwtAuthorisationData;
@@ -20,14 +18,12 @@ import com.github.resalner.javapractice.exception.InvalidRefreshTokenException;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.model.UserToken;
 import com.github.resalner.javapractice.repository.UserTokenRepository;
-import com.github.resalner.javapractice.security.details.UserDetailsImpl;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,9 +31,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtService {
 
-	private final UserDetailsService userDetailsService;
 	private final UserTokenService userTokenService;
-	private final BCryptPasswordEncoder passwordEncoder;
 	private final UserTokenRepository userTokenRepository;
 
 	@Value("${jwt.secret}")
@@ -101,7 +95,6 @@ public class JwtService {
 	}
 
 	private String createToken(Map<String, Object> claims, String username, long expirationTime) {
-		System.out.println(new Date(System.currentTimeMillis() - expirationTime));
 		return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + expirationTime))
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
@@ -118,9 +111,8 @@ public class JwtService {
 
 		UserToken userToken = userTokenService.createUserToken(userDetails.getUsername(), accessToken, refreshToken);
 
-		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.collect(Collectors.toList());
+		List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
 		return new JwtAuthorisationData(accessToken, userToken.getRefreshToken(), userDetails.getUsername(), roles);
-	}
+	} 
 }

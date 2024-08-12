@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.github.resalner.javapractice.model.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long>{
+public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByUserId(Long userId);
-	
-    @Modifying
-    @Query(value = "DELETE FROM orders WHERE id = ?1", nativeQuery = true)
-    void deleteById(long id);
+
+	@Modifying
+	@Query(value = "DELETE FROM orders WHERE id = :id", nativeQuery = true)
+	void deleteById(long id);
 }

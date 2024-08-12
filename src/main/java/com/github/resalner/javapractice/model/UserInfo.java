@@ -28,8 +28,8 @@ public class UserInfo implements Persistable<Long> {
 	@Column(name = "surname", nullable = false)
 	private String surname;
 
-    @Column(name = "phonenumber", nullable = false)
-    private String phoneNumber;
+	@Column(name = "phonenumber", nullable = false)
+	private String phoneNumber;
 
 	@Column(name = "birth_date")
 	private Date birthDate;

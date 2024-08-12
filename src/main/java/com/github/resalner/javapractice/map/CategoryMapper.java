@@ -4,8 +4,6 @@ import com.github.resalner.javapractice.model.Category;
 import com.github.resalner.javapractice.dto.CategoryResponse;
 import com.github.resalner.javapractice.request.CategoryRequest;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;

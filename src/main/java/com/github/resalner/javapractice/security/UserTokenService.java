@@ -3,8 +3,6 @@ package com.github.resalner.javapractice.security;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,8 @@ public class UserTokenService {
 
 	private final UserTokenRepository userTokenRepository;
 	private final UserRepository userRepository;
-
+	private static final String CURRENT_TIMEZONE = "Europe/Minsk"; 
+	
 	@Value("${jwt.access-token-expiration}")
 	private long accessTokenExpiryTime;
 
@@ -38,8 +37,8 @@ public class UserTokenService {
 
 		UserToken userToken;
 		
-		ZonedDateTime zonedTimeAccess = Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk"));
-		ZonedDateTime zonedTimeRefresh = Instant.now().plusMillis(refreshTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk"));
+		ZonedDateTime zonedTimeAccess = Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of(CURRENT_TIMEZONE));
+		ZonedDateTime zonedTimeRefresh = Instant.now().plusMillis(refreshTokenExpiryTime).atZone(ZoneId.of(CURRENT_TIMEZONE));
 				
 		if (existingUserToken != null) {
 			existingUserToken.setRefreshToken(refreshToken);
@@ -74,6 +73,6 @@ public class UserTokenService {
 	}
 
 	public void setAccessTokenExpiryDate(UserToken existingUserToken) {
-		existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of("Europe/Minsk")));
+		existingUserToken.setAccessTokenExpiryDate(Instant.now().plusMillis(accessTokenExpiryTime).atZone(ZoneId.of(CURRENT_TIMEZONE)));
 	}
 }

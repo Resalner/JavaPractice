@@ -2,7 +2,6 @@ package com.github.resalner.javapractice.security.details;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,10 +20,8 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> grantedAuthorities = Collections
+		return Collections
 				.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
-
-		return grantedAuthorities;
 	}
 
 	@Override

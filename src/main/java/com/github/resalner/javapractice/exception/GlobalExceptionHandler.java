@@ -25,30 +25,30 @@ public class GlobalExceptionHandler {
 		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
 	}
-	
-	@ExceptionHandler({InvalidPasswordException.class, InvalidRefreshTokenException.class})
+
+	@ExceptionHandler({ InvalidPasswordException.class, InvalidRefreshTokenException.class })
 	public ResponseEntity<ErrorResponse> handleAuthenticationException(RuntimeException ex) {
 		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
 	}
-	
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            String fieldName;
-            String errorMessage = error.getDefaultMessage();
+	public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+		for (ObjectError error : ex.getBindingResult().getAllErrors()) {
+			String fieldName;
+			String errorMessage = error.getDefaultMessage();
 
-            if (error instanceof FieldError) {
-                fieldName = ((FieldError) error).getField();
-            } else {
-                fieldName = error.getObjectName();
-            }
+			if (error instanceof FieldError fieldError) {
+				fieldName = fieldError.getField();
+			} else {
+				fieldName = error.getObjectName();
+			}
 
-            errors.put(fieldName, errorMessage);
-        }
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
+			errors.put(fieldName, errorMessage);
+		}
+		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {

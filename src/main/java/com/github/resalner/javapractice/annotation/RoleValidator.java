@@ -3,8 +3,7 @@ package com.github.resalner.javapractice.annotation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.EnumSet;
 
 import com.github.resalner.javapractice.model.Role;
 
@@ -15,7 +14,7 @@ public class RoleValidator implements ConstraintValidator<RoleAnnotation, Role> 
 	}
 
 	@Override
-    public boolean isValid(Role role, ConstraintValidatorContext context) {
-        return role != null && (role == Role.CUSTOMER || role == Role.ADMIN);
-    }
+	public boolean isValid(Role role, ConstraintValidatorContext context) {
+		return role != null && EnumSet.allOf(Role.class).contains(role);
+	}
 }

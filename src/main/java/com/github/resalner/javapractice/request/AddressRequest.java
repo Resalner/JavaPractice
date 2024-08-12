@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 
 public record AddressRequest(
 
-		@NotBlank(message = "Необходимо указать город")
+		@NotBlank(message = "Заполните поле город")
 		String city,
 
-		@NotBlank(message = "Необходимо указать улицу")
+		@NotBlank(message = "Заполните поле улица")
 		String street,
 
-		@NotBlank(message = "Необходимо указать номер дома")
+		@NotBlank(message = "Заполните поле номер дома")
 		String houseNumber,
 
 		String apartmentNumber

@@ -4,10 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public record ProductRequest(
 		
-		@NotBlank(message = "Не заполнено поле имя")
+		@NotBlank(message = "Заполните поле название")
 		String name,
 
-		@NotBlank(message = "Не заполнено поле описание")
+		@NotBlank(message = "Заполните поле описание")
 		String description,
 
 		Double price,

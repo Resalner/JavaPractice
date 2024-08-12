@@ -1,17 +1,14 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.UserInfo;
 import com.github.resalner.javapractice.repository.UserInfoRepository;
 
-import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -52,9 +49,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	private UserInfo getUserInfoIfExists(long id) {
-		UserInfo userInfo = userInfoRepository.findById(id)
+		return userInfoRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найден пользователь с id = " + id));
-
-		return userInfo;
 	}
 }

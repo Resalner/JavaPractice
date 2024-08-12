@@ -5,7 +5,6 @@ import com.github.resalner.javapractice.dto.ProductResponse;
 import com.github.resalner.javapractice.request.ProductRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;

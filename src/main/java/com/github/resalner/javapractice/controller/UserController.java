@@ -3,7 +3,6 @@ package com.github.resalner.javapractice.controller;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.request.LoginRequest;
 import com.github.resalner.javapractice.request.RefreshTokenRequest;
-import com.github.resalner.javapractice.repository.UserRepository;
 import com.github.resalner.javapractice.request.RegistrationDataRequest;
 import com.github.resalner.javapractice.request.UserRequest;
 import com.github.resalner.javapractice.service.AuthService;
@@ -14,7 +13,6 @@ import com.github.resalner.javapractice.dto.UserCredentials;
 import com.github.resalner.javapractice.dto.RegistrationData;
 import com.github.resalner.javapractice.dto.RegistrationDataResponse;
 import com.github.resalner.javapractice.dto.UserResponse;
-import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.map.UserTokenMapper;
 import com.github.resalner.javapractice.map.UserAuthenticationMapper;
 
@@ -30,7 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

@@ -1,15 +1,12 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.github.resalner.javapractice.exception.EntityNotFoundException;
 import com.github.resalner.javapractice.model.Address;
 import com.github.resalner.javapractice.repository.AddressRepository;
-import com.github.resalner.javapractice.map.AddressMapper;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -60,9 +57,7 @@ public class AddressServiceImpl implements AddressService {
 	}
 	
 	private Address getAddressIfExists(long id) {
-		Address address = addressRepository.findById(id)
+		return addressRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найден адрес с id = " + id));
-		
-		return address;
 	}
 }

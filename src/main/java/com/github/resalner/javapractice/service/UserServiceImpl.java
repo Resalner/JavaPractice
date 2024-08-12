@@ -1,7 +1,6 @@
 package com.github.resalner.javapractice.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.github.resalner.javapractice.exception.EntityAlreadyExistsException;
@@ -10,11 +9,9 @@ import com.github.resalner.javapractice.model.Role;
 import com.github.resalner.javapractice.model.User;
 import com.github.resalner.javapractice.repository.UserRepository;
 
-import jakarta.persistence.Column;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -68,9 +65,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private User getUserIfExists(long id) {
-		User user = userRepository.findById(id)
+		return userRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("не найден пользователь с id = " + id));
-
-		return user;
 	}
 }

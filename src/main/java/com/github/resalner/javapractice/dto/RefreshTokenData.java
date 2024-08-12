@@ -1,4 +1,7 @@
 package com.github.resalner.javapractice.dto;
 
-public record RefreshTokenData(String refreshToken) {}
+public record RefreshTokenData(
+	String refreshToken
+) {
+}
 

@@ -10,9 +10,9 @@ public record OrderItemRequest(
 		@NotNull(message = "Необходимо указать номер товара")
 		Long productId,
 
-		@NotNull(message = "Необходимо указать количество")
+		@NotNull(message = "Заполните поле количество")
 		Integer count,
 
-		@NotNull(message = "Необходимо указать цену")
+		@NotNull(message = "Заполните поле цена")
 		Double price
 ) {}

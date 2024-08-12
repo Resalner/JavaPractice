@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CategoryRequest(
 		
-		@NotBlank(message = "Необходимо указать название")
+		@NotBlank(message = "Заполните поле название")
 		String name
 ){}

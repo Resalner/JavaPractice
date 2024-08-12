@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
 	private final UserDetailsService userDetailsService;
-	private final static String TOKEN_PREFIX = "Bearer ";
+	private static final String TOKEN_PREFIX = "Bearer ";
 	private final UserRepository userRepository;
 
 	@Override

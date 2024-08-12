@@ -1,6 +1,5 @@
 package com.github.resalner.javapractice.service.impl;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,6 @@ import com.github.resalner.javapractice.security.UserTokenService;
 import com.github.resalner.javapractice.security.details.UserDetailsImpl;
 import com.github.resalner.javapractice.service.AuthService;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -53,9 +51,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new InvalidPasswordException("Неверные учетные данные");
 		}
 
-		JwtAuthorisationData jwtAuthData = jwtService.generateJwtAuthData(userDetails);
-
-		return jwtAuthData;
+		return jwtService.generateJwtAuthData(userDetails);
 	}
 
 	@Override
